@@ -21,11 +21,20 @@ class OnBoardingScreen extends StatefulWidget {
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   late OnBoardingController _controller;
+  late PageController _pageController;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _controller = OnBoardingController();
+    _pageController = PageController();
+    _controller = OnBoardingController(pageController: _pageController);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _controller.disposeController();
+    super.dispose();
   }
 
   @override
@@ -33,13 +42,16 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     return Scaffold(
         bottomNavigationBar: CustomBottomNavBarOnboardingScreen(
           outputDotIndicator: _controller.outputDotIndicator,
-          onPressed: () {
+          onPressedNext: () {
             _controller.goNext();
+          },
+          onPressedSkip: () {
+            _controller.skip(context);
           },
           dotsCount: ConstListValues.listOnBoardingModel.length,
         ),
         body: CustomPageViewOnBoardingScreen(
-          controller: PageController(),
+          controller: _pageController,
         ));
   }
 }

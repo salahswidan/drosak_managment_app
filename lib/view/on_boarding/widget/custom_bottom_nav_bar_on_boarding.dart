@@ -9,11 +9,13 @@ class CustomBottomNavBarOnboardingScreen extends StatelessWidget {
   const CustomBottomNavBarOnboardingScreen({
     super.key,
     required this.dotsCount,
-    this.onPressed, required this.outputDotIndicator,
+    this.onPressedNext,
+    required this.outputDotIndicator, this.onPressedSkip,
   });
   final int dotsCount;
-  final VoidCallback? onPressed;
-  final Stream<int> outputDotIndicator; 
+  final VoidCallback? onPressedNext;
+  final VoidCallback? onPressedSkip;
+  final Stream<int> outputDotIndicator;
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +26,17 @@ class CustomBottomNavBarOnboardingScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CustomText(
-            text: ConstValue.kSkip,
+          InkWell(
+            onTap: onPressedSkip,
+            child: CustomText(
+              text: ConstValue.kSkip,
+            ),
           ),
           Directionality(
             textDirection: TextDirection.rtl,
-            child: StreamBuilder<int>(stream: outputDotIndicator,builder: (context, snapshot) =>  DotsIndicator(
+            child: StreamBuilder<int>(
+              stream: outputDotIndicator,
+              builder: (context, snapshot) => DotsIndicator(
                 dotsCount: dotsCount,
                 position: snapshot.data == null ? 0 : snapshot.data!,
                 decorator: DotsDecorator(
@@ -39,7 +46,7 @@ class CustomBottomNavBarOnboardingScreen extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: onPressed,
+            onTap: onPressedNext,
             child: CustomText(
               text: ConstValue.kNext,
             ),
