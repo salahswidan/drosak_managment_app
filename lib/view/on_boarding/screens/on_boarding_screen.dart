@@ -14,12 +14,33 @@ class OnBoardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold( 
+    return Scaffold(
         bottomNavigationBar: Container(
-            height: 39.h,
-            decoration: BoxDecoration(
-              color: Colors.green,
-            )),
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          height: 39.h,
+          color: ColorsManager.kPrimaryColor,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                ConstValue.kSkip,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: "ge_diner_one",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15.sp),
+              ),
+              Text(
+                ConstValue.kNext,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: "ge_diner_one",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15.sp),
+              ),
+            ],
+          ),
+        ),
         body: CustomPageViewOnBoardingScreen());
   }
 }
