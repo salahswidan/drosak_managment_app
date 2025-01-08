@@ -2,6 +2,8 @@ import 'package:drosak_managment_app/core/resources/colors_manager.dart';
 import 'package:drosak_managment_app/core/resources/route_manager.dart';
 import 'package:flutter/material.dart';
 
+import '../../../controller/splash/splash_screen_controller.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -11,35 +13,18 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<Offset> _animationBottom;
-  late Animation<Offset> _animationTop;
+  late SplashScreenController _controller;
+
   @override
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    )..addStatusListener((status) {
-        if(status == AnimationStatus.completed)
-        {
-          Navigator.of(context).pushReplacementNamed(RouteNames.kOnBoardingScreen);
-        }
-      });
-    _animationBottom = Tween<Offset>(begin: Offset(0, 1), end: Offset.zero)
-        .animate(CurvedAnimation(
-            parent: _animationController, curve: Curves.easeInOut));
-    _animationController.forward();
-    _animationTop = Tween<Offset>(begin: Offset(0, -1), end: Offset.zero)
-        .animate(CurvedAnimation(
-            parent: _animationController, curve: Curves.easeInOut));
-    _animationController.forward();
+    _controller = SplashScreenController(context,this);
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _controller.disposeController();
     super.dispose();
   }
 
@@ -53,13 +38,13 @@ class _SplashScreenState extends State<SplashScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SlideTransition(
-                position: _animationTop,
+                position: _controller.animationTop,
                 child: Image.asset("assets/images/splash_border_image.png")),
             Image.asset("assets/images/logo.png"),
             Align(
                 alignment: AlignmentDirectional.bottomEnd,
                 child: SlideTransition(
-                  position: _animationBottom,
+                  position: _controller.animationBottom,
                   child: Image.asset(
                       "assets/images/splash_border_image_bottom.png"),
                 )),
