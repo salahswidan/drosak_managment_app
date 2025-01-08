@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cupertino_icons: ^1.0.8
+  dots_indicator: ^3.0.0
   flutter:
     sdk: flutter
   flutter_native_splash: ^2.4.4
@@ -77,15 +78,15 @@ flutter:
     - family: AA-GALAXY
       fonts:
         - asset: assets/fonts/aa_galaxy/AA-GALAXY.otf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+    #       - asset: fonts/Schyler-Italic.ttf
+    #         style: italic
     - family: ge_diner_one
       fonts:
         - asset: assets/fonts/ge_diner_one/ArbFONTS-GE_Dinar_One_Light.otf
         - asset: assets/fonts/ge_diner_one/ArbFONTS-GE_Dinar_One_Medium.otf
           weight: 500
   #       - asset: fonts/TrajanPro_Bold.ttf
-  #       
+  #
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
