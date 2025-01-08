@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: RouteManager.routes,
-        initialRoute: RouteNames.kSplashScreen,
+        initialRoute: RouteNames.kExploreAppScreen,
       ),
     );
   }
