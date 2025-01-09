@@ -1,16 +1,15 @@
-
+import 'package:drosak_managment_app/model/explore/explore_screen_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../../../core/resources/assets_values_manager.dart';
 import '../../../core/resources/colors_manager.dart';
 import '../../../core/resources/font_manager.dart';
 
 class CustomContinarNameAndImageExploreScreen extends StatelessWidget {
   const CustomContinarNameAndImageExploreScreen({
-    super.key,
+    super.key, required this.exploreScreenModel,
   });
+  final ExploreScreenModel exploreScreenModel;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class CustomContinarNameAndImageExploreScreen extends StatelessWidget {
               color: ColorsManager.kPrimaryColor,
             ),
             child: Text(
-              "المراحل التعليمية",
+            exploreScreenModel.text,
               style: TextStyle(
                   color: Colors.white,
                   fontFamily: FontName.geDinerOne,
@@ -36,7 +35,7 @@ class CustomContinarNameAndImageExploreScreen extends StatelessWidget {
             margin: EdgeInsets.symmetric(horizontal: 5.w, vertical: 6.h),
           ),
           SvgPicture.asset(
-            AssetsValuesManager.kOnBoardingImage1,
+           exploreScreenModel.image,
             width: 95.w,
             height: 63.h,
           ),

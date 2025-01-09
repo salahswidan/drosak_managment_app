@@ -1,4 +1,5 @@
 import 'package:drosak_managment_app/core/resources/assets_values_manager.dart';
+import '../../model/explore/explore_screen_model.dart';
 import '../../model/on_boarding/on_boarding_model.dart';
 
 class ConstValue {
@@ -115,21 +116,21 @@ class ConstListValues {
         text: ConstValue.kOnBoardingText5,
         image: AssetsValuesManager.kOnBoardingImage5),
   ];
-  // static const List<ExploreScreenModel> listExploreScreenModel = [
-  //   ExploreScreenModel(
-  //       text: ConstValue.kEducationalStages,
-  //       image: AssetsValuesManager.kOnBoardingImage1),
-  //   ExploreScreenModel(
-  //       text: ConstValue.kGroups, image: AssetsValuesManager.kOnBoardingImage2),
-  //   ExploreScreenModel(
-  //       text: ConstValue.kStudents,
-  //       image: AssetsValuesManager.kOnBoardingImage3),
-  //   ExploreScreenModel(
-  //       text: ConstValue.kTheAudience,
-  //       image: AssetsValuesManager.kOnBoardingImage4),
-  //   ExploreScreenModel(
-  //       text: ConstValue.kPaying, image: AssetsValuesManager.kOnBoardingImage5),
-  // ];
+  static  List<ExploreScreenModel> listExploreScreenModel = [
+    ExploreScreenModel(
+        text: ConstValue.kEducationalStages,
+        image: AssetsValuesManager.kOnBoardingImage1),
+    ExploreScreenModel(
+        text: ConstValue.kGroups, image: AssetsValuesManager.kOnBoardingImage2),
+    ExploreScreenModel(
+        text: ConstValue.kStudents,
+        image: AssetsValuesManager.kOnBoardingImage3),
+    ExploreScreenModel(
+        text: ConstValue.kTheAudience,
+        image: AssetsValuesManager.kOnBoardingImage4),
+    ExploreScreenModel(
+        text: ConstValue.kPaying, image: AssetsValuesManager.kOnBoardingImage5),
+  ];
   // static const List<String> listDays = [
   //   ConstValue.kSaturday,
   //   ConstValue.kSunday,

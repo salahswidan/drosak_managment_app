@@ -7,8 +7,10 @@ import '../../../core/resources/font_manager.dart';
 
 class CustomNumberOrderExploreScreen extends StatelessWidget {
   const CustomNumberOrderExploreScreen({
-    super.key,
+    super.key, required this.number,
   });
+    final int number;
+
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class CustomNumberOrderExploreScreen extends StatelessWidget {
         left: -10.h,
         child: CircleAvatar(
           child: Text(
-            "1",
+            number.toString(),
             style: TextStyle(
                 fontFamily: FontName.geDinerOne,
                 color: Colors.white,

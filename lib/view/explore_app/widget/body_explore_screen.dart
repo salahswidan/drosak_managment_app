@@ -7,9 +7,9 @@ import 'custom_grid_view_of_Item_explore_screen.dart';
 
 class BodyExploreScreen extends StatelessWidget {
   const BodyExploreScreen({
-    super.key,
+    super.key, required this.onTap,
   });
-
+  final GestureTapCallback onTap;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -17,7 +17,9 @@ class BodyExploreScreen extends StatelessWidget {
         SizedBox(
           height: 24.h,
         ),
-        CustomGridViewOfItemExploreScreen(),
+        CustomGridViewOfItemExploreScreen(
+          onTap: onTap,
+        ),
       ],
     );
   }
