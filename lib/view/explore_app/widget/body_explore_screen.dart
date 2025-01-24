@@ -9,7 +9,7 @@ class BodyExploreScreen extends StatelessWidget {
   const BodyExploreScreen({
     super.key, required this.onTap,
   });
-  final GestureTapCallback onTap;
+ final void Function(int index) onTap;
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -19,12 +19,13 @@ class ConstValue {
   static const String kEducationalStages = 'المراحل التعليمية';
   static const String kChooseEducationStage = 'اختر المرحله التعليمية';
   static const String kChooseGroup = 'اختر المجموعة';
-  static const String kChooseAntherStageEducation = 'اختر مرحله تعليميه اخري لكي يظهر لك المجموعات';
+  static const String kChooseAntherStageEducation =
+      'اختر مرحله تعليميه اخري لكي يظهر لك المجموعات';
   static const String kAddSomeAppointment = 'اضف بعض المواعيد';
   static const String kNameEducationalStages = 'اسم المرحله التعليميه';
   static const String kNameGroup = 'اسم المجموعه ';
   static const String kNameStudent = 'اسم الطالب ';
-   static const String kAddNameOfGroup = 'اضف اسم المجموعه ';
+  static const String kAddNameOfGroup = 'اضف اسم المجموعه ';
   static const String kDescEducationalStage = 'وصف المرحله التعليميه';
   static const String kDescGroup = 'وصف المجموعة ';
   static const String kNote = 'ملاحظة';
@@ -77,29 +78,28 @@ class ConstValue {
   static const String kThursday = 'الخميس';
   static const String kFriday = 'الجمعة';
   static const String kNoTimeAndDayYetAdd = 'لم يتم إضافه يوم وميعاد بعد';
-  static const String kNoTimeAndDayBecauseYouDontChooseGroup = 'لا يوجد يوم أو وقت لانك لم تختار جروب بعد';
+  static const String kNoTimeAndDayBecauseYouDontChooseGroup =
+      'لا يوجد يوم أو وقت لانك لم تختار جروب بعد';
 
-  static const String kPM="م";
-  static const String kAM="ص";
-  static const String kChoose="اختار";
-  static const String kCancel="إلفاء";
-  static const String kCountOfAppointmentAdded="عدد المواعيد المضافه";
+  static const String kPM = "م";
+  static const String kAM = "ص";
+  static const String kChoose = "اختار";
+  static const String kCancel = "إلفاء";
+  static const String kCountOfAppointmentAdded = "عدد المواعيد المضافه";
 
-  static const String kGroupInfoModel="kGroupInfoModel";
-  static const String kStudentModel="kStudentModel";
-  static const String kStatus="kStatus";
-  static const String kPhotoLibrary="Photo Library";
-  static const String kTakePhoto="Take Photo";
-  static const String kChooseFile="اختيار صورة";
+  static const String kGroupInfoModel = "kGroupInfoModel";
+  static const String kStudentModel = "kStudentModel";
+  static const String kStatus = "kStatus";
+  static const String kPhotoLibrary = "Photo Library";
+  static const String kTakePhoto = "Take Photo";
+  static const String kChooseFile = "اختيار صورة";
 
-  static const String kAddedNewStudentSucces="تم اضافه طالب جديد بنجاح";
-  static const String kUpdateThisStudentSucces="تم تعديل بيانات الطالب بنجاح";
-
-
+  static const String kAddedNewStudentSucces = "تم اضافه طالب جديد بنجاح";
+  static const String kUpdateThisStudentSucces = "تم تعديل بيانات الطالب بنجاح";
 }
 
 class ConstListValues {
-  static  List<OnBoardingModel> listOnBoardingModel = [
+  static List<OnBoardingModel> listOnBoardingModel = [
     OnBoardingModel(
         text: ConstValue.kOnBoardingText1,
         image: AssetsValuesManager.kOnBoardingImage1),
@@ -116,7 +116,7 @@ class ConstListValues {
         text: ConstValue.kOnBoardingText5,
         image: AssetsValuesManager.kOnBoardingImage5),
   ];
-  static  List<ExploreScreenModel> listExploreScreenModel = [
+  static List<ExploreScreenModel> listExploreScreenModel = [
     ExploreScreenModel(
         text: ConstValue.kEducationalStages,
         image: AssetsValuesManager.kOnBoardingImage1),

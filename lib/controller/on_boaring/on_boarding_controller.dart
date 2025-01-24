@@ -41,6 +41,6 @@ class OnBoardingController {
 
   void skip(BuildContext context) {
     Navigator.of(context).pushNamedAndRemoveUntil(
-        RouteNames.kExploreAppScreen, (route) => false);
+        RoutesName.kExploreAppScreen, (route) => false);
   }
 }

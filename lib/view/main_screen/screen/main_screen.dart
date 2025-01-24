@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../controller/main_screen/main_screen_controller.dart';
+import '../../../core/resources/const_value.dart';
 import '../../../model/main_screen/tabs_details_model.dart';
 import 'widgets/custom_bottom_nav_bar_main_screen.dart';
 
@@ -27,8 +28,9 @@ class _MainScreenState extends State<MainScreen> {
     _controller.disposeControllers();
     super.dispose();
   }
-
+  @override
   Widget build(BuildContext context) {
+    _controller.getArguments(context);
     return Scaffold(
       body: StreamBuilder<int>(stream: _controller.outDataBody, builder: (context, snapshot) => _controller.listBottomNavBarTabModel[snapshot.data == null ? 0 :snapshot.data!].screen),
       backgroundColor: Colors.red,

@@ -18,33 +18,38 @@ class MainScreenController {
   late Sink<int> inPutDataBottonNavBar;
   late Stream<int> outPutBottonNavBar;
   MainScreenController() {
-  initController();
+    initController();
   }
-   void initController() {
-      controllerBody = StreamController<int>();
+  void initController() {
+    controllerBody = StreamController<int>();
     inputDataBody = controllerBody.sink;
     outDataBody = controllerBody.stream;
     inputDataBody.add(currentIndexScreen);
 
-     controllerBottonNavBar = StreamController<int>();
+    controllerBottonNavBar = StreamController<int>();
     inPutDataBottonNavBar = controllerBottonNavBar.sink;
-    outPutBottonNavBar  = controllerBottonNavBar.stream;
-        inPutDataBottonNavBar.add(currentIndexScreen);
+    outPutBottonNavBar = controllerBottonNavBar.stream;
+    inPutDataBottonNavBar.add(currentIndexScreen);
+  }
 
-   }
-   void disposeControllers() {
+  void disposeControllers() {
     controllerBody.close();
     inputDataBody.close();
     inPutDataBottonNavBar.close();
-    controllerBottonNavBar.close(); 
+    controllerBottonNavBar.close();
   }
-
+  void getArguments(BuildContext context) {
+     Map arg = ModalRoute.of(context)!.settings.arguments as Map;
+    currentIndexScreen =int.parse(arg[ConstValue.kScreenIndex].toString()); 
+    inPutDataBottonNavBar.add(currentIndexScreen);
+  }
   List<TabsDetailsModel> listBottomNavBarTabModel = [
     TabsDetailsModel(
-      imageIconSvg: AssetsValuesManager.kPaymentImageSvg,
-      text: ConstValue.kPaying,
-      screen: PayingScreen(),
+      imageIconSvg: AssetsValuesManager.kEducationalStagesImageSvg,
+      text: ConstValue.kEducationalStages,
+      screen: EducationStagesScreen(),
     ),
+   
     TabsDetailsModel(
       imageIconSvg: AssetsValuesManager.kGroupsImageSvg,
       text: ConstValue.kGroups,
@@ -56,21 +61,19 @@ class MainScreenController {
       screen: StudentsScreen(),
     ),
     TabsDetailsModel(
-      imageIconSvg: AssetsValuesManager.kEducationalStagesImageSvg,
-      text: ConstValue.kEducationalStages,
-      screen: EducationStagesScreen(),
-    ),
-    TabsDetailsModel(
       imageIconSvg: AssetsValuesManager.kTheAudienceImageSvg,
       text: ConstValue.kTheAudience,
       screen: AudienceScreen(),
     ),
+     TabsDetailsModel(
+      imageIconSvg: AssetsValuesManager.kPaymentImageSvg,
+      text: ConstValue.kPaying,
+      screen: PayingScreen(),
+    ),
   ];
   void onTapAtTabItemBottomNavBar(int index) {
     currentIndexScreen = index;
-        inputDataBody.add(currentIndexScreen);
-                inPutDataBottonNavBar.add(currentIndexScreen);
-
-
+    inputDataBody.add(currentIndexScreen);
+    inPutDataBottonNavBar.add(currentIndexScreen);
   }
 }

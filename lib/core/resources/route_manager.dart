@@ -11,18 +11,20 @@ import 'package:flutter/material.dart';
 
 class RouteManager {
   static Map<String, WidgetBuilder> routes = {
-    RouteNames.kSplashScreen: (context) => const SplashScreen(),
-    RouteNames.kOnBoardingScreen: (context) => const OnBoardingScreen(),
-    RouteNames.kExploreAppScreen: (context) => const ExploreAppScreen(),
-    RouteNames.kMainScreen: (context) => const MainScreen(),
-    RouteNames.kPayingScreen: (context) => const PayingScreen(),
-    RouteNames.kEducationStagesScreen: (context) => const EducationStagesScreen(),
-    RouteNames.kAudienceScreen: (context) => const AudienceScreen(),
-    RouteNames.kGroupsScreen: (context) => const GroupsScreen(),
-    RouteNames.kStudentsScreen: (context) => const StudentsScreen(),
+    RoutesName.kSplashScreen: (context) => const SplashScreen(),
+    RoutesName.kOnBoardingScreen: (context) => const OnBoardingScreen(),
+    RoutesName.kExploreAppScreen: (context) => const ExploreAppScreen(),
+    RoutesName.kMainScreen: (context) => const MainScreen(),
+    RoutesName.kPayingScreen: (context) => const PayingScreen(),
+    RoutesName.kEducationStagesScreen: (context) =>
+        const EducationStagesScreen(),
+    RoutesName.kAudienceScreen: (context) => const AudienceScreen(),
+    RoutesName.kGroupsScreen: (context) => const GroupsScreen(),
+    RoutesName.kStudentsScreen: (context) => const StudentsScreen(),
   };
-}class RouteNames{
+}
 
+class RoutesName {
   static const String kSplashScreen = '/KSplashScreen';
   static const String kOnBoardingScreen = '/kOnBoardingScreen';
   static const String kExploreAppScreen = '/kExploreAppScreen';

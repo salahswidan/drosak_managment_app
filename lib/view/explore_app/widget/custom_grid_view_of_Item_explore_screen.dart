@@ -7,7 +7,7 @@ class CustomGridViewOfItemExploreScreen extends StatelessWidget {
   const CustomGridViewOfItemExploreScreen({
     super.key, required this.onTap,
   });
-final GestureTapCallback onTap;
+ final void Function(int index) onTap;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -22,7 +22,9 @@ final GestureTapCallback onTap;
               crossAxisSpacing: 39,
               mainAxisSpacing: 34),
           itemBuilder: (context, index) => InkWell(
-            onTap:onTap,
+            onTap: () {
+              onTap(index);
+            },
             child: CustomItemExploreScreen(
               number:index +1,
               exploreScreenModel: ConstListValues.listExploreScreenModel[index],
