@@ -1,20 +1,20 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/resources/colors_manager.dart';
-import '../../../../model/main_screen/bottom_nav_bar_tab_model.dart';
+import '../../../../model/main_screen/tabs_details_model.dart';
 
 class CustomBottonNavBarMainScreen extends StatelessWidget {
   CustomBottonNavBarMainScreen({
     super.key,
-    required this.listIcon,
+    required this.listIcon, required this.onTap,
   });
-  final List<BottomNavBarTabModel> listIcon;
+  final List<TabsDetailsModel> listIcon;
+  final ValueChanged<int> onTap;
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      onTap: onTap,
       currentIndex: 1,
       unselectedItemColor: ColorsManager.kGreyLight,
       selectedItemColor: ColorsManager.kPrimaryColor,
