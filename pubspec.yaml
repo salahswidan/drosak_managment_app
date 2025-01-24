@@ -66,6 +66,12 @@ flutter:
     - assets/images/on_boarding_image_4.svg
     - assets/images/on_boarding_image_5.svg
     - assets/images/payment_icon.svg
+    - assets/images/educational_stages.svg
+    - assets/images/students.svg
+    - assets/images/Group.svg
+    - assets/images/placeholderSvg.svg
+    - assets/images/audience.svg
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
   # For details regarding adding assets from package dependencies, see

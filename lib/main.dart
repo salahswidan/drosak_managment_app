@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         routes: RouteManager.routes,
-        initialRoute: RouteNames.kExploreAppScreen,
+        initialRoute: RouteNames.kMainScreen,
       ),
     );
   }
