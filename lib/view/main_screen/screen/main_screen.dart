@@ -33,6 +33,7 @@ class _MainScreenState extends State<MainScreen> {
       body: StreamBuilder<int>(stream: _controller.outDataBody, builder: (context, snapshot) => _controller.listBottomNavBarTabModel[snapshot.data == null ? 0 :snapshot.data!].screen),
       backgroundColor: Colors.red,
       bottomNavigationBar: CustomBottonNavBarMainScreen(
+        outPutBottonNavBar: _controller.outPutBottonNavBar,
         onTap: (value) {
           _controller.onTapAtTabItemBottomNavBar(value);
         },

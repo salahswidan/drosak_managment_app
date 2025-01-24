@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:drosak_managment_app/core/resources/const_value.dart';
 import 'package:drosak_managment_app/model/main_screen/tabs_details_model.dart';
 import 'package:drosak_managment_app/view/audience/screens/audience_screen.dart';
@@ -15,6 +14,9 @@ class MainScreenController {
   late StreamController<int> controllerBody;
   late Sink<int> inputDataBody;
   late Stream<int> outDataBody;
+  late StreamController<int> controllerBottonNavBar;
+  late Sink<int> inPutDataBottonNavBar;
+  late Stream<int> outPutBottonNavBar;
   MainScreenController() {
   initController();
   }
@@ -23,11 +25,18 @@ class MainScreenController {
     inputDataBody = controllerBody.sink;
     outDataBody = controllerBody.stream;
     inputDataBody.add(currentIndexScreen);
+
+     controllerBottonNavBar = StreamController<int>();
+    inPutDataBottonNavBar = controllerBottonNavBar.sink;
+    outPutBottonNavBar  = controllerBottonNavBar.stream;
+        inPutDataBottonNavBar.add(currentIndexScreen);
+
    }
    void disposeControllers() {
     controllerBody.close();
     inputDataBody.close();
-    
+    inPutDataBottonNavBar.close();
+    controllerBottonNavBar.close(); 
   }
 
   List<TabsDetailsModel> listBottomNavBarTabModel = [
@@ -60,6 +69,8 @@ class MainScreenController {
   void onTapAtTabItemBottomNavBar(int index) {
     currentIndexScreen = index;
         inputDataBody.add(currentIndexScreen);
+                inPutDataBottonNavBar.add(currentIndexScreen);
+
 
   }
 }
