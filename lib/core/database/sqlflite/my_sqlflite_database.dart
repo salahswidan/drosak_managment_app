@@ -5,12 +5,18 @@ import 'package:path/path.dart';
 class MySqlFliteDatabase extends Crud {
 
   sqfliteDataBase.Database? _db;
+      static const String _educationalStageTableName = 'educationalStageTableName';
+      static const String educationalStageID = 'id';
+      static const String educationalStageName = 'name';
+      static const String educationalStageDesc = 'desc';
+      static const String educationalStageImage = 'image';
+
 
   Future<sqfliteDataBase.Database> _initDatabase() async {
     String databasePath = await sqfliteDataBase.getDatabasesPath();
-    String managamentDataBaseName = 'managament.db';
-    String realDatabasePath = join(databasePath, managamentDataBaseName);
-    int versionDataBase = 4;
+    String drosakDataBaseName = 'drosak.db';
+    String realDatabasePath = join(databasePath, drosakDataBaseName);
+    int versionDataBase = 1;
     _db ??= await sqfliteDataBase.openDatabase(realDatabasePath,
         onOpen: (db) async {
       await db.execute("PRAGMA foreign_keys = ON");
@@ -30,8 +36,11 @@ class MySqlFliteDatabase extends Crud {
   }
 
   _onCreate(sqfliteDataBase.Database db, int version) async {
-    // await db.execute(
-    //     'CREATE TABLE IF NOT EXISTS $_userTable ($_userColumnID INTEGER PRIMARY KEY AUTOINCREMENT, $_userColumnUserName TEXT);');
+      await db.execute("CREATE TABLE IF NOT EXISTS $_educationalStageTableName"
+        " ( $educationalStageID INTEGER PRIMARY KEY AUTOINCREMENT ,"
+        "  $educationalStageName TEXT , "
+        "  $educationalStageDesc TEXT , "      
+        "  $educationalStageImage  TEXT )");
     // await db.execute(
     //     'CREATE TABLE IF NOT EXISTS $_productTable ($_productColumnID INTEGER PRIMARY KEY AUTOINCREMENT, $_productColumnName TEXT ,$_productColumnPrice REAL, $_productColumnCount INTEGER);');
     // await db.execute(
