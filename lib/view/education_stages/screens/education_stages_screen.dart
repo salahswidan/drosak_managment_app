@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../controller/education_stage/education_stage_controller.dart';
-import '../../../model/education_stage/item_stage_model.dart';
 import '../widget/custom_app_bar_education_stage.dart';
-import '../widget/custom_item_stage.dart';
 import '../widget/custom_list_view_items_stage.dart';
 
 class EducationStagesScreen extends StatefulWidget {
@@ -30,7 +27,11 @@ class _EducationStagesScreenState extends State<EducationStagesScreen> {
         body: Column(
           children: [
             CustomAppBarEductionStages(
-                onPressedAdd: () {}, onPressedSearch: () {}),
+                onPressedAdd: () {
+                  _controller.openBottomSheet(
+                    context: context,
+                  );
+                }, onPressedSearch: () {}),
        
             CustomListViewItemsStage(
               listItemStageModel: _controller.listItemStageModel,
