@@ -1,18 +1,14 @@
-import 'package:drosak_managment_app/core/resources/assets_values_manager.dart';
 import 'package:drosak_managment_app/core/resources/colors_manager.dart';
-import 'package:drosak_managment_app/core/resources/const_value.dart';
 import 'package:drosak_managment_app/core/resources/font_manager.dart';
-import 'package:drosak_managment_app/main.dart';
+import 'package:drosak_managment_app/model/education_stage/item_stage_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../widget/custom_app_bar_education_stage.dart';
-
 class CustomItemStage extends StatelessWidget {
   const CustomItemStage({
-    super.key,
+    super.key, required this.itemStageModel,
   });
-
+  final ItemStageModel itemStageModel;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -24,7 +20,7 @@ class CustomItemStage extends StatelessWidget {
             // left: -10.h,
             child: CircleAvatar(
               child: Text(
-                "1",
+                itemStageModel.id.toString(),
                 style: TextStyle(
                     fontSize: 14.sp,
                     color: Colors.white,
@@ -45,7 +41,7 @@ class CustomItemStage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "الصف الاول الاعدادي",
+                              itemStageModel.stageName,
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16.sp,
@@ -63,12 +59,11 @@ class CustomItemStage extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "تلك الصف هو الصف الاعدادي وفي ثلاث طلاب مثلاتلك الصف هو الصف الاعدادي وفي ثلاث طلاب مثلاتلك الصف هو الصف الاعدادي وفي ثلاث طلاب مثلا",
+                                    itemStageModel.desc,
                                     style: TextStyle(
                                         fontSize: 10.sp,
                                         fontFamily: FontName.geDinerOne,
-                                        color: Colors.white
-                                            .withOpacity(0.6)),
+                                        color: Colors.white.withOpacity(0.6)),
                                   ),
                                 ),
                               ],
@@ -80,7 +75,7 @@ class CustomItemStage extends StatelessWidget {
                     ),
                     ClipRRect(
                       child: Image.asset(
-                        AssetsValuesManager.kTestImage,
+                        itemStageModel.image,
                         width: 64.w,
                         height: 64.h,
                       ),
