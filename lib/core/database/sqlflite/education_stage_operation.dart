@@ -11,5 +11,8 @@ class EducationStageOperation extends MySqlFliteDatabase {
      
     });
   }
+  Future<List<Map<String, Object?>>> getAllEducationData(){
+    return select(tableName: MySqlFliteDatabase.educationalStageTableName);
+  }
 
   }

@@ -10,6 +10,16 @@ class EducationStageController {
       TextEditingController();
   TextEditingController controllerDescraptinEducationalStage =
       TextEditingController();
+  final EducationStageOperation educationStageOperation;
+  EducationStageController(this.educationStageOperation)  {
+    init();
+   
+  }
+  init()async{
+     var a = await educationStageOperation.getAllEducationData();
+    print(a);
+  }
+
   void openBottomSheet({required BuildContext context}) {
     showModalBottomSheet(
         isScrollControlled: true,
@@ -24,8 +34,7 @@ class EducationStageController {
   }
 
   void addToNewEducation() async {
-    EducationStageOperation educationStageOperation = EducationStageOperation();
-  bool inserted =await  educationStageOperation.insertEducationDetails(
+    bool inserted = await educationStageOperation.insertEducationDetails(
       ItemStageModel(
         id: 0,
         stageName: controllerNameEducationalStage.text,
