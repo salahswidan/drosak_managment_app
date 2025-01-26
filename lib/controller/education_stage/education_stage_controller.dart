@@ -10,12 +10,12 @@ class EducationStageController {
       TextEditingController();
   TextEditingController controllerDescraptinEducationalStage =
       TextEditingController();
-  final EducationStageOperation educationStageOperation;
-  EducationStageController(this.educationStageOperation)  {
+  EducationStageController()  {
     init();
    
   }
   init()async{
+    EducationStageOperation educationStageOperation = EducationStageOperation();
      var a = await educationStageOperation.getAllEducationData();
     print(a);
   }
@@ -34,6 +34,8 @@ class EducationStageController {
   }
 
   void addToNewEducation() async {
+        EducationStageOperation educationStageOperation = EducationStageOperation();
+
     bool inserted = await educationStageOperation.insertEducationDetails(
       ItemStageModel(
         id: 0,

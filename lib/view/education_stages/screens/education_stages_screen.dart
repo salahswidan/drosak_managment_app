@@ -18,7 +18,7 @@ class _EducationStagesScreenState extends State<EducationStagesScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _controller = EducationStageController(EducationStageOperation());
+    _controller = EducationStageController();
   }
   @override
   Widget build(BuildContext context) {

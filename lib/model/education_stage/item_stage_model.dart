@@ -1,14 +1,24 @@
+import '../../core/database/sqlflite/my_sqlflite_database.dart';
+
 class ItemStageModel {
   final int id;
   final String image;
   final String stageName;
   final String desc;
 
-@override
-  String toString (){
+  @override
+  String toString() {
     return 'itemStageModel{id: $id, image: $image, stageName: $stageName, desc: $desc}';
-    }
-  
+  }
+
+ Map<String, dynamic> toJson() {
+    return {
+      MySqlFliteDatabase.educationalStageName: stageName,
+      MySqlFliteDatabase.educationalStageDesc: desc,
+      MySqlFliteDatabase.educationalStageImage: image,
+    };
+  }
+
   ItemStageModel({
     required this.id,
     required this.image,
