@@ -1,21 +1,22 @@
 import 'package:drosak_managment_app/core/database/sqlflite/crud.dart';
+import 'package:drosak_managment_app/model/education_stage/item_stage_model.dart';
 import 'package:sqflite/sqflite.dart' as sqfliteDataBase;
 import 'package:path/path.dart';
 
 class MySqlFliteDatabase extends Crud {
 
   sqfliteDataBase.Database? _db;
-      static const String _educationalStageTableName = 'educationalStageTableName';
+      static const String educationalStageTableName = 'educationalStageTableName';
       static const String educationalStageID = 'id';
       static const String educationalStageName = 'name';
       static const String educationalStageDesc = 'desc';
       static const String educationalStageImage = 'image';
 
 
-  Future<sqfliteDataBase.Database> _initDatabase() async {
-    String databasePath = await sqfliteDataBase.getDatabasesPath();
-    String drosakDataBaseName = 'drosak.db';
-    String realDatabasePath = join(databasePath, drosakDataBaseName);
+    Future< sqfliteDataBase.Database> _initDatabase() async {
+    String databasesPath = await sqfliteDataBase.getDatabasesPath();
+    String drosakDatabaseName = "drosak.db";
+    String realDatabasePath = join(databasesPath, drosakDatabaseName);
     int versionDataBase = 1;
     _db ??= await sqfliteDataBase.openDatabase(realDatabasePath,
         onOpen: (db) async {
@@ -36,16 +37,14 @@ class MySqlFliteDatabase extends Crud {
   }
 
   _onCreate(sqfliteDataBase.Database db, int version) async {
-      await db.execute("CREATE TABLE IF NOT EXISTS $_educationalStageTableName"
+      await db.execute("CREATE TABLE IF NOT EXISTS $educationalStageTableName"
         " ( $educationalStageID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $educationalStageName TEXT , "
         "  $educationalStageDesc TEXT , "      
         "  $educationalStageImage  TEXT )");
-    // await db.execute(
-    //     'CREATE TABLE IF NOT EXISTS $_productTable ($_productColumnID INTEGER PRIMARY KEY AUTOINCREMENT, $_productColumnName TEXT ,$_productColumnPrice REAL, $_productColumnCount INTEGER);');
-    // await db.execute(
-    //     'CREATE TABLE  IF NOT EXISTS $_salesTable ($_salesColumnID INTEGER PRIMARY KEY AUTOINCREMENT, $_salesColumnProductID INTEGER ,$_salesColumnUserID INTEGER    ,"CONSTRAINT user_sales_relation FOREIGN KEY($_salesColumnUserID) REFERENCES $_userTable($_userColumnID) ON DELETE CASCADE ON UPDATE CASCADE ," "CONSTRAINT product_sales_relation FOREIGN KEY($_salesColumnProductID) REFERENCES $_productTable($_productColumnID) ON DELETE CASCADE ON UPDATE CASCADE  ");');
   }
+
+ 
   @override
   Future<bool> insert(
       {required String tableName, required Map<String, Object?> values}) async {
@@ -79,6 +78,4 @@ class MySqlFliteDatabase extends Crud {
     await _db!.close();
     return updated > 0 ? true : false;
   }
-
-  
 }

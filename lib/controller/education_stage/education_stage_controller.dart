@@ -4,15 +4,17 @@ import '../../view/education_stages/widget/custom_add_new_education_stage.dart';
 
 class EducationStageController {
   List<ItemStageModel> listItemStageModel = [];
-  TextEditingController controllerAddNewEducationalStage =
+  TextEditingController controllerNameEducationalStage =
+      TextEditingController();
+  TextEditingController controllerDescraptinEducationalStage =
       TextEditingController();
   void openBottomSheet({required BuildContext context}) {
     showModalBottomSheet(
         context: context,
-        builder: (context) => CustomAddNewEducationStage(controllerAddNewEducationalStage: controllerAddNewEducationalStage)
-        );
+        builder: (context) => CustomAddNewEducationStage(
+            controllerDescraptinEducationalStage: controllerDescraptinEducationalStage,
+            controllerNameEducationalStage: controllerNameEducationalStage));
   }
-  void addToNewEducationalStageToDB() {
-    
-  }
+
+  void addToNewEducationalStageToDB() {}
 }
