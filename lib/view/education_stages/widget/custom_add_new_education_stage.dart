@@ -15,16 +15,14 @@ class CustomAddNewEducationStage extends StatelessWidget {
     required this.onPressedAdd,
     required this.controllerNameEducationalStage,
     required this.controllerDescraptinEducationalStage,
-    this.pathImage,
-    required this.onPressedDeleteImage,
+    required this.onPressedDeleteImage, required this.outPutPathImage,
   });
   final VoidCallback onPressedAdd;
   final VoidCallback onPressedDeleteImage;
   final VoidCallback onPressedPickImage;
-  final String? pathImage;
-
   final TextEditingController controllerNameEducationalStage;
   final TextEditingController controllerDescraptinEducationalStage;
+  final Stream<String?> outPutPathImage;
 
   @override
   Widget build(BuildContext context) {
@@ -75,16 +73,20 @@ class CustomAddNewEducationStage extends StatelessWidget {
               SizedBox(
                 height: 24.h,
               ),
-              if (pathImage != null)
-                Stack(children: [
+              StreamBuilder(stream: outPutPathImage, builder: (context, snapshot) {
+                return snapshot.connectionState == ConnectionState.waiting
+                    ? const Center( child:  CircularProgressIndicator())
+                    : snapshot.data != null ? Column(
+                      children: [
+                            Stack(children: [
                   Image.file(
                     errorBuilder: (context, error, stackTrace) {
-                      return Text(
+                      return const Text(
                         "not found",
                         style: TextStyle(color: Colors.red),
                       );
                     },
-                    File(pathImage!),
+                    File(snapshot.data!),
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
@@ -97,10 +99,15 @@ class CustomAddNewEducationStage extends StatelessWidget {
                         ElevatedButton.styleFrom(backgroundColor: Colors.red),
                   ),
                 ]),
-              if (pathImage != null)
+           
                 SizedBox(
                   height: 24.h,
                 ),
+
+                      ],
+                    ) : SizedBox();
+              }),
+       
               CustomMaterialButton(
                 onPressed: onPressedAdd,
                 text: ConstValue.kAdd,

@@ -16,6 +16,9 @@ class EducationStageController {
   late StreamController<List<ItemStageModel>> controllerListItemsStageModel;
   late Sink<List<ItemStageModel>> inputDataListItemsStageModel;
   late Stream<List<ItemStageModel>> outPutDataListItemsStageModel;
+  late StreamController<String?> controllerPathImage;
+  late Sink<String?> inputPathImage;
+  late Stream<String?> outPutPathImage;
   EducationStageController() {
     init();
   }
@@ -24,6 +27,10 @@ class EducationStageController {
     inputDataListItemsStageModel = controllerListItemsStageModel.sink;
     outPutDataListItemsStageModel = controllerListItemsStageModel.stream;
     inputDataListItemsStageModel.add(listItemStageModel);
+    controllerPathImage = StreamController();
+    inputPathImage = controllerPathImage.sink;
+    outPutPathImage = controllerPathImage.stream;
+    inputPathImage.add(pathImage);
 
   }
   void disposeControllers(){
@@ -42,6 +49,7 @@ class EducationStageController {
     final ImagePicker picker = ImagePicker();
     var image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) pathImage = image.path;
+    inputPathImage.add(pathImage);
   }
 
   void pickImageFromCamera() async {
@@ -55,11 +63,11 @@ class EducationStageController {
         isScrollControlled: true,
         context: context,
         builder: (context) => CustomAddNewEducationStage(
+            outPutPathImage: outPutPathImage,
             onPressedDeleteImage: () {
               pathImage = null;
-              print(pathImage);
+    inputPathImage.add(pathImage);
             },
-            pathImage: pathImage,
             onPressedPickImage: () {
               pickImageFromGallary();
             },

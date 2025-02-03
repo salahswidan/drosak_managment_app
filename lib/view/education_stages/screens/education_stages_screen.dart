@@ -1,4 +1,3 @@
-import 'package:drosak_managment_app/core/database/sqlflite/education_stage_operation.dart';
 import 'package:flutter/material.dart';
 import '../../../controller/education_stage/education_stage_controller.dart';
 import '../widget/custom_app_bar_education_stage.dart';
@@ -22,6 +21,11 @@ class _EducationStagesScreenState extends State<EducationStagesScreen> {
   }
 
   @override
+  void dispose() {
+    _controller.disposeControllers();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -33,11 +37,11 @@ class _EducationStagesScreenState extends State<EducationStagesScreen> {
                 context: context,
               );
             }, onPressedSearch: () {
-              setState(() {});
+          //    setState(() {});
             }),
             CustomListViewItemsStage(
               outPutDataListItemsStageModel: _controller.outPutDataListItemsStageModel,
-            )
+            ),
           ],
         ),
       ),

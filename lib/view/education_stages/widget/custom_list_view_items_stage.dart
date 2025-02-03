@@ -5,8 +5,8 @@ import '../../../model/education_stage/item_stage_model.dart';
 import 'custom_item_stage.dart';
 
 class CustomListViewItemsStage extends StatelessWidget {
-
-  const CustomListViewItemsStage({super.key, required this.outPutDataListItemsStageModel});
+  const CustomListViewItemsStage(
+      {super.key, required this.outPutDataListItemsStageModel});
   final Stream<List<ItemStageModel>> outPutDataListItemsStageModel;
 
   @override
@@ -19,15 +19,19 @@ class CustomListViewItemsStage extends StatelessWidget {
               ? Center(
                   child: CircularProgressIndicator(),
                 )
-              :
-           ListView.separated(
-            itemBuilder: (context, index) => CustomItemStage(
-                  itemStageModel:snapshot.data![index],
-                ),
-            separatorBuilder: (context, index) => SizedBox(
-                  height: 24.h,
-                ),
-            itemCount: snapshot.data!.length);
+              : ListView.separated(
+                  itemBuilder: (context, index) =>
+                      index == snapshot.data!.length
+                          ? SizedBox(
+                              height: 24.h,
+                            )
+                          : CustomItemStage(
+                              itemStageModel: snapshot.data![index],
+                            ),
+                  separatorBuilder: (context, index) => SizedBox(
+                        height: 24.h,
+                      ),
+                  itemCount: snapshot.data!.length + 1);
         },
       ),
     );
