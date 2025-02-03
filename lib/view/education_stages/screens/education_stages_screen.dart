@@ -20,6 +20,7 @@ class _EducationStagesScreenState extends State<EducationStagesScreen> {
     super.initState();
     _controller = EducationStageController();
   }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -27,15 +28,15 @@ class _EducationStagesScreenState extends State<EducationStagesScreen> {
       child: Scaffold(
         body: Column(
           children: [
-            CustomAppBarEductionStages(
-                onPressedAdd: () {
-                  _controller.openBottomSheet(
-                    context: context,
-                  );
-                }, onPressedSearch: () {}),
-       
+            CustomAppBarEductionStages(onPressedAdd: () {
+              _controller.openBottomSheet(
+                context: context,
+              );
+            }, onPressedSearch: () {
+              setState(() {});
+            }),
             CustomListViewItemsStage(
-              listItemStageModel: _controller.listItemStageModel,
+              outPutDataListItemsStageModel: _controller.outPutDataListItemsStageModel,
             )
           ],
         ),

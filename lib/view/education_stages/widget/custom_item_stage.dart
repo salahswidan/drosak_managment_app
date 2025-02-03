@@ -1,12 +1,18 @@
+import 'dart:io';
+
 import 'package:drosak_managment_app/core/resources/colors_manager.dart';
 import 'package:drosak_managment_app/core/resources/font_manager.dart';
 import 'package:drosak_managment_app/model/education_stage/item_stage_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../core/resources/assets_values_manager.dart';
 
 class CustomItemStage extends StatelessWidget {
   const CustomItemStage({
-    super.key, required this.itemStageModel,
+    super.key,
+    required this.itemStageModel,
   });
   final ItemStageModel itemStageModel;
   @override
@@ -74,8 +80,15 @@ class CustomItemStage extends StatelessWidget {
                       width: 7.w,
                     ),
                     ClipRRect(
-                      child: Image.asset(
-                        itemStageModel.image,
+                      borderRadius: BorderRadius.circular(50),
+                      child: Image.file(
+                        errorBuilder: (context, error, stackTrace) =>
+                            SvgPicture.asset(
+                          AssetsValuesManager.kPlaceholderSvg,
+                          width: 50.w,
+                          height: 50.h,
+                        ),
+                        File(itemStageModel.image),
                         width: 64.w,
                         height: 64.h,
                       ),

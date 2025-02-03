@@ -1,7 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../../../core/resources/assets_values_manager.dart';
 import '../../../core/resources/colors_manager.dart';
 import '../../../core/resources/const_value.dart';
@@ -11,11 +11,17 @@ import '../../../core/widget/input_field/custom_text_form_field.dart';
 class CustomAddNewEducationStage extends StatelessWidget {
   const CustomAddNewEducationStage({
     super.key,
-    required this.onPressed,
+    required this.onPressedPickImage,
+    required this.onPressedAdd,
     required this.controllerNameEducationalStage,
     required this.controllerDescraptinEducationalStage,
+    this.pathImage,
+    required this.onPressedDeleteImage,
   });
-    final VoidCallback onPressed;
+  final VoidCallback onPressedAdd;
+  final VoidCallback onPressedDeleteImage;
+  final VoidCallback onPressedPickImage;
+  final String? pathImage;
 
   final TextEditingController controllerNameEducationalStage;
   final TextEditingController controllerDescraptinEducationalStage;
@@ -51,7 +57,7 @@ class CustomAddNewEducationStage extends StatelessWidget {
                     width: 6.w,
                   ),
                   IconButton.filled(
-                      onPressed: () {},
+                      onPressed: onPressedPickImage,
                       style: ElevatedButton.styleFrom(
                           backgroundColor: ColorsManager.kPrimaryColor),
                       icon:
@@ -67,10 +73,36 @@ class CustomAddNewEducationStage extends StatelessWidget {
                 controller: controllerDescraptinEducationalStage,
               ),
               SizedBox(
-                height: 40.h,
+                height: 24.h,
               ),
+              if (pathImage != null)
+                Stack(children: [
+                  Image.file(
+                    errorBuilder: (context, error, stackTrace) {
+                      return Text(
+                        "not found",
+                        style: TextStyle(color: Colors.red),
+                      );
+                    },
+                    File(pathImage!),
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                  IconButton(
+                    onPressed: onPressedDeleteImage,
+                    icon: Icon(
+                      Icons.delete,
+                    ),
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                  ),
+                ]),
+              if (pathImage != null)
+                SizedBox(
+                  height: 24.h,
+                ),
               CustomMaterialButton(
-                onPressed: onPressed,
+                onPressed: onPressedAdd,
                 text: ConstValue.kAdd,
               )
             ]),

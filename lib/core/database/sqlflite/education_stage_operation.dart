@@ -5,7 +5,7 @@ class EducationStageOperation extends MySqlFliteDatabase {
   Future<bool> insertEducationDetails(ItemStageModel itemStageModel) {
     return insert(
         tableName: MySqlFliteDatabase.educationalStageTableName,
-        values: itemStageModel.toJson());
+        values: itemStageModel.toJson()); 
   }
 
   Future<List<ItemStageModel>> getAllEducationData() async {

@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:drosak_managment_app/core/database/sqlflite/education_stage_operation.dart';
-import 'package:drosak_managment_app/core/resources/assets_values_manager.dart';
 import 'package:drosak_managment_app/model/education_stage/item_stage_model.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../view/education_stages/widget/custom_add_new_education_stage.dart';
 
 class EducationStageController {
@@ -10,14 +12,42 @@ class EducationStageController {
       TextEditingController();
   TextEditingController controllerDescraptinEducationalStage =
       TextEditingController();
-  EducationStageController()  {
+  String? pathImage;
+  late StreamController<List<ItemStageModel>> controllerListItemsStageModel;
+  late Sink<List<ItemStageModel>> inputDataListItemsStageModel;
+  late Stream<List<ItemStageModel>> outPutDataListItemsStageModel;
+  EducationStageController() {
     init();
-   
   }
-  init()async{
+  void initControllers(){
+    controllerListItemsStageModel = StreamController();
+    inputDataListItemsStageModel = controllerListItemsStageModel.sink;
+    outPutDataListItemsStageModel = controllerListItemsStageModel.stream;
+    inputDataListItemsStageModel.add(listItemStageModel);
+
+  }
+  void disposeControllers(){
+    controllerListItemsStageModel.close();
+    inputDataListItemsStageModel.close();
+  }
+  init() async {
+    initControllers();
     EducationStageOperation educationStageOperation = EducationStageOperation();
-     var a = await educationStageOperation.getAllEducationData();
-    print(a);
+    listItemStageModel = await educationStageOperation.getAllEducationData();
+        inputDataListItemsStageModel.add(listItemStageModel);
+
+  }
+
+  void pickImageFromGallary() async {
+    final ImagePicker picker = ImagePicker();
+    var image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) pathImage = image.path;
+  }
+
+  void pickImageFromCamera() async {
+    final ImagePicker picker = ImagePicker();
+    var image = await picker.pickImage(source: ImageSource.camera);
+    if (image != null) pathImage = image.path;
   }
 
   void openBottomSheet({required BuildContext context}) {
@@ -25,7 +55,15 @@ class EducationStageController {
         isScrollControlled: true,
         context: context,
         builder: (context) => CustomAddNewEducationStage(
-            onPressed: () {
+            onPressedDeleteImage: () {
+              pathImage = null;
+              print(pathImage);
+            },
+            pathImage: pathImage,
+            onPressedPickImage: () {
+              pickImageFromGallary();
+            },
+            onPressedAdd: () {
               addToNewEducation();
             },
             controllerDescraptinEducationalStage:
@@ -34,14 +72,14 @@ class EducationStageController {
   }
 
   void addToNewEducation() async {
-        EducationStageOperation educationStageOperation = EducationStageOperation();
-
+    EducationStageOperation educationStageOperation = EducationStageOperation();
+    print(pathImage);
     bool inserted = await educationStageOperation.insertEducationDetails(
       ItemStageModel(
         id: 0,
         stageName: controllerNameEducationalStage.text,
         desc: controllerDescraptinEducationalStage.text,
-        image: AssetsValuesManager.assetsImagesPlaceholderSvg,
+        image: pathImage == null ? "" : pathImage!,
       ),
     );
     print(inserted);
