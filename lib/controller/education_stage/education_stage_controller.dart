@@ -22,27 +22,36 @@ class EducationStageController {
   EducationStageController() {
     init();
   }
-  void initControllers(){
+  void initControllers() {
     controllerListItemsStageModel = StreamController();
     inputDataListItemsStageModel = controllerListItemsStageModel.sink;
-    outPutDataListItemsStageModel = controllerListItemsStageModel.stream;
+    outPutDataListItemsStageModel =
+        controllerListItemsStageModel.stream.asBroadcastStream();
     inputDataListItemsStageModel.add(listItemStageModel);
     controllerPathImage = StreamController();
     inputPathImage = controllerPathImage.sink;
-    outPutPathImage = controllerPathImage.stream;
+    outPutPathImage = controllerPathImage.stream.asBroadcastStream();
     inputPathImage.add(pathImage);
-
   }
-  void disposeControllers(){
+
+  void disposeControllers() {
     controllerListItemsStageModel.close();
     inputDataListItemsStageModel.close();
+    controllerPathImage.close();
+    inputPathImage.close();
+    controllerDescraptinEducationalStage.dispose();
+    controllerNameEducationalStage.dispose();
   }
+
   init() async {
     initControllers();
+    getAllItemList();
+  }
+
+  void getAllItemList() async {
     EducationStageOperation educationStageOperation = EducationStageOperation();
     listItemStageModel = await educationStageOperation.getAllEducationData();
-        inputDataListItemsStageModel.add(listItemStageModel);
-
+    inputDataListItemsStageModel.add(listItemStageModel);
   }
 
   void pickImageFromGallary() async {
@@ -66,22 +75,33 @@ class EducationStageController {
             outPutPathImage: outPutPathImage,
             onPressedDeleteImage: () {
               pathImage = null;
-    inputPathImage.add(pathImage);
+              inputPathImage.add(pathImage);
             },
             onPressedPickImage: () {
               pickImageFromGallary();
             },
-            onPressedAdd: () {
-              addToNewEducation();
+            onPressedAdd: () async {
+              bool inserted = await addToNewEducation();
+              if (inserted == true) {
+                Navigator.pop(context);
+                pathImage = null;
+                listItemStageModel.add(ItemStageModel(
+                    id: listItemStageModel.length + 1,
+                    image: pathImage == null ? "" : pathImage!,
+                    stageName: controllerNameEducationalStage.text,
+                    desc: controllerDescraptinEducationalStage.text));
+                inputDataListItemsStageModel.add(listItemStageModel);
+                controllerDescraptinEducationalStage.clear();
+                controllerNameEducationalStage.clear();
+              }
             },
             controllerDescraptinEducationalStage:
                 controllerDescraptinEducationalStage,
             controllerNameEducationalStage: controllerNameEducationalStage));
   }
 
-  void addToNewEducation() async {
+  Future<bool> addToNewEducation() async {
     EducationStageOperation educationStageOperation = EducationStageOperation();
-    print(pathImage);
     bool inserted = await educationStageOperation.insertEducationDetails(
       ItemStageModel(
         id: 0,
@@ -90,6 +110,6 @@ class EducationStageController {
         image: pathImage == null ? "" : pathImage!,
       ),
     );
-    print(inserted);
+    return inserted;
   }
 }

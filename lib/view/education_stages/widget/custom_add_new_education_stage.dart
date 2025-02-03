@@ -15,7 +15,8 @@ class CustomAddNewEducationStage extends StatelessWidget {
     required this.onPressedAdd,
     required this.controllerNameEducationalStage,
     required this.controllerDescraptinEducationalStage,
-    required this.onPressedDeleteImage, required this.outPutPathImage,
+    required this.onPressedDeleteImage,
+    required this.outPutPathImage,
   });
   final VoidCallback onPressedAdd;
   final VoidCallback onPressedDeleteImage;
@@ -73,41 +74,45 @@ class CustomAddNewEducationStage extends StatelessWidget {
               SizedBox(
                 height: 24.h,
               ),
-              StreamBuilder(stream: outPutPathImage, builder: (context, snapshot) {
-                return snapshot.connectionState == ConnectionState.waiting
-                    ? const Center( child:  CircularProgressIndicator())
-                    : snapshot.data != null ? Column(
-                      children: [
-                            Stack(children: [
-                  Image.file(
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Text(
-                        "not found",
-                        style: TextStyle(color: Colors.red),
-                      );
-                    },
-                    File(snapshot.data!),
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                  IconButton(
-                    onPressed: onPressedDeleteImage,
-                    icon: Icon(
-                      Icons.delete,
-                    ),
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  ),
-                ]),
-           
-                SizedBox(
-                  height: 24.h,
-                ),
-
-                      ],
-                    ) : SizedBox();
-              }),
-       
+              StreamBuilder(
+                  stream: outPutPathImage,
+                  builder: (context, snapshot) {
+                    return snapshot.connectionState == ConnectionState.waiting
+                        ? const SizedBox(
+                            height: 24,
+                          )
+                        : snapshot.data != null
+                            ? Column(
+                                children: [
+                                  Stack(children: [
+                                    Image.file(
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return const Text(
+                                          "not found",
+                                          style: TextStyle(color: Colors.red),
+                                        );
+                                      },
+                                      File(snapshot.data!),
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    IconButton(
+                                      onPressed: onPressedDeleteImage,
+                                      icon: Icon(
+                                        Icons.delete,
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.red),
+                                    ),
+                                  ]),
+                                  SizedBox(
+                                    height: 24.h,
+                                  ),
+                                ],
+                              )
+                            : SizedBox();
+                  }),
               CustomMaterialButton(
                 onPressed: onPressedAdd,
                 text: ConstValue.kAdd,
