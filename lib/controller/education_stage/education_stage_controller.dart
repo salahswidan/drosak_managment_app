@@ -6,11 +6,13 @@ import 'package:drosak_managment_app/core/resources/colors_manager.dart';
 import 'package:drosak_managment_app/core/resources/const_value.dart';
 import 'package:drosak_managment_app/core/resources/font_manager.dart';
 import 'package:drosak_managment_app/model/education_stage/item_stage_model.dart';
+import 'package:drosak_managment_app/view/education_stages/widget/custom_list_view_items_stage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../view/education_stages/widget/custom_add_new_education_stage.dart';
+import '../../view/education_stages/widget/search/custom_search_delgate_education_stage_screen.dart';
 
 class EducationStageController {
   List<ItemStageModel> listItemStageModel = [];
@@ -191,51 +193,7 @@ class EducationStageController {
   }
 
   void showCustomSearch(BuildContext context) {
-    showSearch(context: context, delegate: CustomSearchDelegate());
-  }
-}
-
-class CustomSearchDelegate extends SearchDelegate<String> {
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: Icon(Icons.close),
-        onPressed: () {
-          query = "";
-        },
-      )
-    ];
-  }
-
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return IconButton(
-        onPressed: () {
-          close(context, "");
-        },
-        icon: Icon(Icons.arrow_back));
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    EducationStageOperation educationStageOperation = EducationStageOperation();
-    educationStageOperation.getSearchWord(searchWord: query);
-    return Center(
-      child: Text(
-        "buildResults",
-        style: TextStyle(color: Colors.white),
-      ),
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    return Center(
-      child: Text(
-        "buildSuggestions",
-        style: TextStyle(color: Colors.white),
-      ),
-    );
+    showSearch(
+        context: context, delegate: CustomSearchDelegatedEducationStage());
   }
 }
