@@ -14,6 +14,7 @@ class EducationStageOperation extends MySqlFliteDatabase {
         await select(tableName: MySqlFliteDatabase.educationalStageTableName);
    
     listItemStageModel+= data.map((item) => ItemStageModel.fromJson(item)).toList();
+    print(listItemStageModel);
     return listItemStageModel;
   }
 }

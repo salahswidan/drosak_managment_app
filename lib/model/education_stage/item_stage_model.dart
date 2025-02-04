@@ -5,13 +5,14 @@ class ItemStageModel {
   final String image;
   final String stageName;
   final String desc;
+   String? createdAt;
 
   @override
   String toString() {
-    return 'itemStageModel{id: $id, image: $image, stageName: $stageName, desc: $desc}';
+    return 'itemStageModel{id: $id, image: $image, stageName: $stageName, desc: $desc , createdAt: $createdAt}';
   }
 
- Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson() {
     return {
       MySqlFliteDatabase.educationalStageName: stageName,
       MySqlFliteDatabase.educationalStageDesc: desc,
@@ -24,12 +25,14 @@ class ItemStageModel {
     required this.image,
     required this.stageName,
     required this.desc,
+     this.createdAt,
   });
   factory ItemStageModel.fromJson(Map json) {
     return ItemStageModel(
       id: int.parse(json['id'].toString()),
       stageName: json['name'].toString(),
       desc: json['desc'].toString(),
+      createdAt: json['created_at'].toString(),
       image: json['image'].toString(),
     );
   }

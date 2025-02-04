@@ -4,20 +4,19 @@ import 'package:sqflite/sqflite.dart' as sqfliteDataBase;
 import 'package:path/path.dart';
 
 class MySqlFliteDatabase extends Crud {
-
   sqfliteDataBase.Database? _db;
-      static const String educationalStageTableName = 'educationalStageTableName';
-      static const String educationalStageID = 'id';
-      static const String educationalStageName = 'name';
-      static const String educationalStageDesc = 'desc';
-      static const String educationalStageImage = 'image';
+  static const String educationalStageTableName = 'educationalStageTableName';
+  static const String educationalStageID = 'id';
+  static const String educationalStageName = 'name';
+  static const String educationalStageDesc = 'desc';
+  static const String educationalStageImage = 'image';
+  static const String educationalStageCreatedAt = 'created_at';
 
-
-    Future< sqfliteDataBase.Database> _initDatabase() async {
+  Future<sqfliteDataBase.Database> _initDatabase() async {
     String databasesPath = await sqfliteDataBase.getDatabasesPath();
     String drosakDatabaseName = "drosak.db";
     String realDatabasePath = join(databasesPath, drosakDatabaseName);
-    int versionDataBase = 1;
+    int versionDataBase = 3;
     _db ??= await sqfliteDataBase.openDatabase(realDatabasePath,
         onOpen: (db) async {
       await db.execute("PRAGMA foreign_keys = ON");
@@ -27,24 +26,28 @@ class MySqlFliteDatabase extends Crud {
 
   _onUpgrade(
       sqfliteDataBase.Database db, int oldVersion, int newVersion) async {
+    await db.execute("DROP TABLE IF EXISTS $educationalStageTableName");
+          await db.execute("CREATE TABLE IF NOT EXISTS $educationalStageTableName"
+        " ( $educationalStageID INTEGER PRIMARY KEY AUTOINCREMENT ,"
+        "  $educationalStageName TEXT , "
+        "  $educationalStageDesc TEXT , "
+        "  $educationalStageCreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP , "
+        "  $educationalStageImage  TEXT )");
     print(db);
     print(oldVersion);
     print(newVersion);
-    // await db.execute(
-    //   'CREATE TABLE IF NOT EXISTS testTable (id INTEGER) ;',
-    // );
-    // await db.execute("ALTER TABLE testTable RENAME TO TTT");
+    
   }
 
   _onCreate(sqfliteDataBase.Database db, int version) async {
-      await db.execute("CREATE TABLE IF NOT EXISTS $educationalStageTableName"
+    await db.execute("CREATE TABLE IF NOT EXISTS $educationalStageTableName"
         " ( $educationalStageID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $educationalStageName TEXT , "
-        "  $educationalStageDesc TEXT , "      
+        "  $educationalStageDesc TEXT , "
+        "  $educationalStageCreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP , "
         "  $educationalStageImage  TEXT )");
   }
 
- 
   @override
   Future<bool> insert(
       {required String tableName, required Map<String, Object?> values}) async {
@@ -53,6 +56,7 @@ class MySqlFliteDatabase extends Crud {
     await _db!.close();
     return inserted > 0 ? true : false;
   }
+
   @override
   Future<bool> delete(
       {required String tableName, required String where}) async {
@@ -61,6 +65,7 @@ class MySqlFliteDatabase extends Crud {
     await _db!.close();
     return deleted > 0 ? true : false;
   }
+
   @override
   Future<List<Map<String, Object?>>> select({required String tableName}) async {
     await _initDatabase();
@@ -68,6 +73,7 @@ class MySqlFliteDatabase extends Crud {
     await _db!.close();
     return data;
   }
+
   @override
   Future<bool> update(
       {required String tableName,
