@@ -19,6 +19,7 @@ class EducationStageController {
   late StreamController<String?> controllerPathImage;
   late Sink<String?> inputPathImage;
   late Stream<String?> outPutPathImage;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   EducationStageController() {
     init();
   }
@@ -72,6 +73,7 @@ class EducationStageController {
         isScrollControlled: true,
         context: context,
         builder: (context) => CustomAddNewEducationStage(
+            formKey: formKey,
             outPutPathImage: outPutPathImage,
             onPressedDeleteImage: () {
               pathImage = null;
@@ -81,18 +83,20 @@ class EducationStageController {
               pickImageFromGallary();
             },
             onPressedAdd: () async {
-              bool inserted = await addToNewEducation();
-              if (inserted == true) {
-                Navigator.pop(context);
-                pathImage = null;
-                listItemStageModel.add(ItemStageModel(
-                    id: listItemStageModel.length + 1,
-                    image: pathImage == null ? "" : pathImage!,
-                    stageName: controllerNameEducationalStage.text,
-                    desc: controllerDescraptinEducationalStage.text));
-                inputDataListItemsStageModel.add(listItemStageModel);
-                controllerDescraptinEducationalStage.clear();
-                controllerNameEducationalStage.clear();
+              if (formKey.currentState!.validate() == true) {
+                bool inserted = await addToNewEducation();
+                if (inserted == true) {
+                  Navigator.pop(context);
+                  listItemStageModel.add(ItemStageModel(
+                      id: listItemStageModel.length + 1,
+                      image: pathImage == null ? "" : pathImage!,
+                      stageName: controllerNameEducationalStage.text,
+                      desc: controllerDescraptinEducationalStage.text));
+                  inputDataListItemsStageModel.add(listItemStageModel);
+                  controllerDescraptinEducationalStage.clear();
+                  controllerNameEducationalStage.clear();
+                  pathImage = null;
+                }
               }
             },
             controllerDescraptinEducationalStage:

@@ -12,6 +12,7 @@ class CustomAddNewEducationStage extends StatelessWidget {
   const CustomAddNewEducationStage({
     super.key,
     required this.onPressedPickImage,
+    required this.formKey,
     required this.onPressedAdd,
     required this.controllerNameEducationalStage,
     required this.controllerDescraptinEducationalStage,
@@ -24,6 +25,7 @@ class CustomAddNewEducationStage extends StatelessWidget {
   final TextEditingController controllerNameEducationalStage;
   final TextEditingController controllerDescraptinEducationalStage;
   final Stream<String?> outPutPathImage;
+  final GlobalKey<FormState> formKey;
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +49,18 @@ class CustomAddNewEducationStage extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: CustomTextFormField(
-                      hintText: ConstValue.kNameEducationalStages,
-                      controller: controllerNameEducationalStage,
+                    child: Form(
+                      key: formKey,
+                      child: CustomTextFormField(
+                        validator: (value){
+                          if(value == null || value == ''){
+                            return ConstValue.kCantEmpty;
+                          }else 
+                          return null;
+                        },
+                        hintText: ConstValue.kNameEducationalStages,
+                        controller: controllerNameEducationalStage,
+                      ),
                     ),
                   ),
                   SizedBox(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../resources/colors_manager.dart';
 import '../../resources/font_manager.dart';
 
@@ -8,6 +7,7 @@ class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField(
       {super.key,
       this.hintText,
+      this.validator,
       required this.controller,
       this.onSubmitted,
       this.maxLines = 1});
@@ -15,11 +15,13 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final ValueChanged<String>? onSubmitted;
   final int? maxLines;
+  final FormFieldValidator<String>? validator;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
         textAlign: TextAlign.right,
         controller: controller,
+        validator: validator,
         onFieldSubmitted: onSubmitted,
         maxLines: maxLines,
         decoration: InputDecoration(
