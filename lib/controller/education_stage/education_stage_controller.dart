@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:drosak_managment_app/core/database/sqlflite/education_stage_operation.dart';
 import 'package:drosak_managment_app/core/resources/colors_manager.dart';
@@ -8,6 +9,7 @@ import 'package:drosak_managment_app/model/education_stage/item_stage_model.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../view/education_stages/widget/custom_add_new_education_stage.dart';
 
 class EducationStageController {
@@ -62,8 +64,19 @@ class EducationStageController {
   void pickImage(ImageSource imageSource) async {
     final ImagePicker picker = ImagePicker();
     var image = await picker.pickImage(source: imageSource);
-    if (image != null) pathImage = image.path;
+    if (image != null) {
+      pathImage = image.path;
+      saveImagesOfMyApp(image);
+    }
     inputPathImage.add(pathImage);
+  }
+
+  void saveImagesOfMyApp(XFile image) async {
+    Directory directory = await getApplicationDocumentsDirectory();
+    var directoryPath = directory.path;
+    var finalPath = "$directoryPath/${image.name}";
+    File fileImage = await File(image.path).copy(finalPath);
+    pathImage = fileImage.path;
   }
 
   void openBottomSheet({required BuildContext context}) {
