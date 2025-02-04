@@ -189,4 +189,53 @@ class EducationStageController {
               ),
             ));
   }
+
+  void showCustomSearch(BuildContext context) {
+    showSearch(context: context, delegate: CustomSearchDelegate());
+  }
+}
+
+class CustomSearchDelegate extends SearchDelegate<String> {
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.close),
+        onPressed: () {
+          query = "";
+        },
+      )
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          close(context, "");
+        },
+        icon: Icon(Icons.arrow_back));
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    EducationStageOperation educationStageOperation = EducationStageOperation();
+    educationStageOperation.getSearchWord(searchWord: query);
+    return Center(
+      child: Text(
+        "buildResults",
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return Center(
+      child: Text(
+        "buildSuggestions",
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
 }

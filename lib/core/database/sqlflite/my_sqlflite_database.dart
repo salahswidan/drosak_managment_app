@@ -73,6 +73,14 @@ class MySqlFliteDatabase extends Crud {
     await _db!.close();
     return data;
   }
+  @override
+  Future<List<Map<String, Object?>>> search({required String tableName,required String searchWord}) async {
+    await _initDatabase();
+    List<Map<String, Object?>> data = await _db!.query(tableName,where: '$educationalStageName LIKE ?',
+    whereArgs: ['%$searchWord%']);
+    await _db!.close();
+    return data;
+  }
 
   @override
   Future<bool> update(

@@ -25,6 +25,7 @@ class _EducationStagesScreenState extends State<EducationStagesScreen> {
     _controller.disposeControllers();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -37,10 +38,11 @@ class _EducationStagesScreenState extends State<EducationStagesScreen> {
                 context: context,
               );
             }, onPressedSearch: () {
-          //    setState(() {});
+              _controller.showCustomSearch(context);
             }),
             CustomListViewItemsStage(
-              outPutDataListItemsStageModel: _controller.outPutDataListItemsStageModel,
+              outPutDataListItemsStageModel:
+                  _controller.outPutDataListItemsStageModel,
             ),
           ],
         ),

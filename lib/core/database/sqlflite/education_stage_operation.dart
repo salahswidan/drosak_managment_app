@@ -5,15 +5,29 @@ class EducationStageOperation extends MySqlFliteDatabase {
   Future<bool> insertEducationDetails(ItemStageModel itemStageModel) {
     return insert(
         tableName: MySqlFliteDatabase.educationalStageTableName,
-        values: itemStageModel.toJson()); 
+        values: itemStageModel.toJson());
   }
 
   Future<List<ItemStageModel>> getAllEducationData() async {
     List<ItemStageModel> listItemStageModel = [];
     List<Map<String, Object?>> data =
         await select(tableName: MySqlFliteDatabase.educationalStageTableName);
-   
-    listItemStageModel+= data.map((item) => ItemStageModel.fromJson(item)).toList();
+
+    listItemStageModel +=
+        data.map((item) => ItemStageModel.fromJson(item)).toList();
+    print(listItemStageModel);
+    return listItemStageModel;
+  }
+
+  Future<List<ItemStageModel>> getSearchWord(
+      {required String searchWord}) async {
+    List<ItemStageModel> listItemStageModel = [];
+    List<Map<String, Object?>> data = await search(
+        tableName: MySqlFliteDatabase.educationalStageTableName,
+        searchWord: searchWord);
+
+    listItemStageModel +=
+        data.map((item) => ItemStageModel.fromJson(item)).toList();
     print(listItemStageModel);
     return listItemStageModel;
   }
