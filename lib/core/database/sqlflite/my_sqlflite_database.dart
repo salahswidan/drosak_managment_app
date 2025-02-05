@@ -1,5 +1,4 @@
 import 'package:drosak_managment_app/core/database/sqlflite/crud.dart';
-import 'package:drosak_managment_app/model/education_stage/item_stage_model.dart';
 import 'package:sqflite/sqflite.dart' as sqfliteDataBase;
 import 'package:path/path.dart';
 
@@ -11,12 +10,13 @@ class MySqlFliteDatabase extends Crud {
   static const String educationalStageDesc = 'desc';
   static const String educationalStageImage = 'image';
   static const String educationalStageCreatedAt = 'created_at';
+  static const String educationalStageStatus = 'status';
 
   Future<sqfliteDataBase.Database> _initDatabase() async {
     String databasesPath = await sqfliteDataBase.getDatabasesPath();
     String drosakDatabaseName = "drosak.db";
     String realDatabasePath = join(databasesPath, drosakDatabaseName);
-    int versionDataBase = 3;
+    int versionDataBase = 6;
     _db ??= await sqfliteDataBase.openDatabase(realDatabasePath,
         onOpen: (db) async {
       await db.execute("PRAGMA foreign_keys = ON");
@@ -27,16 +27,16 @@ class MySqlFliteDatabase extends Crud {
   _onUpgrade(
       sqfliteDataBase.Database db, int oldVersion, int newVersion) async {
     await db.execute("DROP TABLE IF EXISTS $educationalStageTableName");
-          await db.execute("CREATE TABLE IF NOT EXISTS $educationalStageTableName"
+    await db.execute("CREATE TABLE IF NOT EXISTS $educationalStageTableName"
         " ( $educationalStageID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $educationalStageName TEXT , "
         "  $educationalStageDesc TEXT , "
+        "  $educationalStageStatus INTEGER DEFAULT 1  , "
         "  $educationalStageCreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP , "
         "  $educationalStageImage  TEXT )");
     print(db);
     print(oldVersion);
     print(newVersion);
-    
   }
 
   _onCreate(sqfliteDataBase.Database db, int version) async {
@@ -44,6 +44,7 @@ class MySqlFliteDatabase extends Crud {
         " ( $educationalStageID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $educationalStageName TEXT , "
         "  $educationalStageDesc TEXT , "
+        "  $educationalStageStatus INTEGER DEFAULT 1 , "
         "  $educationalStageCreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP , "
         "  $educationalStageImage  TEXT )");
   }
@@ -73,11 +74,13 @@ class MySqlFliteDatabase extends Crud {
     await _db!.close();
     return data;
   }
+
   @override
-  Future<List<Map<String, Object?>>> search({required String tableName,required String searchWord}) async {
+  Future<List<Map<String, Object?>>> search(
+      {required String tableName, required String searchWord}) async {
     await _initDatabase();
-    List<Map<String, Object?>> data = await _db!.query(tableName,where: '$educationalStageName LIKE ?',
-    whereArgs: ['%$searchWord%']);
+    List<Map<String, Object?>> data = await _db!.query(tableName,
+        where: '$educationalStageName LIKE ?', whereArgs: ['%$searchWord%']);
     await _db!.close();
     return data;
   }

@@ -43,6 +43,8 @@ class _EducationStagesScreenState extends State<EducationStagesScreen> {
             CustomListViewItemsStage(
               outPutDataListItemsStageModel:
                   _controller.outPutDataListItemsStageModel,
+                   deleteFun: _controller.deleteItemStage,
+                    editFun: _controller.editItemStage, 
             ),
           ],
         ),

@@ -4,6 +4,7 @@ import 'package:drosak_managment_app/view/education_stages/widget/search/custom_
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/database/sqlflite/education_stage_operation.dart';
+import '../../../../model/education_stage/item_stage_model.dart';
 import '../custom_list_view_items_stage.dart';
 
 class CustomSearchDelegatedEducationStage extends SearchDelegate<String> {
@@ -52,11 +53,13 @@ class CustomSearchDelegatedEducationStage extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     EducationStageOperation educationStageOperation = EducationStageOperation();
-    return query == ''
+    return  query == ''
         ? SizedBox()
         : CustomListSearchEducationStageScreen(
+       
+
             getSearchItemsStage:
-                educationStageOperation.getSearchWord(searchWord: query));
+                educationStageOperation.getSearchWord(searchWord: query), deleteFun: (ItemStageModel itemStageModel) {  }, editFun: (ItemStageModel itemStageModel) {  },);
   }
 
   @override

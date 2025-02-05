@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:drosak_managment_app/core/database/sqlflite/education_stage_operation.dart';
 import 'package:drosak_managment_app/core/resources/colors_manager.dart';
 import 'package:drosak_managment_app/core/resources/const_value.dart';
 import 'package:drosak_managment_app/core/resources/font_manager.dart';
 import 'package:drosak_managment_app/model/education_stage/item_stage_model.dart';
-import 'package:drosak_managment_app/view/education_stages/widget/custom_list_view_items_stage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -62,6 +60,14 @@ class EducationStageController {
     listItemStageModel = await educationStageOperation.getAllEducationData();
     inputDataListItemsStageModel.add(listItemStageModel);
   }
+
+  void deleteItemStage(ItemStageModel itemStageModel) async {
+    EducationStageOperation educationStageOperation = EducationStageOperation();
+    bool update = await educationStageOperation.softDelete(itemStageModel);
+    print(update);
+  }
+
+  void editItemStage(ItemStageModel itemStageModel) async {}
 
   void pickImage(ImageSource imageSource) async {
     final ImagePicker picker = ImagePicker();

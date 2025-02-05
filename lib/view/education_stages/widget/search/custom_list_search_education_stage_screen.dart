@@ -6,8 +6,10 @@ import '../custom_item_stage.dart';
 
 class CustomListSearchEducationStageScreen extends StatelessWidget {
   const CustomListSearchEducationStageScreen(
-      {super.key, required this.getSearchItemsStage});
+      {super.key, required this.getSearchItemsStage, required this.deleteFun, required this.editFun});
   final Future<List<ItemStageModel>> getSearchItemsStage;
+  final void Function(ItemStageModel itemStageModel) deleteFun;
+  final void Function(ItemStageModel itemStageModel) editFun;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,8 @@ class CustomListSearchEducationStageScreen extends StatelessWidget {
                                 height: 24.h,
                               )
                             : CustomItemStage(
+                              editFun: editFun,
+                              deleteFun:deleteFun ,
                                 itemStageModel: snapshot.data![index],
                               ),
                     separatorBuilder: (context, index) => SizedBox(
