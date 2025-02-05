@@ -11,7 +11,9 @@ import '../../../core/resources/assets_values_manager.dart';
 class CustomItemStage extends StatelessWidget {
   const CustomItemStage({
     super.key,
-    required this.itemStageModel, required this.deleteFun, required this.editFun,
+    required this.itemStageModel,
+    required this.deleteFun,
+    required this.editFun,
   });
   final ItemStageModel itemStageModel;
   final void Function(ItemStageModel itemStageModel) deleteFun;
@@ -19,13 +21,39 @@ class CustomItemStage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      onDismissed: (direction) {
+      confirmDismiss: (direction) async {
         if (direction == DismissDirection.startToEnd) {
-          deleteFun(itemStageModel);
-        } else if(direction == DismissDirection.endToStart){
+          //     deleteFun(itemStageModel);
+
+          bool? confirmDelete = await showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text(ConstValue.kAreYouSureToDeleteItem),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    child: Text(ConstValue.kSure)),
+                TextButton(
+                    onPressed: () {
+                      deleteFun(itemStageModel);
+                      Navigator.of(context).pop(false);
+                    },
+                    child: Text(ConstValue.kNo)),
+              ],
+            ),
+          );
+          return confirmDelete;
+        } else if (direction == DismissDirection.endToStart) {
           editFun(itemStageModel);
+          return false;
         }
+        return false;
       },
+      // onDismissed: (direction) {
+
+      // },
       background: Container(
         color: Colors.red,
         alignment: Alignment.centerRight,
@@ -57,7 +85,6 @@ class CustomItemStage extends StatelessWidget {
           Positioned(
               right: 2.h,
               top: -20.h,
-              // left: -10.h,
               child: CircleAvatar(
                 child: Text(
                   itemStageModel.id.toString(),
