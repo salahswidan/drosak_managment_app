@@ -18,6 +18,7 @@ class CustomAddNewEducationStage extends StatelessWidget {
     required this.controllerDescraptinEducationalStage,
     required this.onPressedDeleteImage,
     required this.outPutPathImage,
+    this.edit = false,
   });
   final VoidCallback onPressedAdd;
   final VoidCallback onPressedDeleteImage;
@@ -26,6 +27,7 @@ class CustomAddNewEducationStage extends StatelessWidget {
   final TextEditingController controllerDescraptinEducationalStage;
   final Stream<String?> outPutPathImage;
   final GlobalKey<FormState> formKey;
+  final bool edit;
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +54,11 @@ class CustomAddNewEducationStage extends StatelessWidget {
                     child: Form(
                       key: formKey,
                       child: CustomTextFormField(
-                        validator: (value){
-                          if(value == null || value == ''){
+                        validator: (value) {
+                          if (value == null || value == '') {
                             return ConstValue.kCantEmpty;
-                          }else 
-                          return null;
+                          } else
+                            return null;
                         },
                         hintText: ConstValue.kNameEducationalStages,
                         controller: controllerNameEducationalStage,
@@ -126,7 +128,7 @@ class CustomAddNewEducationStage extends StatelessWidget {
                   }),
               CustomMaterialButton(
                 onPressed: onPressedAdd,
-                text: ConstValue.kAdd,
+                text: edit == true ? ConstValue.kEdit : ConstValue.kAdd,
               )
             ]),
           ),

@@ -89,9 +89,10 @@ class MySqlFliteDatabase extends Crud {
   Future<bool> update(
       {required String tableName,
       required Map<String, Object?> values,
+      List<Object?>? whereArgs,
       required String where}) async {
     await _initDatabase();
-    int updated = await _db!.update(tableName, values, where: where);
+    int updated = await _db!.update(tableName, values, where: where,whereArgs: whereArgs);
     await _db!.close();
     return updated > 0 ? true : false;
   }

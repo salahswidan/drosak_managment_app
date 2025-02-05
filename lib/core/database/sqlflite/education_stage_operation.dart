@@ -28,6 +28,17 @@ class EducationStageOperation extends MySqlFliteDatabase {
             '${MySqlFliteDatabase.educationalStageID}==${itemStageModel.id}');
   }
 
+  Future<bool> editEducationStage(ItemStageModel itemStageModel) async {
+    return await update(
+        tableName: MySqlFliteDatabase.educationalStageTableName,
+        values: {
+          MySqlFliteDatabase.educationalStageName: itemStageModel.stageName,
+          
+        },
+        where:
+            '${MySqlFliteDatabase.educationalStageID}=?',whereArgs: ['${itemStageModel.id}']);
+  }
+
   Future<List<ItemStageModel>> getSearchWord(
       {required String searchWord}) async {
     List<ItemStageModel> listItemStageModel = [];
