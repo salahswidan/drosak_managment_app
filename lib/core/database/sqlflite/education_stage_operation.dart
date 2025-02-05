@@ -10,8 +10,10 @@ class EducationStageOperation extends MySqlFliteDatabase {
 
   Future<List<ItemStageModel>> getAllEducationData() async {
     List<ItemStageModel> listItemStageModel = [];
-    List<Map<String, Object?>> data =
-        await select(tableName: MySqlFliteDatabase.educationalStageTableName);
+    List<Map<String, Object?>> data = await select(
+        tableName: MySqlFliteDatabase.educationalStageTableName,
+        where: '${MySqlFliteDatabase.educationalStageStatus}== ?',
+        whereArgs: ['1']);
     listItemStageModel +=
         data.map((item) => ItemStageModel.fromJson(item)).toList();
     print(listItemStageModel);
@@ -19,11 +21,11 @@ class EducationStageOperation extends MySqlFliteDatabase {
   }
 
   Future<bool> softDelete(ItemStageModel itemStageModel) async {
-   return await update(
+    return await update(
         tableName: MySqlFliteDatabase.educationalStageTableName,
         values: {MySqlFliteDatabase.educationalStageStatus: 0},
-        where: '${MySqlFliteDatabase.educationalStageStatus}==${itemStageModel.id}');
- 
+        where:
+            '${MySqlFliteDatabase.educationalStageID}==${itemStageModel.id}');
   }
 
   Future<List<ItemStageModel>> getSearchWord(

@@ -64,7 +64,8 @@ class EducationStageController {
   void deleteItemStage(ItemStageModel itemStageModel) async {
     EducationStageOperation educationStageOperation = EducationStageOperation();
     bool update = await educationStageOperation.softDelete(itemStageModel);
-    print(update);
+    listItemStageModel
+        .removeWhere((element) => element.id == itemStageModel.id);
   }
 
   void editItemStage(ItemStageModel itemStageModel) async {}

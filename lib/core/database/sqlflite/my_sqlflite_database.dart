@@ -16,7 +16,7 @@ class MySqlFliteDatabase extends Crud {
     String databasesPath = await sqfliteDataBase.getDatabasesPath();
     String drosakDatabaseName = "drosak.db";
     String realDatabasePath = join(databasesPath, drosakDatabaseName);
-    int versionDataBase = 6;
+    int versionDataBase = 7;
     _db ??= await sqfliteDataBase.openDatabase(realDatabasePath,
         onOpen: (db) async {
       await db.execute("PRAGMA foreign_keys = ON");
@@ -68,9 +68,9 @@ class MySqlFliteDatabase extends Crud {
   }
 
   @override
-  Future<List<Map<String, Object?>>> select({required String tableName}) async {
+  Future<List<Map<String, Object?>>> select({required String tableName,String? where,List<Object?>? whereArgs}) async {
     await _initDatabase();
-    List<Map<String, Object?>> data = await _db!.query(tableName);
+    List<Map<String, Object?>> data = await _db!.query(tableName,where:where ,whereArgs: whereArgs);
     await _db!.close();
     return data;
   }
