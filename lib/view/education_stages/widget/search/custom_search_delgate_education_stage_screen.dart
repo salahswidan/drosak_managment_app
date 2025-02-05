@@ -1,14 +1,35 @@
+import 'package:drosak_managment_app/core/resources/colors_manager.dart';
+import 'package:drosak_managment_app/core/resources/const_value.dart';
 import 'package:drosak_managment_app/view/education_stages/widget/search/custom_list_search_education_stage_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/database/sqlflite/education_stage_operation.dart';
 import '../custom_list_view_items_stage.dart';
 
 class CustomSearchDelegatedEducationStage extends SearchDelegate<String> {
   @override
+  ThemeData appBarTheme(BuildContext context) {
+    // TODO: implement appBarTheme
+    return super.appBarTheme(context).copyWith(
+        textTheme: super.appBarTheme(context).textTheme!.copyWith(
+              titleLarge: TextStyle(
+                color: Colors.white,
+                fontSize: 20.sp,
+              ),
+            ),
+        appBarTheme: AppBarTheme(color: ColorsManager.kPrimaryColor),
+        inputDecorationTheme:
+            InputDecorationTheme(hintStyle: TextStyle(color: Colors.white)));
+  }
+
+  @override
   List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.close),
+        icon: Icon(
+          Icons.close,
+          color: Colors.white,
+        ),
         onPressed: () {
           query = "";
         },
@@ -22,7 +43,10 @@ class CustomSearchDelegatedEducationStage extends SearchDelegate<String> {
         onPressed: () {
           close(context, "");
         },
-        icon: Icon(Icons.arrow_back));
+        icon: Icon(
+          Icons.arrow_back,
+          color: Colors.white,
+        ));
   }
 
   @override
@@ -39,7 +63,7 @@ class CustomSearchDelegatedEducationStage extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     return Center(
       child: Text(
-        "buildSuggestions",
+        ConstValue.kContentSearch,
         style: TextStyle(color: Colors.white),
       ),
     );
