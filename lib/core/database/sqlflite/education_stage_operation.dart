@@ -16,7 +16,7 @@ class EducationStageOperation extends MySqlFliteDatabase {
         whereArgs: ['1']);
     listItemStageModel +=
         data.map((item) => ItemStageModel.fromJson(item)).toList();
-    print(listItemStageModel);
+    // print(listItemStageModel);
     return listItemStageModel;
   }
 
@@ -47,7 +47,7 @@ class EducationStageOperation extends MySqlFliteDatabase {
 
     listItemStageModel +=
         data.map((item) => ItemStageModel.fromJson(item)).toList();
-    print(listItemStageModel);
+    //   print(listItemStageModel);
     return listItemStageModel;
   }
 }

@@ -32,7 +32,8 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     _controller.getArguments(context);
     return Scaffold(
-      body: StreamBuilder<int>(stream: _controller.outDataBody, builder: (context, snapshot) => _controller.listBottomNavBarTabModel[snapshot.data == null ? 0 :snapshot.data!].screen),
+      body: StreamBuilder<int>(stream: _controller.outDataBody,
+       builder: (context, snapshot) =>snapshot.connectionState == ConnectionState.waiting? Center(child: CircularProgressIndicator(),): _controller.listBottomNavBarTabModel[snapshot.data!].screen),
       backgroundColor: Colors.red,
       bottomNavigationBar: CustomBottonNavBarMainScreen(
         outPutBottonNavBar: _controller.outPutBottonNavBar,
