@@ -91,10 +91,10 @@ class CustomAddNewEducationStage extends StatelessWidget {
                   stream: outPutPathImage,
                   builder: (context, snapshot) {
                     return snapshot.connectionState == ConnectionState.waiting
-                        ? const SizedBox(
-                            height: 24,
+                        ? const Center(
+                            child: CircularProgressIndicator(),
                           )
-                        : snapshot.data != null
+                        : snapshot.data != null && snapshot.data!.trim != ''
                             ? Column(
                                 children: [
                                   Stack(children: [

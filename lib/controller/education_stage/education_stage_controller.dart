@@ -73,51 +73,55 @@ class EducationStageController {
     controllerNameEducationalStage.text = itemStageModel.stageName;
     controllerDescraptinEducationalStage.text = itemStageModel.desc;
     pathImage = itemStageModel.image;
-    inputPathImage.add(pathImage);
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
-        builder: (context) => CustomAddNewEducationStage(
-            edit: true,
-            formKey: formKey,
-            outPutPathImage: outPutPathImage,
-            onPressedDeleteImage: () {
-              pathImage = null;
-              inputPathImage.add(pathImage);
-            },
-            onPressedPickImage: () {
-              showCustomDialogChooseImage(context);
-            },
-            onPressedAdd: () async {
-              if (formKey.currentState!.validate() == true) {
-                ItemStageModel newItem = ItemStageModel(
-                  id: itemStageModel.id,
-                  image: pathImage == null ? "" : pathImage!,
-                  stageName: controllerNameEducationalStage.text,
-                  desc: controllerDescraptinEducationalStage.text,
-                );
-                bool edit = await editEducation(newItem);
-                print(edit);
-                if (edit == true) {
-                  Navigator.pop(context);
-                  int indexEditModel =
-                      listItemStageModel.indexOf(itemStageModel);
-                  listItemStageModel[indexEditModel] = newItem;
-                  // listItemStageModel.add(ItemStageModel(
-                  //     id: listItemStageModel.length + 1,
-                  //     image: pathImage == null ? "" : pathImage!,
-                  //     stageName: controllerNameEducationalStage.text,
-                  //     desc: controllerDescraptinEducationalStage.text));
-                  inputDataListItemsStageModel.add(listItemStageModel);
-                  controllerDescraptinEducationalStage.clear();
-                  controllerNameEducationalStage.clear();
-                  pathImage = null;
+        builder: (context) {
+          inputPathImage.add(pathImage);
+
+          return CustomAddNewEducationStage(
+              edit: true,
+              formKey: formKey,
+              outPutPathImage: outPutPathImage,
+              onPressedDeleteImage: () {
+                pathImage = null;
+                inputPathImage.add(pathImage);
+              },
+              onPressedPickImage: () {
+                showCustomDialogChooseImage(context);
+              },
+              onPressedAdd: () async {
+                if (formKey.currentState!.validate() == true) {
+                  ItemStageModel newItem = ItemStageModel(
+                    id: itemStageModel.id,
+                    image: pathImage == null ? "" : pathImage!,
+                    stageName: controllerNameEducationalStage.text,
+                    desc: controllerDescraptinEducationalStage.text,
+                  );
+                  bool edit = await editEducation(newItem);
+                  print(edit);
+                  if (edit == true) {
+                    Navigator.pop(context);
+                    int indexEditModel =
+                        listItemStageModel.indexOf(itemStageModel);
+
+                    if (indexEditModel >= 0) {
+                      listItemStageModel[indexEditModel] = newItem;
+                    } else {
+                      Navigator.pop(context);
+                    }
+
+                    inputDataListItemsStageModel.add(listItemStageModel);
+                    controllerDescraptinEducationalStage.clear();
+                    controllerNameEducationalStage.clear();
+                    pathImage = null;
+                  }
                 }
-              }
-            },
-            controllerDescraptinEducationalStage:
-                controllerDescraptinEducationalStage,
-            controllerNameEducationalStage: controllerNameEducationalStage));
+              },
+              controllerDescraptinEducationalStage:
+                  controllerDescraptinEducationalStage,
+              controllerNameEducationalStage: controllerNameEducationalStage);
+        });
   }
 
   void pickImage(ImageSource imageSource) async {
@@ -263,6 +267,12 @@ class EducationStageController {
 
   void showCustomSearch(BuildContext context) {
     showSearch(
-        context: context, delegate: CustomSearchDelegatedEducationStage());
+        context: context,
+        delegate: CustomSearchDelegatedEducationStage(
+          editFun: (itemStageModel) {
+            editItemStage(itemStageModel, context);
+          },
+          deleteFun: deleteItemStage,
+        )).then((value) => getAllItemList());
   }
 }

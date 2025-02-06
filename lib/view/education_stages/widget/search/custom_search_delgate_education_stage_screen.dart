@@ -5,9 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/database/sqlflite/education_stage_operation.dart';
 import '../../../../model/education_stage/item_stage_model.dart';
-import '../custom_list_view_items_stage.dart';
 
 class CustomSearchDelegatedEducationStage extends SearchDelegate<String> {
+  CustomSearchDelegatedEducationStage(
+      {required this.deleteFun, required this.editFun});
+  final void Function(ItemStageModel itemStageModel) deleteFun;
+  final void Function(ItemStageModel itemStageModel) editFun;
+
   @override
   ThemeData appBarTheme(BuildContext context) {
     // TODO: implement appBarTheme
@@ -53,13 +57,14 @@ class CustomSearchDelegatedEducationStage extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     EducationStageOperation educationStageOperation = EducationStageOperation();
-    return  query == ''
+    return query == ''
         ? SizedBox()
         : CustomListSearchEducationStageScreen(
-       
-
             getSearchItemsStage:
-                educationStageOperation.getSearchWord(searchWord: query), deleteFun: (ItemStageModel itemStageModel) {  }, editFun: (ItemStageModel itemStageModel) {  },);
+                educationStageOperation.getSearchWord(searchWord: query),
+            deleteFun: deleteFun,
+            editFun: editFun,
+          );
   }
 
   @override

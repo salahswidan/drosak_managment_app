@@ -31,20 +31,19 @@ class EducationStageOperation extends MySqlFliteDatabase {
   Future<bool> editEducationStage(ItemStageModel itemStageModel) async {
     return await update(
         tableName: MySqlFliteDatabase.educationalStageTableName,
-        values: {
-          MySqlFliteDatabase.educationalStageName: itemStageModel.stageName,
-          
-        },
-        where:
-            '${MySqlFliteDatabase.educationalStageID}=?',whereArgs: ['${itemStageModel.id}']);
+        values: itemStageModel.toJson(),
+        where: '${MySqlFliteDatabase.educationalStageID}=?',
+        whereArgs: ['${itemStageModel.id}']);
   }
 
   Future<List<ItemStageModel>> getSearchWord(
       {required String searchWord}) async {
     List<ItemStageModel> listItemStageModel = [];
-    List<Map<String, Object?>> data = await search(
+    List<Map<String, Object?>> data = await select(
         tableName: MySqlFliteDatabase.educationalStageTableName,
-        searchWord: searchWord);
+        where:
+            '${MySqlFliteDatabase.educationalStageName} LIKE ? AND ${MySqlFliteDatabase.educationalStageStatus}== ?',
+        whereArgs: ['%$searchWord%', 1]);
 
     listItemStageModel +=
         data.map((item) => ItemStageModel.fromJson(item)).toList();

@@ -34,7 +34,9 @@ class _EducationStagesScreenState extends State<EducationStagesScreen> {
       child: Scaffold(
         body: Column(
           children: [
-            CustomAppBarEductionStages(onPressedAdd: () {
+            CustomAppBarEductionStages(
+              outPutDataListItemsStageModel: _controller.outPutDataListItemsStageModel,
+              onPressedAdd: () {
               _controller.openBottomSheet(
                 context: context,
               );

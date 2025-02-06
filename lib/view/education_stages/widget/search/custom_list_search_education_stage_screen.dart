@@ -3,10 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../model/education_stage/item_stage_model.dart';
 import '../custom_item_stage.dart';
 
-
 class CustomListSearchEducationStageScreen extends StatelessWidget {
   const CustomListSearchEducationStageScreen(
-      {super.key, required this.getSearchItemsStage, required this.deleteFun, required this.editFun});
+      {super.key,
+      required this.getSearchItemsStage,
+      required this.deleteFun,
+      required this.editFun});
   final Future<List<ItemStageModel>> getSearchItemsStage;
   final void Function(ItemStageModel itemStageModel) deleteFun;
   final void Function(ItemStageModel itemStageModel) editFun;
@@ -20,28 +22,31 @@ class CustomListSearchEducationStageScreen extends StatelessWidget {
             ? Center(
                 child: CircularProgressIndicator(),
               )
-            : Column(
-              mainAxisSize: MainAxisSize.min,
-              children:[ 
-                SizedBox(height: 24.h,),
-                Expanded(
-                  child: ListView.separated(
-                    itemBuilder: (context, index) =>
-                        index == snapshot.data!.length
-                            ? SizedBox(
-                                height: 24.h,
-                              )
-                            : CustomItemStage(
-                              editFun: editFun,
-                              deleteFun:deleteFun ,
-                                itemStageModel: snapshot.data![index],
-                              ),
-                    separatorBuilder: (context, index) => SizedBox(
-                          height: 24.h,
-                        ),
-                    itemCount: snapshot.data!.length + 1),
-                ),
-           ] );
+            : Directionality(
+                textDirection: TextDirection.rtl,
+                child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  SizedBox(
+                    height: 24.h,
+                  ),
+                  Expanded(
+                    child: ListView.separated(
+                        itemBuilder: (context, index) =>
+                            index == snapshot.data!.length
+                                ? SizedBox(
+                                    height: 24.h,
+                                  )
+                                : CustomItemStage(
+                                    editFun: editFun,
+                                    deleteFun: deleteFun,
+                                    itemStageModel: snapshot.data![index],
+                                  ),
+                        separatorBuilder: (context, index) => SizedBox(
+                              height: 24.h,
+                            ),
+                        itemCount: snapshot.data!.length + 1),
+                  ),
+                ]),
+              );
       },
     );
   }
