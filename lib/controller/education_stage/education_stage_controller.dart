@@ -90,15 +90,19 @@ class EducationStageController {
             },
             onPressedAdd: () async {
               if (formKey.currentState!.validate() == true) {
-                bool edit = await editEducation(ItemStageModel(
+                ItemStageModel newItem = ItemStageModel(
                   id: itemStageModel.id,
                   image: pathImage == null ? "" : pathImage!,
                   stageName: controllerNameEducationalStage.text,
                   desc: controllerDescraptinEducationalStage.text,
-                ));
+                );
+                bool edit = await editEducation(newItem);
                 print(edit);
                 if (edit == true) {
                   Navigator.pop(context);
+                  int indexEditModel =
+                      listItemStageModel.indexOf(itemStageModel);
+                  listItemStageModel[indexEditModel] = newItem;
                   // listItemStageModel.add(ItemStageModel(
                   //     id: listItemStageModel.length + 1,
                   //     image: pathImage == null ? "" : pathImage!,
