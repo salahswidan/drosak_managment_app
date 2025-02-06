@@ -6,10 +6,14 @@ import 'custom_item_stage.dart';
 
 class CustomListViewItemsStage extends StatelessWidget {
   const CustomListViewItemsStage(
-      {super.key, required this.outPutDataListItemsStageModel,  required this.deleteFun, required this.editFun});
+      {super.key,
+      required this.outPutDataListItemsStageModel,
+      required this.deleteFun,
+      required this.editFun, required this.onRefresh});
   final Stream<List<ItemStageModel>> outPutDataListItemsStageModel;
   final void Function(ItemStageModel itemStageModel) deleteFun;
   final void Function(ItemStageModel itemStageModel) editFun;
+  final Future<void> Function() onRefresh;
 
   @override
   Widget build(BuildContext context) {
@@ -21,19 +25,26 @@ class CustomListViewItemsStage extends StatelessWidget {
               ? Center(
                   child: CircularProgressIndicator(),
                 )
-              : ListView.separated(
-                  itemBuilder: (context, index) =>
-                      index == snapshot.data!.length
-                          ? SizedBox(
-                              height: 24.h,
-                            )
-                          : CustomItemStage(
-                              itemStageModel: snapshot.data![index], deleteFun:deleteFun, editFun: editFun,
-                            ),
-                  separatorBuilder: (context, index) => SizedBox(
-                        height: 24.h,
-                      ),
-                  itemCount: snapshot.data!.length + 1);
+              : RefreshIndicator(
+                  onRefresh: () async {
+                    onRefresh();
+                  },
+                  child: ListView.separated(
+                      itemBuilder: (context, index) =>
+                          index == snapshot.data!.length
+                              ? SizedBox(
+                                  height: 24.h,
+                                )
+                              : CustomItemStage(
+                                  itemStageModel: snapshot.data![index],
+                                  deleteFun: deleteFun,
+                                  editFun: editFun,
+                                ),
+                      separatorBuilder: (context, index) => SizedBox(
+                            height: 24.h,
+                          ),
+                      itemCount: snapshot.data!.length + 1),
+                );
         },
       ),
     );

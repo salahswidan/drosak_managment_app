@@ -29,6 +29,14 @@ class EducationStageController {
   EducationStageController() {
     init();
   }
+  Future<void> onRefresh() async {
+         listItemStageModel.clear();
+                  inputDataListItemsStageModel
+                      .add(listItemStageModel);
+                  getAllItemList();
+
+                  await Future.delayed(Duration(seconds: 1));
+  }
   void initControllers() {
     controllerListItemsStageModel = StreamController();
     inputDataListItemsStageModel = controllerListItemsStageModel.sink;
@@ -56,6 +64,7 @@ class EducationStageController {
   }
 
   void getAllItemList() async {
+    
     EducationStageOperation educationStageOperation = EducationStageOperation();
     listItemStageModel = await educationStageOperation.getAllEducationData();
     inputDataListItemsStageModel.add(listItemStageModel);

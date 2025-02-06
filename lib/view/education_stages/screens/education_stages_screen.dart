@@ -35,15 +35,18 @@ class _EducationStagesScreenState extends State<EducationStagesScreen> {
         body: Column(
           children: [
             CustomAppBarEductionStages(
-              outPutDataListItemsStageModel: _controller.outPutDataListItemsStageModel,
-              onPressedAdd: () {
-              _controller.openBottomSheet(
-                context: context,
-              );
-            }, onPressedSearch: () {
-              _controller.showCustomSearch(context);
-            }),
+                outPutDataListItemsStageModel:
+                    _controller.outPutDataListItemsStageModel,
+                onPressedAdd: () {
+                  _controller.openBottomSheet(
+                    context: context,
+                  );
+                },
+                onPressedSearch: () {
+                  _controller.showCustomSearch(context);
+                }),
             CustomListViewItemsStage(
+                onRefresh: _controller.onRefresh,
                 outPutDataListItemsStageModel:
                     _controller.outPutDataListItemsStageModel,
                 deleteFun: _controller.deleteItemStage,
