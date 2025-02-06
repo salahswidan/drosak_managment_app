@@ -28,19 +28,19 @@ class CustomItemGroup extends StatelessWidget {
           bool? confirmDelete = await showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text(ConstValue.kAreYouSureToDeleteItem),
+              title: const Text(ConstValue.kAreYouSureToDeleteItem),
               actions: [
                 TextButton(
                     onPressed: () {
                       Navigator.of(context).pop(true);
                     },
-                    child: Text(ConstValue.kSure)),
+                    child: const Text(ConstValue.kSure)),
                 TextButton(
                     onPressed: () {
                       // deleteFun(itemStageModel);
                       Navigator.of(context).pop(false);
                     },
-                    child: Text(ConstValue.kNo)),
+                    child: const Text(ConstValue.kNo)),
               ],
             ),
           );
@@ -78,7 +78,7 @@ class CustomItemGroup extends StatelessWidget {
               fontFamily: FontName.geDinerOne),
         ),
       ),
-      key: ValueKey("1"
+      key: const ValueKey("1"
           //itemStageModel.id
           ),
       child: Stack(
@@ -110,14 +110,85 @@ class CustomItemGroup extends StatelessWidget {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "المجموعة الاولي ",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16.sp,
-                                  fontFamily: FontName.geDinerOne,
+                              Center(
+                                child: Text(
+                                  "المجموعة الاولي  ",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16.sp,
+                                    fontFamily: FontName.geDinerOne,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5.h,
+                              ),
+                              Table(
+                                border: TableBorder.all(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(14.r)),
                                   color: Colors.white,
                                 ),
+                                children: [
+                                  const TableRow(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 4, vertical: 4),
+                                        child: const Center(
+                                          child: Text(
+                                            "اليوم",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 4, vertical: 4),
+                                        child: const Center(
+                                          child: Text(
+                                            "الوقت",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 4, vertical: 4),
+                                        child: Center(
+                                          child: Text(
+                                            "م / ص",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                    decoration: BoxDecoration(
+                                        color: ColorsManager.kPrimaryColor,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(14),
+                                          topRight: Radius.circular(14),
+                                        )),
+                                  ),
+                                  for (int i = 0; i < 5; i++)
+                                    TableRow(
+                                      children: List.generate(
+                                          3,
+                                          (index) => Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 4, vertical: 4),
+                                                child: Text(
+                                                  index.toString(),
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              )),
+                                    ),
+                                ],
                               ),
                               SizedBox(
                                 height: 5.h,
@@ -127,15 +198,15 @@ class CustomItemGroup extends StatelessWidget {
                                   SizedBox(
                                     width: 3.w,
                                   ),
-                                  // Expanded(
-                                  //   child: Text(
-                                  //     itemStageModel.desc,
-                                  //     style: TextStyle(
-                                  //         fontSize: 10.sp,
-                                  //         fontFamily: FontName.geDinerOne,
-                                  //         color: Colors.white.withOpacity(0.6)),
-                                  //   ),
-                                  // ),
+                                  Expanded(
+                                    child: Text(
+                                      'itemStageModel.desc',
+                                      style: TextStyle(
+                                          fontSize: 10.sp,
+                                          fontFamily: FontName.geDinerOne,
+                                          color: Colors.white.withOpacity(0.6)),
+                                    ),
+                                  ),
                                   // if (itemStageModel.createdAt != null)
                                   //   Text(
                                   //     itemStageModel.createdAt!,
@@ -175,7 +246,7 @@ class CustomItemGroup extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(18),
                   boxShadow: [
-                    BoxShadow(
+                    const BoxShadow(
                         color: ColorsManager.kPrimaryColor,
                         blurRadius: 5,
                         blurStyle: BlurStyle.outer,
