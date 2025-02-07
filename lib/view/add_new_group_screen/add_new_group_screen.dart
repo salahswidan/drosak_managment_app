@@ -12,13 +12,13 @@ class AddNewGroupScreen extends StatefulWidget {
 }
 
 class _AddNewGroupScreenState extends State<AddNewGroupScreen> {
-  late AddNewGroupController _controller;
+  late AddNewGroupScreenController _controller;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _controller = AddNewGroupController();
+    _controller = AddNewGroupScreenController();
   }
 
   @override
@@ -31,7 +31,9 @@ class _AddNewGroupScreenState extends State<AddNewGroupScreen> {
               : ConstValue.kEdit,
           title: _controller.status,
           onPressed: () {}),
-      body: CustomBodyAddNewGroupScreen(),
+      body: CustomBodyAddNewGroupScreen(
+        controller: _controller,
+      ),
     );
   }
 }
