@@ -1,3 +1,4 @@
+import 'package:drosak_managment_app/model/education_stage/item_stage_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../controller/add_new_group/add_new_group_controller.dart';
@@ -8,6 +9,7 @@ import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:drosak_managment_app/core/widget/buttons/custom_material_button.dart';
 
 import 'custom_group_details_add_new_group_screen.dart';
+import 'custom_select_education_stage_name.dart';
 
 class CustomBodyAddNewGroupScreen extends StatelessWidget {
   const CustomBodyAddNewGroupScreen({
@@ -32,36 +34,9 @@ class CustomBodyAddNewGroupScreen extends StatelessWidget {
                   controllerGroupName: controller.controllerGroupName,
                   formStateGroupDetails: controller.formStateGroupDetails,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Divider(
-                    thickness: 1,
-                  ),
-                ),
-                Align(
-                  alignment: AlignmentDirectional.centerStart,
-                  child: Text(
-                    ConstValue.kChooseEducationStage,
-                    style: TextStyle(
-                        fontFamily: FontName.geDinerOne,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                ),
-                SizedBox(
-                  height: 12.h,
-                ),
-                CustomDropdown<String>.search(
-                  hintText: ConstValue.kChooseEducationStage,
-                  items: [],
-                  noResultFoundText: ConstValue.kNoFoundThisEducationStageName,
-                  //initialItem: 'a',
-                  onChanged: (value) {
-                    print('chaning value to :  $value');
-                  },
-                ),
-                SizedBox(
-                  height: 16.h,
+                CustomSelectEducationStageNameAddNewGroup(
+                  listItemsStageModel: controller.listItemsStageModel,
+                  onChange: controller.onChangeSelectEducationStageName,
                 ),
                 Row(
                   children: [
