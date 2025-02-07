@@ -14,17 +14,16 @@ class GroupsScreen extends StatefulWidget {
 }
 
 class _EducationStagesScreenState extends State<GroupsScreen> {
- late GroupsScreenController _controller;
-   //Stream<List<ItemStageModel>> outPutDataListItemsStageModel;
+  late GroupsScreenController _controller;
+  //Stream<List<ItemStageModel>> outPutDataListItemsStageModel;
 
-
- @override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _controller = GroupsScreenController();
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -37,22 +36,18 @@ class _EducationStagesScreenState extends State<GroupsScreen> {
                 // outPutDataListItemsStageModel:
                 //     _controller.GroupsScreenController,
                 onPressedAdd: () {
-                //  _controller.openBottomSheet(
-                  //  context: context,
-                //  );
+                  _controller.addNewGroup(context: context);
                 },
                 onPressedSearch: () {
                   //   _controller.showCustomSearch(context);
                 }),
             CustomListViewItemGroups(
-              // onRefresh: _controller.onRefresh,
-               // outPutDataListItemsGroupsModel:
-                 //   _controller.outPutDataListItemsStageModel,
-                deleteFun:(ItemStageModel){
-
-                },
+                // onRefresh: _controller.onRefresh,
+                // outPutDataListItemsGroupsModel:
+                //   _controller.outPutDataListItemsStageModel,
+                deleteFun: (ItemStageModel) {},
                 editFun: (itemStageModel) {
-                 // _controller.editItemStage(itemStageModel, context);
+                  // _controller.editItemStage(itemStageModel, context);
                 }),
           ],
         ),
