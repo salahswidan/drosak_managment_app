@@ -15,6 +15,7 @@ class GroupsScreen extends StatefulWidget {
 
 class _EducationStagesScreenState extends State<GroupsScreen> {
   late GroupsScreenController _controller;
+
   //Stream<List<ItemStageModel>> outPutDataListItemsStageModel;
 
   @override
@@ -31,18 +32,17 @@ class _EducationStagesScreenState extends State<GroupsScreen> {
       child: Scaffold(
         body: Column(
           children: [
-            // CustomAppBarTitleAddSearch(
-            //   streamCount: _controller.outPutListGroup,
-
-            //     title: ConstValue.kGroups,
-            //     // outPutDataListItemsStageModel:
-            //     //     _controller.GroupsScreenController,
-            //     onPressedAdd: () {
-            //       _controller.addNewGroup(context: context);
-            //     },
-            //     onPressedSearch: () {
-            //       //   _controller.showCustomSearch(context);
-            //     }),
+            CustomAppBarTitleAddSearch(
+                streamCount: _controller.outPutDataListItemsGroupModel,
+                title: ConstValue.kGroups,
+                // outPutDataListItemsStageModel:
+                //     _controller.GroupsScreenController,
+                onPressedAdd: () {
+                  _controller.addNewGroup(context: context);
+                },
+                onPressedSearch: () {
+                  //   _controller.showCustomSearch(context);
+                }),
             CustomListViewItemGroups(
                 // onRefresh: _controller.onRefresh,
                 // outPutDataListItemsGroupsModel:
