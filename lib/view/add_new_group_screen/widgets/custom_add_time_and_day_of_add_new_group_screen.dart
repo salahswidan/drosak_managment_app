@@ -6,16 +6,27 @@ import '../../../core/resources/font_manager.dart';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:drosak_managment_app/core/widget/buttons/custom_material_button.dart';
 import '../../../model/group/time_day_group_model.dart';
+import 'custom_redio_mS_add_new_group_screen.dart';
 
 class CustomAddTimeAndDayOfAddNewGroupScreen extends StatelessWidget {
-   CustomAddTimeAndDayOfAddNewGroupScreen(
-      {super.key, required this.listDay, this.time, this.onChangedSelectDay,required this.onPressedSelectTime, required this.onPressedAddTimeAndDayToTable, required this.listTimeDayGroupModel});
+  CustomAddTimeAndDayOfAddNewGroupScreen(
+      {super.key,
+      required this.listDay,
+      this.time,
+      this.onChangedSelectDay,
+      required this.onPressedSelectTime,
+      required this.onPressedAddTimeAndDayToTable,
+      required this.listTimeDayGroupModel,
+      required this.groupValueMS,
+      required this.onChangedMSValue});
   final List<String> listDay;
   final String? time;
+  final String groupValueMS;
   final Function(String?)? onChangedSelectDay;
   final VoidCallback onPressedSelectTime;
   final VoidCallback onPressedAddTimeAndDayToTable;
   final List<TimeDayGroupModel> listTimeDayGroupModel;
+  final ValueChanged<String?> onChangedMSValue;
 
   @override
   Widget build(BuildContext context) {
@@ -37,36 +48,30 @@ class CustomAddTimeAndDayOfAddNewGroupScreen extends StatelessWidget {
                 items: listDay,
                 noResultFoundText: '',
                 //initialItem: 'a',
-                onChanged:onChangedSelectDay,
+                onChanged: onChangedSelectDay,
               ),
             ),
-            SizedBox(
-              width: 9.w,
-            ),
-            Text(ConstValue.kTime,
-                style: TextStyle(
-                    fontFamily: FontName.geDinerOne,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white)),
-            SizedBox(
-              width: 15.w,
-            ),
-            CustomMaterialButton(onPressed: onPressedSelectTime, text: ConstValue.kChooseTime)
           ],
         ),
-       if(time!=null) Align(
-          alignment: AlignmentDirectional.centerEnd,
-          child: Text(time!,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: FontName.geDinerOne,
-                  fontWeight: FontWeight.bold)),
+        SizedBox(
+          height: 12.h,
         ),
+        CustomRedioMSAddNewGroupscreen(onPressedSelectTime: onPressedSelectTime, groupValueMS: groupValueMS, onChangedMSValue: onChangedMSValue),
+        if (time != null)
+          Align(
+            alignment: AlignmentDirectional.centerEnd,
+            child: Text(time!,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: FontName.geDinerOne,
+                    fontWeight: FontWeight.bold)),
+          ),
         SizedBox(
           height: 24.h,
         ),
         CustomMaterialButton(
-            onPressed: onPressedAddTimeAndDayToTable, text: ConstValue.kAddToTableAppointment),
+            onPressed: onPressedAddTimeAndDayToTable,
+            text: ConstValue.kAddToTableAppointment),
         SizedBox(
           height: 12.h,
         ),
@@ -82,7 +87,7 @@ class CustomAddTimeAndDayOfAddNewGroupScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                   child: const Center(
                     child: Text(
-                  ConstValue.kDay,
+                      ConstValue.kDay,
                       style: TextStyle(
                           color: Colors.white, fontFamily: FontName.geDinerOne),
                     ),
@@ -130,41 +135,58 @@ class CustomAddTimeAndDayOfAddNewGroupScreen extends StatelessWidget {
               TableRow(
                 children: [
                   Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                  child: Center(
-                    child: Text(
-                      listTimeDayGroupModel[i].day,
-                      style: TextStyle(
-                          color: Colors.white, fontFamily: FontName.geDinerOne),
+                    padding: EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+                    child: Center(
+                      child: Text(
+                        listTimeDayGroupModel[i].day,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: FontName.geDinerOne),
+                      ),
                     ),
                   ),
-                ),
                   Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                  child: Center(
-                    child: Text(
-                      listTimeDayGroupModel[i].time,
-                      style: TextStyle(
-                          color: Colors.white, fontFamily: FontName.geDinerOne),
+                    padding: EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+                    child: Center(
+                      child: Text(
+                        listTimeDayGroupModel[i].time,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: FontName.geDinerOne),
+                      ),
                     ),
                   ),
-                ),
                   Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                  child: Center(
-                    child: Text(
-                      listTimeDayGroupModel[i].ms,
-                      style: TextStyle(
-                          color: Colors.white, fontFamily: FontName.geDinerOne),
+                    padding: EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+                    child: Center(
+                      child: Text(
+                        listTimeDayGroupModel[i].ms,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: FontName.geDinerOne),
+                      ),
                     ),
                   ),
-                ),
-                IconButton(onPressed: (){}, icon: Icon(Icons.delete),color: Colors.white,)
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.delete),
+                    color: Colors.white,
+                  )
                 ],
               ),
-           
           ],
         ),
+        SizedBox(
+          height: 12.h,
+        ),
+        if (listTimeDayGroupModel.isEmpty)
+          Text(
+            ConstValue.kNoTimeAndDayYetAdd,
+            style: TextStyle(
+                color: Colors.white,
+                fontFamily: FontName.geDinerOne,
+                fontWeight: FontWeight.bold),
+          )
       ],
     );
   }

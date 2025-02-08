@@ -14,8 +14,10 @@ class AddNewGroupScreenController {
   String? timeGroup;
 
   List<TimeDayGroupModel> listTimeDayGroupModel = [
- 
+    TimeDayGroupModel(day: 'الاحد', time: '08:00 - 09:00', ms: 'صباحا'),
   ];
+
+  String groupValueMS = ConstValue.kAM;
 
   void getArgumentFromLastScreen(BuildContext context) {
     var arg = ModalRoute.of(context);
@@ -32,4 +34,6 @@ class AddNewGroupScreenController {
   void onPressedSelectTime() {}
 
   void onPressedAddTimeAndDayToTable() {}
+
+  void onChangedMSValue(String? value) {}
 }

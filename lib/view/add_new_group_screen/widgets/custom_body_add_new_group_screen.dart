@@ -34,6 +34,8 @@ class CustomBodyAddNewGroupScreen extends StatelessWidget {
                   onChange: controller.onChangeSelectEducationStageName,
                 ),
                 CustomAddTimeAndDayOfAddNewGroupScreen(
+                  groupValueMS: controller.groupValueMS,
+                  onChangedMSValue: controller.onChangedMSValue,
                   listDay: ConstListValues.listDays,
                   time: controller.timeGroup,
                   listTimeDayGroupModel: controller.listTimeDayGroupModel,

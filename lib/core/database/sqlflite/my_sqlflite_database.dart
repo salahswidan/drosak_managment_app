@@ -15,7 +15,6 @@ class MySqlFliteDatabase extends Crud {
   static const String groupTableName = 'groups';
   static const String groupColumnName = 'name';
   static const String groupColumnID = 'id';
-  static const String groupColumnImage = 'image';
   static const String groupColumnNote = 'note';
   static const String groupColumnIDEducation = 'educationID';
 //!-----------------------------Appointments Table-------------------------------------!
@@ -52,7 +51,6 @@ class MySqlFliteDatabase extends Crud {
     await db.execute("CREATE TABLE IF NOT EXISTS $groupTableName"
         " ( $groupColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $groupColumnName TEXT , "
-        "  $groupColumnImage TEXT , "
         "  $groupColumnNote  TEXT )");
         "  $groupColumnIDEducation  INTEGER)";
     await db.execute("CREATE TABLE IF NOT EXISTS $appointmentsTableName"
@@ -76,7 +74,6 @@ class MySqlFliteDatabase extends Crud {
     await db.execute("CREATE TABLE IF NOT EXISTS $groupTableName"
         " ( $groupColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $groupColumnName TEXT , "
-        "  $groupColumnImage TEXT , "
         "  $groupColumnNote  TEXT )");
         "  $groupColumnIDEducation  INTEGER)";
       //! ---------------------------Create appointments Table---------------------------------------
