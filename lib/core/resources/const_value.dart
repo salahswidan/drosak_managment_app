@@ -131,13 +131,13 @@ class ConstListValues {
     ExploreScreenModel(
         text: ConstValue.kPaying, image: AssetsValuesManager.kOnBoardingImage5),
   ];
-  // static const List<String> listDays = [
-  //   ConstValue.kSaturday,
-  //   ConstValue.kSunday,
-  //   ConstValue.kMonday,
-  //   ConstValue.kTuesday,
-  //   ConstValue.kWednesday,
-  //   ConstValue.kThursday,
-  //   ConstValue.kFriday,
-  // ];
+  static const List<String> listDays = [
+    ConstValue.kSaturday,
+    ConstValue.kSunday,
+    ConstValue.kMonday,
+    ConstValue.kTuesday,
+    ConstValue.kWednesday,
+    ConstValue.kThursday,
+    ConstValue.kFriday,
+  ];
 }
