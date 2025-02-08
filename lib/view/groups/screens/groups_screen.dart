@@ -31,16 +31,18 @@ class _EducationStagesScreenState extends State<GroupsScreen> {
       child: Scaffold(
         body: Column(
           children: [
-            CustomAppBarTitleAddSearch(
-                title: ConstValue.kGroups,
-                // outPutDataListItemsStageModel:
-                //     _controller.GroupsScreenController,
-                onPressedAdd: () {
-                  _controller.addNewGroup(context: context);
-                },
-                onPressedSearch: () {
-                  //   _controller.showCustomSearch(context);
-                }),
+            // CustomAppBarTitleAddSearch(
+            //   streamCount: _controller.outPutListGroup,
+
+            //     title: ConstValue.kGroups,
+            //     // outPutDataListItemsStageModel:
+            //     //     _controller.GroupsScreenController,
+            //     onPressedAdd: () {
+            //       _controller.addNewGroup(context: context);
+            //     },
+            //     onPressedSearch: () {
+            //       //   _controller.showCustomSearch(context);
+            //     }),
             CustomListViewItemGroups(
                 // onRefresh: _controller.onRefresh,
                 // outPutDataListItemsGroupsModel:

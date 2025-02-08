@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/resources/const_value.dart';
 import '../../../core/resources/font_manager.dart';
 import 'package:drosak_managment_app/core/widget/buttons/custom_material_button.dart';
+
 class CustomRedioMSAddNewGroupscreen extends StatelessWidget {
   const CustomRedioMSAddNewGroupscreen({
     super.key,
@@ -30,25 +30,33 @@ class CustomRedioMSAddNewGroupscreen extends StatelessWidget {
       CustomMaterialButton(
           onPressed: onPressedSelectTime, text: ConstValue.kChooseTime),
       Expanded(
-          child: RadioListTile(
-              title: Text(ConstValue.kPM,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: FontName.geDinerOne,
-                      fontWeight: FontWeight.bold)),
-              value: ConstValue.kPM,
-              groupValue: groupValueMS,
-              onChanged: onChangedMSValue)),
-      Expanded(
-          child: RadioListTile(
-              title: Text(ConstValue.kAM,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: FontName.geDinerOne,
-                      fontWeight: FontWeight.bold)),
-              value: ConstValue.kAM,
-              groupValue: groupValueMS,
-              onChanged: onChangedMSValue)),
+        child: Wrap(
+          children: [
+            customRedio(ConstValue.kAM, groupValueMS),
+            customRedio(ConstValue.kPM, groupValueMS),
+            SizedBox(
+              width: 15.w,
+            ),
+          ],
+        ),
+      )
+    ]);
+  }
+
+  Widget customRedio(String value, String groupValue) {
+    return Row(mainAxisSize: MainAxisSize.min, children: [
+      Radio(
+        value: value,
+        groupValue: groupValueMS,
+        onChanged: onChangedMSValue,
+      ),
+      Text(
+        ConstValue.kAM,
+        style: TextStyle(
+            fontFamily: FontName.geDinerOne,
+            fontWeight: FontWeight.bold,
+            color: Colors.white),
+      ),
     ]);
   }
 }

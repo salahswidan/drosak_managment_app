@@ -10,13 +10,14 @@ class CustomAppBarTitleAddSearch extends StatelessWidget {
     super.key,
     required this.onPressedAdd,
     required this.onPressedSearch,
-     this.outPutDataListItemsStageModel,
-    required this.title,
+   // this.outPutDataListItemsStageModel,
+    required this.title, required this.streamCount,
   });
   final VoidCallback onPressedAdd;
   final VoidCallback onPressedSearch;
   //! here
-  final Stream<List<ItemStageModel>>? outPutDataListItemsStageModel;
+ // final Stream<List<ItemStageModel>>? outPutDataListItemsStageModel;
+ final Stream<List> streamCount;
   final String title;
 
   @override
@@ -29,11 +30,10 @@ class CustomAppBarTitleAddSearch extends StatelessWidget {
       padding: EdgeInsets.only(right: 15.w, left: 15.w, top: 24.h),
       child: Row(
         children: [
-          StreamBuilder<List<ItemStageModel>>(
-            stream: outPutDataListItemsStageModel,
+          StreamBuilder<List>(
+            stream: streamCount,
             builder: (context, snapshot) => Text(
-              '${title}',
-              // (${snapshot.data == null ? "0" : snapshot.data!.length.toString()})
+              '${title}    (${snapshot.data == null ? "0" : snapshot.data!.length})',
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 15.sp,

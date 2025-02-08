@@ -36,9 +36,10 @@ class _EducationStagesScreenState extends State<EducationStagesScreen> {
         body: Column(
           children: [
             CustomAppBarTitleAddSearch(
+              streamCount: _controller.outPutDataListItemsStageModel,
                 title: ConstValue.kEducationalStages,
-                outPutDataListItemsStageModel:
-                    _controller.outPutDataListItemsStageModel,
+             //   outPutDataListItemsStageModel:
+               //     _controller.outPutDataListItemsStageModel,
                 onPressedAdd: () {
                   _controller.openBottomSheet(
                     context: context,
