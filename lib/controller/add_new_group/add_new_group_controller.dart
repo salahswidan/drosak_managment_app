@@ -22,6 +22,10 @@ class AddNewGroupScreenController {
   late Sink<String> inPutDataMSValue;
   late Stream<String> outPutDataMSValue;
 
+  late StreamController<String> controllerSelectedTime;
+  late Sink<String> inPutDataSelectedTime;
+  late Stream<String> outPutDataSelectedTime;
+
   AddNewGroupScreenController() {
     start();
   }
@@ -39,15 +43,26 @@ class AddNewGroupScreenController {
     controllerMSValue = StreamController();
     inPutDataMSValue = controllerMSValue.sink;
     outPutDataMSValue = controllerMSValue.stream;
+
+    controllerSelectedTime = StreamController();
+    inPutDataSelectedTime = controllerSelectedTime.sink;
+    outPutDataSelectedTime = controllerSelectedTime.stream;
   }
 
   void initAllData() {
     getAllItemStageModelList();
     addNewValueMs();
+    addNewValueOfSelectedTime();
   }
 
   void addNewValueMs() {
     inPutDataMSValue.add(groupValueMS);
+  }
+
+  void addNewValueOfSelectedTime() {
+    if (selectedTime != null)
+      inPutDataSelectedTime
+          .add("${selectedTime!.minute} : ${selectedTime!.hour}");
   }
 
   void getAllItemStageModelList() async {
@@ -56,11 +71,7 @@ class AddNewGroupScreenController {
     inputDataListItemStageModel.add(listItemStageModel);
   }
 
-  String? timeGroup;
-
-  List<TimeDayGroupModel> listTimeDayGroupModel = [
-    TimeDayGroupModel(time: ConstValue.kAM, day: ConstValue.kMonday, ms: "f"),
-  ];
+  List<TimeDayGroupModel> listTimeDayGroupModel = [];
 
   String groupValueMS = ConstValue.kAM;
 
@@ -87,7 +98,7 @@ class AddNewGroupScreenController {
           initialTime: TimeOfDay(hour: 1, minute: 20));
       if (time != null) {
         selectedTime = time;
-        print(selectedTime);
+        addNewValueOfSelectedTime();
       }
     }
   }
@@ -96,7 +107,18 @@ class AddNewGroupScreenController {
     selectedDay = day;
   }
 
-  void onPressedAddTimeAndDayToTable() {}
+  void onPressedAddTimeAndDayToTable(BuildContext context) {
+    String requiredData = '';
+    if (selectedDay == null) requiredData = ConstValue.kChooseDay;
+    if (selectedTime == null) requiredData += " ,  ${ConstValue.kChooseTime}";
+    if (requiredData.isEmpty) {
+      //  print('now you can add new table');
+      addTimeAndDayToTable();
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(requiredData)));
+    }
+  }
 
   void onChangedMSValue(String? value) {
     if (value != null) groupValueMS = value;
@@ -108,5 +130,15 @@ class AddNewGroupScreenController {
     inputDataListItemStageModel.close();
     controllerMSValue.close();
     inPutDataMSValue.close();
+    controllerSelectedTime.close();
+    inPutDataSelectedTime.close();
+  }
+
+  void addTimeAndDayToTable() {
+    listTimeDayGroupModel.add(TimeDayGroupModel(
+      ms: groupValueMS,
+      day: selectedDay!,
+      time: "${selectedTime!.minute} : ${selectedTime!.hour}",
+    ));
   }
 }

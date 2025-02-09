@@ -12,7 +12,7 @@ class CustomAddTimeAndDayOfAddNewGroupScreen extends StatelessWidget {
   CustomAddTimeAndDayOfAddNewGroupScreen(
       {super.key,
       required this.listDay,
-      this.time,
+      required this.outPuttime,
       this.onChangedSelectDay,
       required this.onPressedSelectTime,
       required this.onPressedAddTimeAndDayToTable,
@@ -20,7 +20,7 @@ class CustomAddTimeAndDayOfAddNewGroupScreen extends StatelessWidget {
       required this.onChangedMSValue,
       required this.outPutDataMSValue});
   final List<String> listDay;
-  final String? time;
+  final Stream<String?> outPuttime;
   final Function(String?)? onChangedSelectDay;
   final VoidCallback onPressedSelectTime;
   final VoidCallback onPressedAddTimeAndDayToTable;
@@ -68,17 +68,28 @@ class CustomAddTimeAndDayOfAddNewGroupScreen extends StatelessWidget {
                         onPressedSelectTime: onPressedSelectTime,
                         groupValueMS: snapshot.data!,
                         onChangedMSValue: onChangedMSValue)),
-        if (time != null)
-          Align(
-            alignment: AlignmentDirectional.centerEnd,
-            child: Text(time!,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: FontName.geDinerOne,
-                    fontWeight: FontWeight.bold)),
-          ),
         SizedBox(
-          height: 24.h,
+          height: 12.h,
+        ),
+        StreamBuilder(
+          stream: outPuttime,
+          builder: (context, snapshot) =>
+              snapshot.connectionState == ConnectionState.waiting
+                  ? SizedBox()
+                  : snapshot.data == null
+                      ? SizedBox()
+                      : Align(
+                          alignment: AlignmentDirectional.center,
+                          child: Text(
+                            snapshot.data!,
+                            style: TextStyle(
+                                fontSize: 20.sp,
+                                color: Colors.white,
+                                fontFamily: FontName.geDinerOne),
+                          )),
+        ),
+        SizedBox(
+          height: 12.h,
         ),
         CustomMaterialButton(
             onPressed: onPressedAddTimeAndDayToTable,
