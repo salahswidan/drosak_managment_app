@@ -41,7 +41,9 @@ class CustomBodyAddNewGroupScreen extends StatelessWidget {
                   time: controller.timeGroup,
                   listTimeDayGroupModel: controller.listTimeDayGroupModel,
                   onChangedSelectDay: controller.onChangedSelectDay,
-                  onPressedSelectTime: controller.onPressedSelectTime,
+                  onPressedSelectTime: () {
+                    controller.onPressedSelectTime(context);
+                  },
                   onPressedAddTimeAndDayToTable:
                       controller.onPressedAddTimeAndDayToTable,
                 ),
