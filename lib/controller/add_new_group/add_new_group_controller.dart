@@ -18,6 +18,10 @@ class AddNewGroupScreenController {
   late Stream<List<ItemStageModel>> outPutDataListItemStageModel;
   List<ItemStageModel> listItemStageModel = [];
 
+  late StreamController<String> controllerMSValue;
+  late Sink<String> inPutDataMSValue;
+  late Stream<String> outPutDataMSValue;
+
   AddNewGroupScreenController() {
     start();
   }
@@ -31,10 +35,19 @@ class AddNewGroupScreenController {
     controllerListItemStageModel = StreamController();
     inputDataListItemStageModel = controllerListItemStageModel.sink;
     outPutDataListItemStageModel = controllerListItemStageModel.stream;
+
+    controllerMSValue = StreamController();
+    inPutDataMSValue = controllerMSValue.sink;
+    outPutDataMSValue = controllerMSValue.stream;
   }
 
   void initAllData() {
     getAllItemStageModelList();
+    addNewValueMs();
+  }
+
+  void addNewValueMs() {
+    inPutDataMSValue.add(groupValueMS);
   }
 
   void getAllItemStageModelList() async {
@@ -50,6 +63,8 @@ class AddNewGroupScreenController {
   ];
 
   String groupValueMS = ConstValue.kAM;
+
+  var outPutSelectedMSStream;
 
   void getArgumentFromLastScreen(BuildContext context) {
     var arg = ModalRoute.of(context);
@@ -83,10 +98,15 @@ class AddNewGroupScreenController {
 
   void onPressedAddTimeAndDayToTable() {}
 
-  void onChangedMSValue(String? value) {}
+  void onChangedMSValue(String? value) {
+    if (value != null) groupValueMS = value;
+    addNewValueMs();
+  }
 
   Future<void> disposeControllers() async {
     controllerListItemStageModel.close();
     inputDataListItemStageModel.close();
+    controllerMSValue.close();
+    inPutDataMSValue.close();
   }
 }

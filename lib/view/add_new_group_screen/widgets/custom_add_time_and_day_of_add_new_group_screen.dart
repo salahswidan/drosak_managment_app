@@ -17,16 +17,17 @@ class CustomAddTimeAndDayOfAddNewGroupScreen extends StatelessWidget {
       required this.onPressedSelectTime,
       required this.onPressedAddTimeAndDayToTable,
       required this.listTimeDayGroupModel,
-      required this.groupValueMS,
-      required this.onChangedMSValue});
+      required this.onChangedMSValue,
+      required this.outPutDataMSValue});
   final List<String> listDay;
   final String? time;
-  final String groupValueMS;
   final Function(String?)? onChangedSelectDay;
   final VoidCallback onPressedSelectTime;
   final VoidCallback onPressedAddTimeAndDayToTable;
   final List<TimeDayGroupModel> listTimeDayGroupModel;
   final ValueChanged<String?> onChangedMSValue;
+
+  final Stream<String> outPutDataMSValue;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,17 @@ class CustomAddTimeAndDayOfAddNewGroupScreen extends StatelessWidget {
         SizedBox(
           height: 12.h,
         ),
-        CustomRedioMSAddNewGroupscreen(onPressedSelectTime: onPressedSelectTime, groupValueMS: groupValueMS, onChangedMSValue: onChangedMSValue),
+        StreamBuilder<String>(
+            stream: outPutDataMSValue,
+            builder: (context, snapshot) =>
+                snapshot.connectionState == ConnectionState.waiting
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : CustomRedioMSAddNewGroupscreen(
+                        onPressedSelectTime: onPressedSelectTime,
+                        groupValueMS: snapshot.data!,
+                        onChangedMSValue: onChangedMSValue)),
         if (time != null)
           Align(
             alignment: AlignmentDirectional.centerEnd,

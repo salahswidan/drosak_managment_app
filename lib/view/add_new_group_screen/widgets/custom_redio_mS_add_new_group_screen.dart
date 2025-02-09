@@ -51,7 +51,7 @@ class CustomRedioMSAddNewGroupscreen extends StatelessWidget {
         onChanged: onChangedMSValue,
       ),
       Text(
-        ConstValue.kAM,
+        value,
         style: TextStyle(
             fontFamily: FontName.geDinerOne,
             fontWeight: FontWeight.bold,
