@@ -13,7 +13,7 @@ class CustomBodyAddNewGroupScreen extends StatelessWidget {
   });
   final AddNewGroupScreenController controller;
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Directionality(
         textDirection: TextDirection.rtl,
@@ -30,8 +30,9 @@ class CustomBodyAddNewGroupScreen extends StatelessWidget {
                   formStateGroupDetails: controller.formStateGroupDetails,
                 ),
                 CustomSelectEducationStageNameAddNewGroup(
-                  listItemsStageModel: controller.listItemsStageModel,
-                  onChange: controller.onChangeSelectEducationStageName,
+                  outPutDataListItemStageModel:
+                      controller.outPutDataListItemStageModel,
+                  onChange: controller.onChangedSelectEducationStageName,
                 ),
                 CustomAddTimeAndDayOfAddNewGroupScreen(
                   groupValueMS: controller.groupValueMS,
