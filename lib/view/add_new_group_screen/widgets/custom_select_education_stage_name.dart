@@ -48,7 +48,23 @@ class CustomSelectEducationStageNameAddNewGroup extends StatelessWidget {
                   items: snapshot.data,
                   noResultFoundText: ConstValue.kNoFoundThisEducationStageName,
                   //initialItem: 'a',
-                  onChanged: onChange,
+                  listItemBuilder: (context, item, isSelected, onItemSelect) =>
+                      ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      item.stageName,
+                    ),
+                    subtitle: item.desc.isEmpty
+                        ? Text(
+                            "null",
+                            style: TextStyle(color: Colors.black),
+                          )
+                        : Text(item.desc),
+                    leading: CircleAvatar(child: Text(item.id.toString())),
+                  ),
+                  onChanged: (p0) {
+                    print(p0);
+                  },
                 ),
         ),
         SizedBox(
