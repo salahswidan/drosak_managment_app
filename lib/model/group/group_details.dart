@@ -11,7 +11,7 @@ class GroupDetails {
     return {
       MySqlFliteDatabase.groupColumnName: name,
       MySqlFliteDatabase.groupColumnNote: desc,
-      MySqlFliteDatabase.groupColumnIDEducation: desc,
+      MySqlFliteDatabase.groupColumnIDEducation: id,
     };
   }
   //  factory ItemStageModel.fromJson(Map json) {

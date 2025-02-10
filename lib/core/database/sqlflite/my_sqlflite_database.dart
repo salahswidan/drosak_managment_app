@@ -29,7 +29,7 @@ class MySqlFliteDatabase extends Crud {
     String databasesPath = await sqfliteDataBase.getDatabasesPath();
     String drosakDatabaseName = "drosak.db";
     String realDatabasePath = join(databasesPath, drosakDatabaseName);
-    int versionDataBase = 3;
+    int versionDataBase = 5;
     _db ??= await sqfliteDataBase.openDatabase(realDatabasePath,
         onOpen: (db) async {
       await db.execute("PRAGMA foreign_keys = ON");
@@ -40,6 +40,9 @@ class MySqlFliteDatabase extends Crud {
   _onUpgrade(
       sqfliteDataBase.Database db, int oldVersion, int newVersion) async {
     await db.execute("DROP TABLE IF EXISTS $educationalStageTableName");
+      await db.execute("DROP TABLE IF EXISTS $groupTableName");
+      await db.execute("DROP TABLE IF EXISTS $appointmentsTableName");
+
     await db.execute("CREATE TABLE IF NOT EXISTS $educationalStageTableName"
         " ( $educationalStageID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $educationalStageName TEXT , "
