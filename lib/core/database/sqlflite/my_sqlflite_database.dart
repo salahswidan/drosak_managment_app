@@ -25,12 +25,11 @@ class MySqlFliteDatabase extends Crud {
   static const String appointmentsColumnMS = 'MS';
   static const String appointmentsColumnIDGroup = 'idGroups';
 
-
   Future<sqfliteDataBase.Database> _initDatabase() async {
     String databasesPath = await sqfliteDataBase.getDatabasesPath();
     String drosakDatabaseName = "drosak.db";
     String realDatabasePath = join(databasesPath, drosakDatabaseName);
-    int versionDataBase = 2;
+    int versionDataBase = 3;
     _db ??= await sqfliteDataBase.openDatabase(realDatabasePath,
         onOpen: (db) async {
       await db.execute("PRAGMA foreign_keys = ON");
@@ -51,18 +50,18 @@ class MySqlFliteDatabase extends Crud {
     await db.execute("CREATE TABLE IF NOT EXISTS $groupTableName"
         " ( $groupColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $groupColumnName TEXT , "
-        "  $groupColumnNote  TEXT )");
-        "  $groupColumnIDEducation  INTEGER)";
+        "  $groupColumnNote  TEXT , "
+        "  $groupColumnIDEducation  INTEGER)");
     await db.execute("CREATE TABLE IF NOT EXISTS $appointmentsTableName"
         " ( $appointmentsColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $appointmentsColumnDay TEXT , "
         "  $appointmentsColumnTime TEXT , "
         "  $appointmentsColumnMS TEXT , "
         "  $appointmentsColumnIDGroup  INTEGER )");
-
   }
+
   _onCreate(sqfliteDataBase.Database db, int version) async {
-        //! ---------------------------Create Educational Stage Table---------------------------------------
+    //! ---------------------------Create Educational Stage Table---------------------------------------
     await db.execute("CREATE TABLE IF NOT EXISTS $educationalStageTableName"
         " ( $educationalStageID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $educationalStageName TEXT , "
@@ -70,20 +69,19 @@ class MySqlFliteDatabase extends Crud {
         "  $educationalStageStatus INTEGER DEFAULT 1 , "
         "  $educationalStageCreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP , "
         "  $educationalStageImage  TEXT )");
-        //! ---------------------------Create Groups Table---------------------------------------
+    //! ---------------------------Create Groups Table---------------------------------------
     await db.execute("CREATE TABLE IF NOT EXISTS $groupTableName"
         " ( $groupColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $groupColumnName TEXT , "
-        "  $groupColumnNote  TEXT )");
-        "  $groupColumnIDEducation  INTEGER)";
-      //! ---------------------------Create appointments Table---------------------------------------
+        "  $groupColumnNote  TEXT , "
+        "  $groupColumnIDEducation  INTEGER)");
+    //! ---------------------------Create appointments Table---------------------------------------
     await db.execute("CREATE TABLE IF NOT EXISTS $appointmentsTableName"
         " ( $appointmentsColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $appointmentsColumnDay TEXT , "
         "  $appointmentsColumnTime TEXT , "
         "  $appointmentsColumnMS TEXT , "
         "  $appointmentsColumnIDGroup  INTEGER )");
-
   }
 
   @override
@@ -105,9 +103,13 @@ class MySqlFliteDatabase extends Crud {
   }
 
   @override
-  Future<List<Map<String, Object?>>> select({required String tableName,String? where,List<Object?>? whereArgs}) async {
+  Future<List<Map<String, Object?>>> select(
+      {required String tableName,
+      String? where,
+      List<Object?>? whereArgs}) async {
     await _initDatabase();
-    List<Map<String, Object?>> data = await _db!.query(tableName,where:where ,whereArgs: whereArgs);
+    List<Map<String, Object?>> data =
+        await _db!.query(tableName, where: where, whereArgs: whereArgs);
     await _db!.close();
     return data;
   }
@@ -129,7 +131,8 @@ class MySqlFliteDatabase extends Crud {
       List<Object?>? whereArgs,
       required String where}) async {
     await _initDatabase();
-    int updated = await _db!.update(tableName, values, where: where,whereArgs: whereArgs);
+    int updated = await _db!
+        .update(tableName, values, where: where, whereArgs: whereArgs);
     await _db!.close();
     return updated > 0 ? true : false;
   }

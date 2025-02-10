@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../core/database/sqlflite/education_stage_operation.dart';
+import '../../core/database/sqlflite/groups_operation.dart';
 import '../../core/resources/const_value.dart';
 import '../../model/education_stage/item_stage_model.dart';
+import '../../model/group/group_details.dart';
 import '../../model/group/time_day_group_model.dart';
 
 class AddNewGroupScreenController {
@@ -181,14 +183,26 @@ class AddNewGroupScreenController {
       requiredData += " , ${ConstValue.kAddSomeAppointment}";
     }
     if (requiredData.isEmpty) {
-      await addDetailsOfGroups();
-      await addDetailsOfAppointments();
+      bool insertedGroupDetails = await addDetailsOfGroups();
+      if (insertedGroupDetails == true) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("added successfully"),
+        ));
+        await addDetailsOfAppointments();
+      }
     } else {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(requiredData)));
     }
   }
-  
- Future addDetailsOfAppointments() async{}
- Future addDetailsOfGroups() async{}
+
+  Future addDetailsOfAppointments() async {}
+  Future<bool> addDetailsOfGroups() async {
+    GroupsOperation groupsOperation = GroupsOperation();
+    return groupsOperation.insertGroupDetails(GroupDetails(
+      name: controllerGroupName.text.trim(),
+      desc: controllerGroupDesc.text.trim(),
+educationStageID: selectedEducationalStage!.id,
+    ));
+  }
 }
