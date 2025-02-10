@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:drosak_managment_app/core/resources/const_value.dart';
+import 'package:drosak_managment_app/model/group/group_details.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
+import '../../core/database/sqlflite/groups_operation.dart';
 import '../../core/resources/route_manager.dart';
-import '../../model/education_stage/item_stage_model.dart';
 
 class GroupsScreenController {
   late StreamController<List> controllerListItemsGroupModel;
@@ -37,6 +35,9 @@ class GroupsScreenController {
     Navigator.of(context).pushNamed(RoutesName.kAddGroupScreen,
         arguments: ConstValue.kAddNewGroup);
   }
-
+  Future<List<GroupDetails>> getGroupsDetailsFromDataBase()async{
+      GroupsOperation groupsOperation = GroupsOperation();
+    return groupsOperation.getAllGroupsData();
+  }
   //Stream<List<ItemStageModel>> outPutDataListItemsStageModel;
 }

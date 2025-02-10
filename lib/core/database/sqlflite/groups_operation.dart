@@ -16,16 +16,14 @@ class GroupsOperation extends MySqlFliteDatabase {
         values: appointment.toJson());
   }
 
-  Future<List<ItemStageModel>> getAllEducationData() async {
-    List<ItemStageModel> listItemStageModel = [];
+  Future<List<GroupDetails>> getAllGroupsData() async {
+    List<GroupDetails> listGroupDetails = [];
     List<Map<String, Object?>> data = await select(
-        tableName: MySqlFliteDatabase.educationalStageTableName,
-        where: '${MySqlFliteDatabase.educationalStageStatus}== ?',
-        whereArgs: ['1']);
-    listItemStageModel +=
-        data.map((item) => ItemStageModel.fromJson(item)).toList();
-    // print(listItemStageModel);
-    return listItemStageModel;
+      tableName: MySqlFliteDatabase.groupTableName,
+    );
+    listGroupDetails +=
+        data.map((item) => GroupDetails.fromJson(item)).toList();
+    return listGroupDetails;
   }
 
   Future<bool> softDelete(ItemStageModel itemStageModel) async {

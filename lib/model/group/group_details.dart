@@ -5,23 +5,30 @@ class GroupDetails {
   String name;
   String desc;
   int educationStageID;
-  
-  GroupDetails({ this.id = 0,required this.name,required this.desc,required this.educationStageID});
-    Map<String, dynamic> toJson() {
+
+  GroupDetails(
+      {this.id = 0,
+      required this.name,
+      required this.desc,
+      required this.educationStageID});
+  Map<String, dynamic> toJson() {
     return {
       MySqlFliteDatabase.groupColumnName: name,
       MySqlFliteDatabase.groupColumnNote: desc,
-      MySqlFliteDatabase.groupColumnIDEducation: id,
+      MySqlFliteDatabase.groupColumnIDEducation: educationStageID,
     };
   }
-  //  factory ItemStageModel.fromJson(Map json) {
-  //   return ItemStageModel(
-  //     id: int.parse(json['id'].toString()),
-  //     stageName: json['name'].toString(),
-  //     desc: json['desc'].toString(),
-  //     createdAt: json['created_at'].toString(),
-  //     image: json['image'].toString(),
-  //     status: json['status'],
-  //   );
-  // }
+
+  factory GroupDetails.fromJson(Map json) {
+    return GroupDetails(
+      name: json['name'].toString(),
+      id: int.parse(json['id'].toString()),
+      desc: json['note'].toString(),
+      educationStageID: int.parse(json['educationID'].toString()),
+    );
+  }
+  @override
+  String toString() {
+    return 'GroupDetails{id: $id, name: $name, desc: $desc, educationStageID: $educationStageID}';
+  }
 }
