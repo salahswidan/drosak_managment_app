@@ -1,4 +1,5 @@
 import 'package:drosak_managment_app/model/group/group_details.dart';
+import 'package:drosak_managment_app/model/group/appointment_model.dart';
 import '../../../model/education_stage/item_stage_model.dart';
 import 'my_sqlflite_database.dart';
 
@@ -7,6 +8,12 @@ class GroupsOperation extends MySqlFliteDatabase {
     return insert(
         tableName: MySqlFliteDatabase.groupTableName,
         values: groupDetails.toJson());
+  }
+
+  Future<bool> insertAppointmentDetails(AppointmentModel appointment) {
+    return insert(
+        tableName: MySqlFliteDatabase.appointmentsTableName,
+        values: appointment.toJson());
   }
 
   Future<List<ItemStageModel>> getAllEducationData() async {

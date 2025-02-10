@@ -5,7 +5,7 @@ import '../../../core/resources/const_value.dart';
 import '../../../core/resources/font_manager.dart';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:drosak_managment_app/core/widget/buttons/custom_material_button.dart';
-import '../../../model/group/time_day_group_model.dart';
+import '../../../model/group/appointment_model.dart';
 import 'custom_redio_mS_add_new_group_screen.dart';
 
 class CustomAddTimeAndDayOfAddNewGroupScreen extends StatelessWidget {
@@ -25,7 +25,7 @@ class CustomAddTimeAndDayOfAddNewGroupScreen extends StatelessWidget {
   final Function(String?)? onChangedSelectDay;
   final VoidCallback onPressedSelectTime;
   final VoidCallback onPressedAddTimeAndDayToTable;
-  final Stream<List<TimeDayGroupModel>> outPutlistTimeDayGroupModel;
+  final Stream<List<AppointmentModel>> outPutlistTimeDayGroupModel;
   final ValueChanged<String?> onChangedMSValue;
   final Stream<String> outPutDataMSValue;
   final void Function(int index) onPressedDeleteAppointment;
@@ -114,7 +114,7 @@ class streamOfCountOfAppoinment extends StatelessWidget {
     required this.outPutlistTimeDayGroupModel,
   });
 
-  final Stream<List<TimeDayGroupModel>> outPutlistTimeDayGroupModel;
+  final Stream<List<AppointmentModel>> outPutlistTimeDayGroupModel;
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +202,7 @@ class StreamEmptyOrNot extends StatelessWidget {
     required this.outPutlistTimeDayGroupModel,
   });
 
-  final Stream<List<TimeDayGroupModel>> outPutlistTimeDayGroupModel;
+  final Stream<List<AppointmentModel>> outPutlistTimeDayGroupModel;
 
   @override
   Widget build(BuildContext context) {
@@ -230,10 +230,12 @@ class StreamEmptyOrNot extends StatelessWidget {
 }
 
 class StreamOfTable extends StatelessWidget {
-  const StreamOfTable({super.key, required this.outPutlistTimeDayGroupModel, required this.onPressedDeleteAppointment});
-  final Stream<List<TimeDayGroupModel>> outPutlistTimeDayGroupModel;
-    final void Function(int index) onPressedDeleteAppointment;
-
+  const StreamOfTable(
+      {super.key,
+      required this.outPutlistTimeDayGroupModel,
+      required this.onPressedDeleteAppointment});
+  final Stream<List<AppointmentModel>> outPutlistTimeDayGroupModel;
+  final void Function(int index) onPressedDeleteAppointment;
 
   @override
   Widget build(BuildContext context) {
@@ -287,7 +289,7 @@ class StreamOfTable extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                       onPressed: () {
+                    onPressed: () {
                       onPressedDeleteAppointment(i);
                     },
                     icon: const Icon(Icons.delete),

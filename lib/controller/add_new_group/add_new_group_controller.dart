@@ -5,7 +5,7 @@ import '../../core/database/sqlflite/groups_operation.dart';
 import '../../core/resources/const_value.dart';
 import '../../model/education_stage/item_stage_model.dart';
 import '../../model/group/group_details.dart';
-import '../../model/group/time_day_group_model.dart';
+import '../../model/group/appointment_model.dart';
 
 class AddNewGroupScreenController {
   String status = ConstValue.kAddNewGroup;
@@ -29,10 +29,9 @@ class AddNewGroupScreenController {
   late Sink<String> inPutDataSelectedTime;
   late Stream<String> outPutDataSelectedTime;
 
-  late StreamController<List<TimeDayGroupModel>>
-      controllerListTimeDayGroupModel;
-  late Sink<List<TimeDayGroupModel>> inPutDataListTimeDayGroupModel;
-  late Stream<List<TimeDayGroupModel>> outPutDataListTimeDayGroupModel;
+  late StreamController<List<AppointmentModel>> controllerListTimeDayGroupModel;
+  late Sink<List<AppointmentModel>> inPutDataListTimeDayGroupModel;
+  late Stream<List<AppointmentModel>> outPutDataListTimeDayGroupModel;
 
   AddNewGroupScreenController() {
     start();
@@ -75,7 +74,7 @@ class AddNewGroupScreenController {
   }
 
   void changeStatusOfStreamTimeDay() {
-    inPutDataListTimeDayGroupModel.add(listTimeDayGroupModel);
+    inPutDataListTimeDayGroupModel.add(listAppointmentGroupModel);
   }
 
   void addNewValueOfSelectedTime() {
@@ -90,7 +89,7 @@ class AddNewGroupScreenController {
     inputDataListItemStageModel.add(listItemStageModel);
   }
 
-  List<TimeDayGroupModel> listTimeDayGroupModel = [];
+  List<AppointmentModel> listAppointmentGroupModel = [];
 
   String groupValueMS = ConstValue.kAM;
 
@@ -158,7 +157,7 @@ class AddNewGroupScreenController {
   }
 
   void addTimeAndDayToTable() {
-    listTimeDayGroupModel.add(TimeDayGroupModel(
+    listAppointmentGroupModel.add(AppointmentModel(
       ms: groupValueMS,
       day: selectedDay!,
       time: "${selectedTime!.minute} : ${selectedTime!.hour}",
@@ -167,7 +166,7 @@ class AddNewGroupScreenController {
   }
 
   void onPressedDeleteAppointment(int index) {
-    listTimeDayGroupModel.removeAt(index);
+    listAppointmentGroupModel.removeAt(index);
     changeStatusOfStreamTimeDay();
   }
 
@@ -179,16 +178,17 @@ class AddNewGroupScreenController {
     if (selectedEducationalStage == null) {
       requiredData += " , ${ConstValue.kChooseEducationStage}";
     }
-    if (listTimeDayGroupModel.isEmpty) {
+    if (listAppointmentGroupModel.isEmpty) {
       requiredData += " , ${ConstValue.kAddSomeAppointment}";
     }
     if (requiredData.isEmpty) {
       bool insertedGroupDetails = await addDetailsOfGroups();
       if (insertedGroupDetails == true) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("added successfully"),
-        ));
-        await addDetailsOfAppointments();
+        if (await addDetailsOfAppointments()) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(ConstValue.kAddedGroupDetailsSucces)));
+          backToMainScreen(context);
+        }
       }
     } else {
       ScaffoldMessenger.of(context)
@@ -196,13 +196,27 @@ class AddNewGroupScreenController {
     }
   }
 
-  Future addDetailsOfAppointments() async {}
+  Future<bool> addDetailsOfAppointments() async {
+    bool inserted = false;
+    for (var appointmentItem in listAppointmentGroupModel) {
+      GroupsOperation groupsOperation = GroupsOperation();
+
+      inserted =
+          await groupsOperation.insertAppointmentDetails(appointmentItem);
+    }
+    return inserted;
+  }
+
   Future<bool> addDetailsOfGroups() async {
     GroupsOperation groupsOperation = GroupsOperation();
     return groupsOperation.insertGroupDetails(GroupDetails(
       name: controllerGroupName.text.trim(),
       desc: controllerGroupDesc.text.trim(),
-educationStageID: selectedEducationalStage!.id,
+      educationStageID: selectedEducationalStage!.id,
     ));
+  }
+
+  void backToMainScreen(BuildContext context) {
+    Navigator.of(context).pop();
   }
 }
