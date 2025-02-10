@@ -16,78 +16,37 @@ class CustomAddTimeAndDayOfAddNewGroupScreen extends StatelessWidget {
       this.onChangedSelectDay,
       required this.onPressedSelectTime,
       required this.onPressedAddTimeAndDayToTable,
-      required this.listTimeDayGroupModel,
+      required this.outPutlistTimeDayGroupModel,
       required this.onChangedMSValue,
-      required this.outPutDataMSValue});
+      required this.outPutDataMSValue,
+      required this.onPressedDeleteAppointment});
   final List<String> listDay;
   final Stream<String?> outPuttime;
   final Function(String?)? onChangedSelectDay;
   final VoidCallback onPressedSelectTime;
   final VoidCallback onPressedAddTimeAndDayToTable;
-  final List<TimeDayGroupModel> listTimeDayGroupModel;
+  final Stream<List<TimeDayGroupModel>> outPutlistTimeDayGroupModel;
   final ValueChanged<String?> onChangedMSValue;
-
   final Stream<String> outPutDataMSValue;
+  final void Function(int index) onPressedDeleteAppointment;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-            Text(ConstValue.kDay,
-                style: TextStyle(
-                    fontFamily: FontName.geDinerOne,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white)),
-            SizedBox(
-              width: 15.w,
-            ),
-            Expanded(
-              child: CustomDropdown<String>.search(
-                hintText: ConstValue.kChooseDay,
-                items: listDay,
-                noResultFoundText: '',
-                //initialItem: 'a',
-                onChanged: onChangedSelectDay,
-              ),
-            ),
-          ],
-        ),
+        CustomChooseDay(
+            listDay: listDay, onChangedSelectDay: onChangedSelectDay),
         SizedBox(
           height: 12.h,
         ),
-        StreamBuilder<String>(
-            stream: outPutDataMSValue,
-            builder: (context, snapshot) =>
-                snapshot.connectionState == ConnectionState.waiting
-                    ? Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : CustomRedioMSAddNewGroupscreen(
-                        onPressedSelectTime: onPressedSelectTime,
-                        groupValueMS: snapshot.data!,
-                        onChangedMSValue: onChangedMSValue)),
+        streamOfMsValue(
+            outPutDataMSValue: outPutDataMSValue,
+            onPressedSelectTime: onPressedSelectTime,
+            onChangedMSValue: onChangedMSValue),
         SizedBox(
           height: 12.h,
         ),
-        StreamBuilder(
-          stream: outPuttime,
-          builder: (context, snapshot) =>
-              snapshot.connectionState == ConnectionState.waiting
-                  ? SizedBox()
-                  : snapshot.data == null
-                      ? SizedBox()
-                      : Align(
-                          alignment: AlignmentDirectional.center,
-                          child: Text(
-                            snapshot.data!,
-                            style: TextStyle(
-                                fontSize: 20.sp,
-                                color: Colors.white,
-                                fontFamily: FontName.geDinerOne),
-                          )),
-        ),
+        streamOfTimeSelected(outPuttime: outPuttime),
         SizedBox(
           height: 12.h,
         ),
@@ -97,119 +56,300 @@ class CustomAddTimeAndDayOfAddNewGroupScreen extends StatelessWidget {
         SizedBox(
           height: 12.h,
         ),
-        Table(
-          border: TableBorder.all(
-            borderRadius: BorderRadius.all(Radius.circular(14.r)),
-            color: Colors.white,
+        streamOfCountOfAppoinment(
+            outPutlistTimeDayGroupModel: outPutlistTimeDayGroupModel),
+        StreamOfTable(
+          onPressedDeleteAppointment: onPressedDeleteAppointment,
+          outPutlistTimeDayGroupModel: outPutlistTimeDayGroupModel,
+        ),
+        SizedBox(
+          height: 12.h,
+        ),
+        StreamEmptyOrNot(
+            outPutlistTimeDayGroupModel: outPutlistTimeDayGroupModel),
+      ],
+    );
+  }
+}
+
+class CustomChooseDay extends StatelessWidget {
+  const CustomChooseDay({
+    super.key,
+    required this.listDay,
+    required this.onChangedSelectDay,
+  });
+
+  final List<String> listDay;
+  final Function(String? p1)? onChangedSelectDay;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Text(ConstValue.kDay,
+            style: TextStyle(
+                fontFamily: FontName.geDinerOne,
+                fontWeight: FontWeight.bold,
+                color: Colors.white)),
+        SizedBox(
+          width: 15.w,
+        ),
+        Expanded(
+          child: CustomDropdown<String>.search(
+            hintText: ConstValue.kChooseDay,
+            items: listDay,
+            noResultFoundText: '',
+            //initialItem: 'a',
+            onChanged: onChangedSelectDay,
           ),
-          children: [
-            const TableRow(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                  child: const Center(
-                    child: Text(
-                      ConstValue.kDay,
-                      style: TextStyle(
-                          color: Colors.white, fontFamily: FontName.geDinerOne),
+        ),
+      ],
+    );
+  }
+}
+
+class streamOfCountOfAppoinment extends StatelessWidget {
+  const streamOfCountOfAppoinment({
+    super.key,
+    required this.outPutlistTimeDayGroupModel,
+  });
+
+  final Stream<List<TimeDayGroupModel>> outPutlistTimeDayGroupModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: outPutlistTimeDayGroupModel,
+      builder: (context, snapshot) =>
+          snapshot.connectionState == ConnectionState.waiting
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : snapshot.data == null || snapshot.data!.isEmpty
+                  ? const SizedBox()
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 16),
+                      child: Text(
+                        "${ConstValue.kCountOfAppointmentAdded} : (${snapshot.data!.length})",
+                        style: TextStyle(color: Colors.white, fontSize: 20.sp),
+                      ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                  child: const Center(
-                    child: Text(
-                      ConstValue.kTime,
-                      style: TextStyle(
-                          color: Colors.white, fontFamily: FontName.geDinerOne),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                  child: Center(
-                    child: Text(
-                      ConstValue.kMS,
-                      style: TextStyle(
-                          color: Colors.white, fontFamily: FontName.geDinerOne),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                  child: Center(
-                    child: Text(
-                      "حذف",
-                      style: TextStyle(
-                          color: Colors.white, fontFamily: FontName.geDinerOne),
-                    ),
-                  ),
-                ),
-              ],
-              decoration: BoxDecoration(
-                  color: ColorsManager.kPrimaryColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(14),
-                    topRight: Radius.circular(14),
-                  )),
-            ),
-            for (int i = 0; i < listTimeDayGroupModel.length; i++)
+    );
+  }
+}
+
+class streamOfMsValue extends StatelessWidget {
+  const streamOfMsValue({
+    super.key,
+    required this.outPutDataMSValue,
+    required this.onPressedSelectTime,
+    required this.onChangedMSValue,
+  });
+
+  final Stream<String> outPutDataMSValue;
+  final VoidCallback onPressedSelectTime;
+  final ValueChanged<String?> onChangedMSValue;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<String>(
+        stream: outPutDataMSValue,
+        builder: (context, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : CustomRedioMSAddNewGroupscreen(
+                    onPressedSelectTime: onPressedSelectTime,
+                    groupValueMS: snapshot.data!,
+                    onChangedMSValue: onChangedMSValue));
+  }
+}
+
+class streamOfTimeSelected extends StatelessWidget {
+  const streamOfTimeSelected({
+    super.key,
+    required this.outPuttime,
+  });
+
+  final Stream<String?> outPuttime;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: outPuttime,
+      builder: (context, snapshot) =>
+          snapshot.connectionState == ConnectionState.waiting
+              ? const SizedBox()
+              : snapshot.data == null
+                  ? const SizedBox()
+                  : Align(
+                      alignment: AlignmentDirectional.center,
+                      child: Text(
+                        snapshot.data!,
+                        style: TextStyle(
+                            fontSize: 20.sp,
+                            color: Colors.white,
+                            fontFamily: FontName.geDinerOne),
+                      )),
+    );
+  }
+}
+
+class StreamEmptyOrNot extends StatelessWidget {
+  const StreamEmptyOrNot({
+    super.key,
+    required this.outPutlistTimeDayGroupModel,
+  });
+
+  final Stream<List<TimeDayGroupModel>> outPutlistTimeDayGroupModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: outPutlistTimeDayGroupModel,
+      builder: (context, snapshot) => snapshot.data == null
+          ? const Text(
+              ConstValue.kNoTimeAndDayYetAdd,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: FontName.geDinerOne,
+                  fontWeight: FontWeight.bold),
+            )
+          : snapshot.data!.isEmpty
+              ? const Text(
+                  ConstValue.kNoTimeAndDayYetAdd,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: FontName.geDinerOne,
+                      fontWeight: FontWeight.bold),
+                )
+              : const SizedBox(),
+    );
+  }
+}
+
+class StreamOfTable extends StatelessWidget {
+  const StreamOfTable({super.key, required this.outPutlistTimeDayGroupModel, required this.onPressedDeleteAppointment});
+  final Stream<List<TimeDayGroupModel>> outPutlistTimeDayGroupModel;
+    final void Function(int index) onPressedDeleteAppointment;
+
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: outPutlistTimeDayGroupModel,
+      builder: (context, snapshot) => Table(
+        border: TableBorder.all(
+          borderRadius: BorderRadius.all(Radius.circular(14.r)),
+          color: Colors.white,
+        ),
+        children: [
+          customHeaderOfTable(),
+          if (snapshot.data != null)
+            for (int i = 0; i < snapshot.data!.length; i++)
               TableRow(
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
                     child: Center(
                       child: Text(
-                        listTimeDayGroupModel[i].day,
-                        style: TextStyle(
+                        snapshot.data![i].day,
+                        style: const TextStyle(
                             color: Colors.white,
                             fontFamily: FontName.geDinerOne),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
                     child: Center(
                       child: Text(
-                        listTimeDayGroupModel[i].time,
-                        style: TextStyle(
+                        snapshot.data![i].time,
+                        style: const TextStyle(
                             color: Colors.white,
                             fontFamily: FontName.geDinerOne),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
                     child: Center(
                       child: Text(
-                        listTimeDayGroupModel[i].ms,
-                        style: TextStyle(
+                        snapshot.data![i].ms,
+                        style: const TextStyle(
                             color: Colors.white,
                             fontFamily: FontName.geDinerOne),
                       ),
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.delete),
+                       onPressed: () {
+                      onPressedDeleteAppointment(i);
+                    },
+                    icon: const Icon(Icons.delete),
                     color: Colors.white,
                   )
                 ],
               ),
-          ],
-        ),
-        SizedBox(
-          height: 12.h,
-        ),
-        if (listTimeDayGroupModel.isEmpty)
-          Text(
-            ConstValue.kNoTimeAndDayYetAdd,
-            style: TextStyle(
-                color: Colors.white,
-                fontFamily: FontName.geDinerOne,
-                fontWeight: FontWeight.bold),
-          )
-      ],
+        ],
+      ),
     );
   }
+}
+
+TableRow customHeaderOfTable() {
+  return const TableRow(
+    children: [
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+        child: Center(
+          child: Text(
+            ConstValue.kDay,
+            style:
+                TextStyle(color: Colors.white, fontFamily: FontName.geDinerOne),
+          ),
+        ),
+      ),
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+        child: Center(
+          child: Text(
+            ConstValue.kTime,
+            style:
+                TextStyle(color: Colors.white, fontFamily: FontName.geDinerOne),
+          ),
+        ),
+      ),
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+        child: Center(
+          child: Text(
+            ConstValue.kMS,
+            style:
+                TextStyle(color: Colors.white, fontFamily: FontName.geDinerOne),
+          ),
+        ),
+      ),
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+        child: Center(
+          child: Text(
+            "حذف",
+            style:
+                TextStyle(color: Colors.white, fontFamily: FontName.geDinerOne),
+          ),
+        ),
+      ),
+    ],
+    decoration: BoxDecoration(
+        color: ColorsManager.kPrimaryColor,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(14),
+          topRight: Radius.circular(14),
+        )),
+  );
 }

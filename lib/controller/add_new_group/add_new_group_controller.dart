@@ -26,6 +26,11 @@ class AddNewGroupScreenController {
   late Sink<String> inPutDataSelectedTime;
   late Stream<String> outPutDataSelectedTime;
 
+  late StreamController<List<TimeDayGroupModel>>
+      controllerListTimeDayGroupModel;
+  late Sink<List<TimeDayGroupModel>> inPutDataListTimeDayGroupModel;
+  late Stream<List<TimeDayGroupModel>> outPutDataListTimeDayGroupModel;
+
   AddNewGroupScreenController() {
     start();
   }
@@ -38,25 +43,35 @@ class AddNewGroupScreenController {
   Future<void> initControllers() async {
     controllerListItemStageModel = StreamController();
     inputDataListItemStageModel = controllerListItemStageModel.sink;
-    outPutDataListItemStageModel = controllerListItemStageModel.stream;
+    outPutDataListItemStageModel = controllerListItemStageModel.stream.asBroadcastStream();
 
     controllerMSValue = StreamController();
     inPutDataMSValue = controllerMSValue.sink;
-    outPutDataMSValue = controllerMSValue.stream;
+    outPutDataMSValue = controllerMSValue.stream.asBroadcastStream();
 
     controllerSelectedTime = StreamController();
     inPutDataSelectedTime = controllerSelectedTime.sink;
-    outPutDataSelectedTime = controllerSelectedTime.stream;
+    outPutDataSelectedTime = controllerSelectedTime.stream.asBroadcastStream();
+
+    controllerListTimeDayGroupModel = StreamController();
+    inPutDataListTimeDayGroupModel = controllerListTimeDayGroupModel.sink;
+    outPutDataListTimeDayGroupModel =
+        controllerListTimeDayGroupModel.stream.asBroadcastStream();
   }
 
   void initAllData() {
     getAllItemStageModelList();
     addNewValueMs();
     addNewValueOfSelectedTime();
+    changeStatusOfStreamTimeDay();
   }
 
   void addNewValueMs() {
     inPutDataMSValue.add(groupValueMS);
+  }
+
+  void changeStatusOfStreamTimeDay() {
+    inPutDataListTimeDayGroupModel.add(listTimeDayGroupModel);
   }
 
   void addNewValueOfSelectedTime() {
@@ -132,6 +147,9 @@ class AddNewGroupScreenController {
     inPutDataMSValue.close();
     controllerSelectedTime.close();
     inPutDataSelectedTime.close();
+    inPutDataListTimeDayGroupModel.close();
+    controllerListTimeDayGroupModel.close();
+    
   }
 
   void addTimeAndDayToTable() {
@@ -140,5 +158,11 @@ class AddNewGroupScreenController {
       day: selectedDay!,
       time: "${selectedTime!.minute} : ${selectedTime!.hour}",
     ));
+    changeStatusOfStreamTimeDay();
+  }
+
+  void onPressedDeleteAppointment(int index) {
+    listTimeDayGroupModel.removeAt(index);
+    changeStatusOfStreamTimeDay();
   }
 }
