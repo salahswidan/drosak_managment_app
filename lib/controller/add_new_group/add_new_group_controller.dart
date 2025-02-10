@@ -8,6 +8,7 @@ import '../../model/group/time_day_group_model.dart';
 class AddNewGroupScreenController {
   String status = ConstValue.kAddNewGroup;
   String? selectedDay;
+  ItemStageModel? selectedEducationalStage;
   TimeOfDay? selectedTime;
 
   TextEditingController controllerGroupDesc = TextEditingController();
@@ -43,7 +44,8 @@ class AddNewGroupScreenController {
   Future<void> initControllers() async {
     controllerListItemStageModel = StreamController();
     inputDataListItemStageModel = controllerListItemStageModel.sink;
-    outPutDataListItemStageModel = controllerListItemStageModel.stream.asBroadcastStream();
+    outPutDataListItemStageModel =
+        controllerListItemStageModel.stream.asBroadcastStream();
 
     controllerMSValue = StreamController();
     inPutDataMSValue = controllerMSValue.sink;
@@ -100,7 +102,9 @@ class AddNewGroupScreenController {
     }
   }
 
-  onChangedSelectEducationStageName(ItemStageModel? p1) {}
+  onChangedSelectEducationStageName(ItemStageModel? p1) {
+    selectedEducationalStage = p1;
+  }
 
   void onPressedSelectTime(BuildContext context) async {
     {
@@ -149,7 +153,6 @@ class AddNewGroupScreenController {
     inPutDataSelectedTime.close();
     inPutDataListTimeDayGroupModel.close();
     controllerListTimeDayGroupModel.close();
-    
   }
 
   void addTimeAndDayToTable() {
@@ -165,4 +168,27 @@ class AddNewGroupScreenController {
     listTimeDayGroupModel.removeAt(index);
     changeStatusOfStreamTimeDay();
   }
+
+  void saveAllData(BuildContext context) async {
+    String requiredData = '';
+    if (controllerGroupName.text.trim().isEmpty) {
+      requiredData += ConstValue.kAddNameOfGroup;
+    }
+    if (selectedEducationalStage == null) {
+      requiredData += " , ${ConstValue.kChooseEducationStage}";
+    }
+    if (listTimeDayGroupModel.isEmpty) {
+      requiredData += " , ${ConstValue.kAddSomeAppointment}";
+    }
+    if (requiredData.isEmpty) {
+      await addDetailsOfGroups();
+      await addDetailsOfAppointments();
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(requiredData)));
+    }
+  }
+  
+ Future addDetailsOfAppointments() async{}
+ Future addDetailsOfGroups() async{}
 }
