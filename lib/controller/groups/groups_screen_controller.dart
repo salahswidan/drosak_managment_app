@@ -33,7 +33,8 @@ class GroupsScreenController {
   Future<void> initControllers() async {
     controllerListItemsGroupModel = StreamController();
     inputDataListItemsGroupModel = controllerListItemsGroupModel.sink;
-    outPutDataListItemsGroupModel = controllerListItemsGroupModel.stream.asBroadcastStream();
+    outPutDataListItemsGroupModel =
+        controllerListItemsGroupModel.stream.asBroadcastStream();
   }
 
   Future<void> disposeControllers() async {
@@ -41,9 +42,11 @@ class GroupsScreenController {
     inputDataListItemsGroupModel.close();
   }
 
-  void addNewGroup({required BuildContext context}) {
-    Navigator.of(context).pushNamed(RoutesName.kAddGroupScreen,
-        arguments: ConstValue.kAddNewGroup);
+  void addNewGroup({required BuildContext context})  {
+   Navigator.of(context)
+        .pushNamed(RoutesName.kAddGroupScreen,
+            arguments: ConstValue.kAddNewGroup)
+        .then((value) => getAllData());
   }
 
   Future<List<GroupDetails>> getGroupsDetailsFromDataBase() async {

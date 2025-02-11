@@ -33,7 +33,8 @@ class AddNewGroupScreenController {
   late Sink<List<AppointmentModel>> inPutDataListTimeDayGroupModel;
   late Stream<List<AppointmentModel>> outPutDataListTimeDayGroupModel;
 
-  AddNewGroupScreenController() {
+  BuildContext context;
+  AddNewGroupScreenController(this.context) {
     start();
   }
 
@@ -107,8 +108,13 @@ class AddNewGroupScreenController {
     selectedEducationalStage = p1;
   }
 
+  void _closeKeyboard() {
+    FocusScope.of(context).unfocus(); // to hide keyboard
+  }
+
   void onPressedSelectTime(BuildContext context) async {
     {
+      _closeKeyboard();
       TimeOfDay? time = await showTimePicker(
           barrierDismissible: false,
           cancelText: ConstValue.kCancel,
@@ -157,6 +163,8 @@ class AddNewGroupScreenController {
   }
 
   void addTimeAndDayToTable() {
+          _closeKeyboard();
+
     listAppointmentGroupModel.add(AppointmentModel(
       ms: groupValueMS,
       day: selectedDay!,

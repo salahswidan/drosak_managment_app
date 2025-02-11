@@ -18,7 +18,7 @@ class _AddNewGroupScreenState extends State<AddNewGroupScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _controller = AddNewGroupScreenController();
+    _controller = AddNewGroupScreenController(context);
   }
 
   @override
