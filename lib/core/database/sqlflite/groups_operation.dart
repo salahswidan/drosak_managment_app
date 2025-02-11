@@ -4,16 +4,17 @@ import '../../../model/education_stage/item_stage_model.dart';
 import 'my_sqlflite_database.dart';
 
 class GroupsOperation extends MySqlFliteDatabase {
-  Future<bool> insertGroupDetails(GroupDetails groupDetails) {
-    return insert(
+  Future<int> insertGroupDetails(GroupDetails groupDetails) async {
+    return insertAndReturnedId(
         tableName: MySqlFliteDatabase.groupTableName,
         values: groupDetails.toJson());
+   
   }
 
-  Future<bool> insertAppointmentDetails(AppointmentModel appointment) {
+  Future<bool> insertAppointmentDetails(AppointmentModel appointment,int groupID)  {
     return insert(
         tableName: MySqlFliteDatabase.appointmentsTableName,
-        values: appointment.toJson());
+        values: appointment.toJson(groupID));
   }
 
   Future<List<GroupDetails>> getAllGroupsData() async {
@@ -24,6 +25,17 @@ class GroupsOperation extends MySqlFliteDatabase {
     listGroupDetails +=
         data.map((item) => GroupDetails.fromJson(item)).toList();
     return listGroupDetails;
+  }
+
+  Future<List<AppointmentModel>> getAllAppointmentsData() async {
+    List<AppointmentModel> listAppointment = [];
+    List<Map<String, Object?>> data = await select(
+      tableName: MySqlFliteDatabase.appointmentsTableName,
+    );
+    // listAppointment +=
+    //     data.map((item) => AppointmentModel.fromJson(item)).toList();
+    print(data.toString());
+    return listAppointment;
   }
 
   Future<bool> softDelete(ItemStageModel itemStageModel) async {

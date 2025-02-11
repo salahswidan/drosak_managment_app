@@ -182,9 +182,10 @@ class AddNewGroupScreenController {
       requiredData += " , ${ConstValue.kAddSomeAppointment}";
     }
     if (requiredData.isEmpty) {
-      bool insertedGroupDetails = await addDetailsOfGroups();
-      if (insertedGroupDetails == true) {
-        if (await addDetailsOfAppointments()) {
+      int insertedGroupDetails = await addDetailsOfGroups();
+      if (insertedGroupDetails > 0) {
+        //! here
+        if (await addDetailsOfAppointments(insertedGroupDetails)) {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(ConstValue.kAddedGroupDetailsSucces)));
           backToMainScreen(context);
@@ -196,18 +197,18 @@ class AddNewGroupScreenController {
     }
   }
 
-  Future<bool> addDetailsOfAppointments() async {
+  Future<bool> addDetailsOfAppointments(int groupId) async {
     bool inserted = false;
     for (var appointmentItem in listAppointmentGroupModel) {
       GroupsOperation groupsOperation = GroupsOperation();
 
-      inserted =
-          await groupsOperation.insertAppointmentDetails(appointmentItem);
+      inserted = await groupsOperation.insertAppointmentDetails(
+          appointmentItem, groupId);
     }
     return inserted;
   }
 
-  Future<bool> addDetailsOfGroups() async {
+  Future<int> addDetailsOfGroups() async {
     GroupsOperation groupsOperation = GroupsOperation();
     return groupsOperation.insertGroupDetails(GroupDetails(
       name: controllerGroupName.text.trim(),
