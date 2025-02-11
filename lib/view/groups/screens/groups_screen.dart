@@ -46,8 +46,8 @@ class _EducationStagesScreenState extends State<GroupsScreen> {
                 }),
             CustomListViewItemGroups(
                 // onRefresh: _controller.onRefresh,
-                // outPutDataListItemsGroupsModel:
-                //   _controller.outPutDataListItemsStageModel,
+                outPutDataListItemsGroupModel:
+                    _controller.outPutDataListItemsGroupModel,
                 deleteFun: (ItemStageModel) {},
                 editFun: (itemStageModel) {
                   // _controller.editItemStage(itemStageModel, context);

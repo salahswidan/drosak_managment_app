@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:drosak_managment_app/core/resources/const_value.dart';
 import 'package:drosak_managment_app/model/group/appointment_model.dart';
 import 'package:drosak_managment_app/model/group/group_details.dart';
@@ -9,9 +8,9 @@ import '../../core/database/sqlflite/groups_operation.dart';
 import '../../core/resources/route_manager.dart';
 
 class GroupsScreenController {
-  late StreamController<List> controllerListItemsGroupModel;
-  late Sink<List> inputDataListItemsGroupModel;
-  late Stream<List> outPutDataListItemsGroupModel;
+  late StreamController<List<GroupInfoModel>> controllerListItemsGroupModel;
+  late Sink<List<GroupInfoModel>> inputDataListItemsGroupModel;
+  late Stream<List<GroupInfoModel>> outPutDataListItemsGroupModel;
   List<GroupInfoModel> listGroupInfo = [];
   GroupsScreenController() {
     start();
@@ -23,18 +22,18 @@ class GroupsScreenController {
 
   Future<void> getAllData() async {
     GroupsOperation groupsOperation = GroupsOperation();
-    var a = groupsOperation.getAllGroupsInfo();
-    a.then((value) => log(value.toString()));
+    listGroupInfo = await groupsOperation.getAllGroupsInfo();
+    initAllData();
   }
 
   void initAllData() {
-    inputDataListItemsGroupModel.add([]);
+    inputDataListItemsGroupModel.add(listGroupInfo);
   }
 
   Future<void> initControllers() async {
     controllerListItemsGroupModel = StreamController();
     inputDataListItemsGroupModel = controllerListItemsGroupModel.sink;
-    outPutDataListItemsGroupModel = controllerListItemsGroupModel.stream;
+    outPutDataListItemsGroupModel = controllerListItemsGroupModel.stream.asBroadcastStream();
   }
 
   Future<void> disposeControllers() async {
