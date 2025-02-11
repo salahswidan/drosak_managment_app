@@ -184,7 +184,7 @@ class AddNewGroupScreenController {
     if (requiredData.isEmpty) {
       int insertedGroupDetails = await addDetailsOfGroups();
       if (insertedGroupDetails > 0) {
-        //! here
+        //! here 93 video
         if (await addDetailsOfAppointments(insertedGroupDetails)) {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(ConstValue.kAddedGroupDetailsSucces)));

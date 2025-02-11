@@ -1,5 +1,6 @@
 import 'package:drosak_managment_app/model/group/group_details.dart';
 import 'package:drosak_managment_app/model/group/appointment_model.dart';
+import 'package:drosak_managment_app/model/group/group_info_model.dart';
 import '../../../model/education_stage/item_stage_model.dart';
 import 'my_sqlflite_database.dart';
 
@@ -8,10 +9,10 @@ class GroupsOperation extends MySqlFliteDatabase {
     return insertAndReturnedId(
         tableName: MySqlFliteDatabase.groupTableName,
         values: groupDetails.toJson());
-   
   }
 
-  Future<bool> insertAppointmentDetails(AppointmentModel appointment,int groupID)  {
+  Future<bool> insertAppointmentDetails(
+      AppointmentModel appointment, int groupID) {
     return insert(
         tableName: MySqlFliteDatabase.appointmentsTableName,
         values: appointment.toJson(groupID));
@@ -32,10 +33,25 @@ class GroupsOperation extends MySqlFliteDatabase {
     List<Map<String, Object?>> data = await select(
       tableName: MySqlFliteDatabase.appointmentsTableName,
     );
-    // listAppointment +=
-    //     data.map((item) => AppointmentModel.fromJson(item)).toList();
-    print(data.toString());
+    listAppointment +=
+        data.map((item) => AppointmentModel.fromJson(item)).toList();
     return listAppointment;
+  }
+
+  Future<List<GroupInfoModel>> getAllGroupsInfo() async {
+    List<GroupInfoModel> listGroupInfo = [];
+    List<GroupDetails> listGroupDetails = await getAllGroupsData();
+    GroupsOperation groupsOperation = GroupsOperation();
+    List<AppointmentModel> listAppointmentsModel =
+        await groupsOperation.getAllAppointmentsData();
+    for (var item in listGroupDetails) {
+      List<AppointmentModel> listAppointment = listAppointmentsModel
+          .where((element) => element.groupId == item.id)
+          .toList();
+      listGroupInfo.add(
+          GroupInfoModel(groupDetails: item, listAppointment: listAppointment));
+    }
+    return listGroupInfo;
   }
 
   Future<bool> softDelete(ItemStageModel itemStageModel) async {

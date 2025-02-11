@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:drosak_managment_app/core/resources/const_value.dart';
 import 'package:drosak_managment_app/model/group/appointment_model.dart';
 import 'package:drosak_managment_app/model/group/group_details.dart';
+import 'package:drosak_managment_app/model/group/group_info_model.dart';
 import 'package:flutter/material.dart';
 import '../../core/database/sqlflite/groups_operation.dart';
 import '../../core/resources/route_manager.dart';
@@ -10,11 +12,19 @@ class GroupsScreenController {
   late StreamController<List> controllerListItemsGroupModel;
   late Sink<List> inputDataListItemsGroupModel;
   late Stream<List> outPutDataListItemsGroupModel;
+  List<GroupInfoModel> listGroupInfo = [];
   GroupsScreenController() {
     start();
   }
   void start() async {
     await initControllers();
+    await getAllData();
+  }
+
+  Future<void> getAllData() async {
+    GroupsOperation groupsOperation = GroupsOperation();
+    var a = groupsOperation.getAllGroupsInfo();
+    a.then((value) => log(value.toString()));
   }
 
   void initAllData() {
@@ -42,10 +52,10 @@ class GroupsScreenController {
     return groupsOperation.getAllGroupsData();
   }
 
-  Future getAppointmentsDetailsFromDataBase() async {
+  Future<List<AppointmentModel>> getAppointmentsDetailsFromDataBase() async {
     GroupsOperation groupsOperation = GroupsOperation();
-    var a = await groupsOperation.getAllAppointmentsData();
-    print(a);
+    return groupsOperation.getAllAppointmentsData();
   }
+
   //Stream<List<ItemStageModel>> outPutDataListItemsStageModel;
 }
