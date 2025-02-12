@@ -13,8 +13,8 @@ class CustomListViewItemGroups extends StatelessWidget {
     required this.onRefresh
   });
   final Stream<List<GroupInfoModel>> outPutDataListItemsGroupModel;
-  final void Function(GroupInfoModel itemStageModel) deleteFun;
-  final void Function(GroupInfoModel itemStageModel) editFun;
+  final void Function(GroupInfoModel groupInfoModel) deleteFun;
+  final void Function(GroupInfoModel groupInfoModel) editFun;
   final void Function() onRefresh;
 
   @override

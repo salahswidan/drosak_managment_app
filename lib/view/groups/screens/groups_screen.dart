@@ -24,7 +24,7 @@ class _EducationStagesScreenState extends State<GroupsScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _controller = GroupsScreenController();
+    _controller = GroupsScreenController(context);
   }
 
   @override
@@ -35,12 +35,12 @@ class _EducationStagesScreenState extends State<GroupsScreen> {
         body: Column(
           children: [
             CustomAppBarTitleAddSearch(
-                streamCount: _controller.outPutDataListItemsGroupModel,
+                streamCount: _controller.outPutDataListItemGroupModel,
                 title: ConstValue.kGroups,
                 // outPutDataListItemsStageModel:
                 //     _controller.GroupsScreenController,
                 onPressedAdd: () {
-                  _controller.addNewGroup(context: context);
+                  _controller.addNewGroups(context: context);
                 },
                 onPressedSearch: () {
                   //   _controller.showCustomSearch(context);
@@ -48,9 +48,13 @@ class _EducationStagesScreenState extends State<GroupsScreen> {
             CustomListViewItemGroups(
                 onRefresh: _controller.onRefresh,
                 outPutDataListItemsGroupModel:
-                    _controller.outPutDataListItemsGroupModel,
+                    _controller.outPutDataListItemGroupModel,
                 deleteFun: _controller.deleteGroupInfo,
-                editFun: (groupInfoModel) {}),
+                editFun: (groupInfoModel) {
+                  _controller.editGroupInfo(
+                    groupInfoModel,
+                  );
+                }),
           ],
         ),
       ),

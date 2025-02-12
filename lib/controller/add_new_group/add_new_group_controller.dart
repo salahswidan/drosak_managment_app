@@ -100,7 +100,14 @@ class AddNewGroupScreenController {
   void getArgumentFromLastScreen(BuildContext context) {
     var arg = ModalRoute.of(context);
     if (arg != null) {
-      String argument = arg.settings.arguments.toString();
+      var arguments = arg.settings.arguments;
+      if (arguments is Map) {
+        // now in status edit
+        print(arguments);
+      } else {
+        // now in status add
+      }
+      String argument = arguments.toString();
       status = argument;
     }
   }
