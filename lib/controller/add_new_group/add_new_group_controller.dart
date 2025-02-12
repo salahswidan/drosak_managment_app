@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/database/sqlflite/education_stage_operation.dart';
 import '../../core/database/sqlflite/groups_operation.dart';
 import '../../core/resources/const_value.dart';
+import '../../core/resources/route_manager.dart';
 import '../../model/education_stage/item_stage_model.dart';
 import '../../model/group/group_details.dart';
 import '../../model/group/appointment_model.dart';
@@ -163,7 +164,7 @@ class AddNewGroupScreenController {
   }
 
   void addTimeAndDayToTable() {
-          _closeKeyboard();
+    _closeKeyboard();
 
     listAppointmentGroupModel.add(AppointmentModel(
       ms: groupValueMS,
@@ -190,10 +191,9 @@ class AddNewGroupScreenController {
       requiredData += " , ${ConstValue.kAddSomeAppointment}";
     }
     if (requiredData.isEmpty) {
-      int insertedGroupDetails = await addDetailsOfGroups();
-      if (insertedGroupDetails > 0) {
-        //! here 93 video
-        if (await addDetailsOfAppointments(insertedGroupDetails)) {
+      int groupId = await addDetailsOfGroups();
+      if (groupId > 0) {
+        if (await addDetailsOfAppointments(groupId)) {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(ConstValue.kAddedGroupDetailsSucces)));
           backToMainScreen(context);
@@ -227,5 +227,7 @@ class AddNewGroupScreenController {
 
   void backToMainScreen(BuildContext context) {
     Navigator.of(context).pop();
+    // Navigator.of(context)
+    //     .pushNamed(RoutesName.kMainScreen, arguments: ConstValue.kAddNewGroup);
   }
 }

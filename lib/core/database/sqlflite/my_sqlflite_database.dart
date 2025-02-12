@@ -29,7 +29,7 @@ class MySqlFliteDatabase extends Crud {
     String databasesPath = await sqfliteDataBase.getDatabasesPath();
     String drosakDatabaseName = "drosak.db";
     String realDatabasePath = join(databasesPath, drosakDatabaseName);
-    int versionDataBase = 5;
+    int versionDataBase = 6;
     _db ??= await sqfliteDataBase.openDatabase(realDatabasePath,
         onOpen: (db) async {
       await db.execute("PRAGMA foreign_keys = ON");
@@ -60,7 +60,9 @@ class MySqlFliteDatabase extends Crud {
         "  $appointmentsColumnDay TEXT , "
         "  $appointmentsColumnTime TEXT , "
         "  $appointmentsColumnMS TEXT , "
-        "  $appointmentsColumnIDGroup  INTEGER )");
+        "  $appointmentsColumnIDGroup  INTEGER , "
+        " CONSTRAINT group_and_appointment FOREIGN KEY ($appointmentsColumnIDGroup) REFERENCES $groupTableName ($groupColumnID) ON DELETE CASCADE ON UPDATE CASCADE "
+        ")");
   }
 
   _onCreate(sqfliteDataBase.Database db, int version) async {
@@ -84,7 +86,9 @@ class MySqlFliteDatabase extends Crud {
         "  $appointmentsColumnDay TEXT , "
         "  $appointmentsColumnTime TEXT , "
         "  $appointmentsColumnMS TEXT , "
-        "  $appointmentsColumnIDGroup  INTEGER )");
+        "  $appointmentsColumnIDGroup  INTEGER , "
+        " CONSTRAINT group_and_appointment FOREIGN KEY ($appointmentsColumnIDGroup) REFERENCES $groupTableName ($groupColumnID) ON DELETE CASCADE ON UPDATE CASCADE "
+        ")");
   }
 
   @override

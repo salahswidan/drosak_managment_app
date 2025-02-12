@@ -12,6 +12,7 @@ class GroupsScreenController {
   late Sink<List<GroupInfoModel>> inputDataListItemsGroupModel;
   late Stream<List<GroupInfoModel>> outPutDataListItemsGroupModel;
   List<GroupInfoModel> listGroupInfo = [];
+  // BuildContext context;
   GroupsScreenController() {
     start();
   }
@@ -65,5 +66,13 @@ class GroupsScreenController {
     listGroupInfo.clear();
     inputDataListItemsGroupModel.add(listGroupInfo);
     getAllData();
+  }
+
+  void deleteGroupInfo(
+    GroupInfoModel groupInfoModel,
+  ) async {
+    GroupsOperation groupOperation = GroupsOperation();
+    bool deleted = await groupOperation.startDelete(groupInfoModel);
+    onRefresh();
   }
 }

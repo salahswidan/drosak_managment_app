@@ -54,12 +54,11 @@ class GroupsOperation extends MySqlFliteDatabase {
     return listGroupInfo;
   }
 
-  Future<bool> softDelete(ItemStageModel itemStageModel) async {
-    return await update(
-        tableName: MySqlFliteDatabase.educationalStageTableName,
-        values: {MySqlFliteDatabase.educationalStageStatus: 0},
+  Future<bool> startDelete(GroupInfoModel groupInfoModel) async {
+    return await delete(
+        tableName: MySqlFliteDatabase.groupTableName,
         where:
-            '${MySqlFliteDatabase.educationalStageID}==${itemStageModel.id}');
+            '${MySqlFliteDatabase.groupColumnID}==${groupInfoModel.groupDetails.id}');
   }
 
   Future<bool> editEducationStage(ItemStageModel itemStageModel) async {

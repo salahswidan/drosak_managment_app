@@ -2,6 +2,7 @@ import 'package:drosak_managment_app/core/database/sqlflite/groups_operation.dar
 import 'package:drosak_managment_app/core/resources/const_value.dart';
 import 'package:drosak_managment_app/core/widget/app_bar/custom_app_bar_title_add_search.dart';
 import 'package:drosak_managment_app/model/education_stage/item_stage_model.dart';
+import 'package:drosak_managment_app/model/group/group_info_model.dart';
 import 'package:flutter/material.dart';
 import '../../../controller/education_stage/education_stage_controller.dart';
 import '../../../controller/groups/groups_screen_controller.dart';
@@ -48,10 +49,8 @@ class _EducationStagesScreenState extends State<GroupsScreen> {
                 onRefresh: _controller.onRefresh,
                 outPutDataListItemsGroupModel:
                     _controller.outPutDataListItemsGroupModel,
-                deleteFun: (groupInfoModel) {},
-                editFun: (groupInfoModel) {
-                  // _controller.editItemStage(itemStageModel, context);
-                }),
+                deleteFun: _controller.deleteGroupInfo,
+                editFun: (groupInfoModel) {}),
           ],
         ),
       ),

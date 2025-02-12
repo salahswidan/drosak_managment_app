@@ -27,7 +27,8 @@ class CustomItemStage extends StatelessWidget {
 
           bool? confirmDelete = await showDialog(
             context: context,
-            builder: (context) => AlertDialog(
+            builder: (context) => 
+            AlertDialog(
               title: Text(ConstValue.kAreYouSureToDeleteItem),
               actions: [
                 TextButton(
