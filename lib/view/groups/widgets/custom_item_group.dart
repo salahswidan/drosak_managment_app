@@ -1,7 +1,6 @@
 import 'package:drosak_managment_app/core/resources/colors_manager.dart';
 import 'package:drosak_managment_app/core/resources/const_value.dart';
 import 'package:drosak_managment_app/core/resources/font_manager.dart';
-import 'package:drosak_managment_app/model/education_stage/item_stage_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../model/group/group_info_model.dart';
@@ -9,20 +8,18 @@ import '../../../model/group/group_info_model.dart';
 class CustomItemGroup extends StatelessWidget {
   const CustomItemGroup({
     super.key,
-    // required this.itemStageModel,
     required this.deleteFun,
     required this.editFun,
     required this.groupInfoModel,
   });
   final GroupInfoModel groupInfoModel;
-  final void Function(ItemStageModel itemStageModel) deleteFun;
-  final void Function(ItemStageModel itemStageModel) editFun;
+  final void Function(GroupInfoModel itemStageModel) deleteFun;
+  final void Function(GroupInfoModel itemStageModel) editFun;
   @override
   Widget build(BuildContext context) {
     return Dismissible(
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.startToEnd) {
-          //     deleteFun(itemStageModel);
 
           bool? confirmDelete = await showDialog(
             context: context,
@@ -110,14 +107,58 @@ class CustomItemGroup extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Center(
-                                child: Text(
-                                  groupInfoModel.groupDetails.name,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16.sp,
-                                    fontFamily: FontName.geDinerOne,
-                                    color: Colors.white,
-                                  ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        groupInfoModel.groupDetails.name,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16.sp,
+                                          fontFamily: FontName.geDinerOne,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 6.w,
+                                    ),
+                                    PopupMenuButton(
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          child: Text(
+                                            ConstValue.kDelete,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16.sp,
+                                              fontFamily: FontName.geDinerOne,
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            deleteFun(groupInfoModel
+                                                );
+                                          },
+                                        ),
+                                        PopupMenuItem(
+                                          child: Text(
+                                            ConstValue.kEdit,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16.sp,
+                                              fontFamily: FontName.geDinerOne,
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            editFun(groupInfoModel);
+                                          },
+                                        ),
+                                      ],
+                                      child: Icon(
+                                        Icons.more_vert,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               SizedBox(

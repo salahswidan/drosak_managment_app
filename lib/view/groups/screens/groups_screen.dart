@@ -45,11 +45,11 @@ class _EducationStagesScreenState extends State<GroupsScreen> {
                   //   _controller.showCustomSearch(context);
                 }),
             CustomListViewItemGroups(
-                // onRefresh: _controller.onRefresh,
+                onRefresh: _controller.onRefresh,
                 outPutDataListItemsGroupModel:
                     _controller.outPutDataListItemsGroupModel,
-                deleteFun: (ItemStageModel) {},
-                editFun: (itemStageModel) {
+                deleteFun: (groupInfoModel) {},
+                editFun: (groupInfoModel) {
                   // _controller.editItemStage(itemStageModel, context);
                 }),
           ],

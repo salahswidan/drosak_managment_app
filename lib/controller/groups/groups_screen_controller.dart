@@ -42,8 +42,8 @@ class GroupsScreenController {
     inputDataListItemsGroupModel.close();
   }
 
-  void addNewGroup({required BuildContext context})  {
-   Navigator.of(context)
+  void addNewGroup({required BuildContext context}) {
+    Navigator.of(context)
         .pushNamed(RoutesName.kAddGroupScreen,
             arguments: ConstValue.kAddNewGroup)
         .then((value) => getAllData());
@@ -60,4 +60,10 @@ class GroupsScreenController {
   }
 
   //Stream<List<ItemStageModel>> outPutDataListItemsStageModel;
+
+  void onRefresh() {
+    listGroupInfo.clear();
+    inputDataListItemsGroupModel.add(listGroupInfo);
+    getAllData();
+  }
 }

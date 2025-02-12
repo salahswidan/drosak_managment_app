@@ -10,45 +10,49 @@ class CustomListViewItemGroups extends StatelessWidget {
     required this.outPutDataListItemsGroupModel,
     required this.deleteFun,
     required this.editFun,
-    //required this.onRefresh
+    required this.onRefresh
   });
   final Stream<List<GroupInfoModel>> outPutDataListItemsGroupModel;
-  final void Function(ItemStageModel itemStageModel) deleteFun;
-  final void Function(ItemStageModel itemStageModel) editFun;
-  //final Future<void> Function() onRefresh;
+  final void Function(GroupInfoModel itemStageModel) deleteFun;
+  final void Function(GroupInfoModel itemStageModel) editFun;
+  final void Function() onRefresh;
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: outPutDataListItemsGroupModel,
       builder: (context, snapshot) => Expanded(
-        child: snapshot.connectionState == ConnectionState.waiting
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            :
-            //  RefreshIndicator(
-            //     onRefresh: () async {
-            //       onRefresh();
-            //     },
-            //     child:
+        child: RefreshIndicator(
+          onRefresh: () async {
+           onRefresh();
+          },
+          child: snapshot.connectionState == ConnectionState.waiting
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              :
+              //  RefreshIndicator(
+              //     onRefresh: () async {
+              //       onRefresh();
+              //     },
+              //     child:
 
-            ListView.separated(
-                itemBuilder: (context, index) =>
-                    index == snapshot.data!.length
-                    ? SizedBox(
+              ListView.separated(
+                  itemBuilder: (context, index) =>
+                      index == snapshot.data!.length
+                          ? SizedBox(
+                              height: 24.h,
+                            )
+                          : CustomItemGroup(
+                              groupInfoModel: snapshot.data![index],
+                              deleteFun: deleteFun,
+                              editFun: editFun,
+                            ),
+                  separatorBuilder: (context, index) => SizedBox(
                         height: 24.h,
-                      )
-                    :
-                    CustomItemGroup(
-                      groupInfoModel: snapshot.data![index],
-                      deleteFun: deleteFun,
-                      editFun: editFun,
-                    ),
-                separatorBuilder: (context, index) => SizedBox(
-                      height: 24.h,
-                    ),
-                itemCount: snapshot.data!.length +1),
+                      ),
+                  itemCount: snapshot.data!.length + 1),
+        ),
       ),
     );
   }
