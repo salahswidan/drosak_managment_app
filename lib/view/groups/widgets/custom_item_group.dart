@@ -24,6 +24,7 @@ class CustomItemGroup extends StatelessWidget {
             right: 2.h,
             top: -20.h,
             child: CircleAvatar(
+              backgroundColor: ColorsManager.kPrimaryColor,
               child: Text(
                 groupInfoModel.groupDetails.id.toString(),
                 //  itemStageModel.id.toString(),
@@ -32,9 +33,24 @@ class CustomItemGroup extends StatelessWidget {
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
               ),
-              backgroundColor: ColorsManager.kPrimaryColor,
             )),
         Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+                border: Border.all(
+                  color: ColorsManager.kPrimaryColor,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(18),
+                boxShadow: const [
+                  BoxShadow(
+                      color: ColorsManager.kPrimaryColor,
+                      blurRadius: 5,
+                      blurStyle: BlurStyle.outer,
+                      spreadRadius: 1,
+                      offset: Offset(0, 0))
+                ]),
+            margin: EdgeInsets.symmetric(horizontal: 16.w),
             child: Padding(
               padding: EdgeInsets.only(
                   right: 22.w, top: 6.h, bottom: 6.h, left: 10.w),
@@ -92,7 +108,7 @@ class CustomItemGroup extends StatelessWidget {
                                         },
                                       ),
                                     ],
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.more_vert,
                                       color: Colors.white,
                                     ),
@@ -115,7 +131,7 @@ class CustomItemGroup extends StatelessWidget {
                                     Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 4, vertical: 4),
-                                      child: const Center(
+                                      child: Center(
                                         child: Text(
                                           ConstValue.kDay,
                                           style: TextStyle(color: Colors.white),
@@ -125,7 +141,7 @@ class CustomItemGroup extends StatelessWidget {
                                     Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 4, vertical: 4),
-                                      child: const Center(
+                                      child: Center(
                                         child: Text(
                                           ConstValue.kTime,
                                           style: TextStyle(color: Colors.white),
@@ -248,23 +264,7 @@ class CustomItemGroup extends StatelessWidget {
                     //   ),
                     // ),
                   ]),
-            ),
-            width: double.infinity,
-            decoration: BoxDecoration(
-                border: Border.all(
-                  color: ColorsManager.kPrimaryColor,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(18),
-                boxShadow: [
-                  const BoxShadow(
-                      color: ColorsManager.kPrimaryColor,
-                      blurRadius: 5,
-                      blurStyle: BlurStyle.outer,
-                      spreadRadius: 1,
-                      offset: Offset(0, 0))
-                ]),
-            margin: EdgeInsets.symmetric(horizontal: 16.w)),
+            )),
       ],
     );
   }

@@ -48,28 +48,28 @@ class MainScreenController {
     TabsDetailsModel(
       imageIconSvg: AssetsValuesManager.kEducationalStagesImageSvg,
       text: ConstValue.kEducationalStages,
-      screen: EducationStagesScreen(),
+      screen: const EducationStagesScreen(),
     ),
    
     TabsDetailsModel(
       imageIconSvg: AssetsValuesManager.kGroupsImageSvg,
       text: ConstValue.kGroups,
-      screen: GroupsScreen(),
+      screen: const GroupsScreen(),
     ),
     TabsDetailsModel(
       imageIconSvg: AssetsValuesManager.kStudentsImageSvg,
       text: ConstValue.kStudents,
-      screen: StudentsScreen(),
+      screen: const StudentsScreen(),
     ),
     TabsDetailsModel(
       imageIconSvg: AssetsValuesManager.kTheAudienceImageSvg,
       text: ConstValue.kTheAudience,
-      screen: AudienceScreen(),
+      screen: const AudienceScreen(),
     ),
      TabsDetailsModel(
       imageIconSvg: AssetsValuesManager.kPaymentImageSvg,
       text: ConstValue.kPaying,
-      screen: PayingScreen(),
+      screen: const PayingScreen(),
     ),
   ];
   void onTapAtTabItemBottomNavBar(int index) {

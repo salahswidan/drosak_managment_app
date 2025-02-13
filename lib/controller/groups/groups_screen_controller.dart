@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import '../../core/database/sqlflite/groups_operation.dart';
 import '../../core/resources/route_manager.dart';
 
-
 class GroupsScreenController {
   late StreamController<List<GroupInfoModel>> controllerListItemGroupModel;
   late Sink<List<GroupInfoModel>> inputDataListItemGroupModel;
@@ -89,12 +88,10 @@ class GroupsScreenController {
   }
 
   void editGroupInfo(GroupInfoModel groupInfoModel) {
-    Navigator.of(context)
-        .pushNamed(RoutesName.kAddGroupScreen,
-            arguments: {
-              ConstValue.kStatus:ConstValue.kEditThisGroup,
-              ConstValue.kGroupInfoModel:groupInfoModel,
-            })
-        .then((value) => getAllData());
+    //?انت اللي كاتب ان لما اضغط علي تعديل يروح لصفحه تانيه
+    Navigator.of(context).pushNamed(RoutesName.kAddGroupScreen, arguments: {
+      ConstValue.kStatus: ConstValue.kEditThisGroup,
+      ConstValue.kGroupInfoModel: groupInfoModel,
+    }).then((value) => getAllData());
   }
 }

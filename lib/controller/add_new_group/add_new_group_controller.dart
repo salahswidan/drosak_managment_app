@@ -80,9 +80,10 @@ class AddNewGroupScreenController {
   }
 
   void addNewValueOfSelectedTime() {
-    if (selectedTime != null)
+    if (selectedTime != null) {
       inPutDataSelectedTime
           .add("${selectedTime!.minute} : ${selectedTime!.hour}");
+    }
   }
 
   void getAllItemStageModelList() async {
@@ -106,9 +107,13 @@ class AddNewGroupScreenController {
         print(arguments);
       } else {
         // now in status add
+      } 
+      //? check if was map or not
+      if(arguments is Map){
+        status = arguments[ConstValue.kStatus];
+      }else {
+        status = "not found now";
       }
-      String argument = arguments.toString();
-      status = argument;
     }
   }
 
