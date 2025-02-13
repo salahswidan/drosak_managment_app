@@ -88,7 +88,6 @@ class GroupsScreenController {
   }
 
   void editGroupInfo(GroupInfoModel groupInfoModel) {
-    //?انت اللي كاتب ان لما اضغط علي تعديل يروح لصفحه تانيه
     Navigator.of(context).pushNamed(RoutesName.kAddGroupScreen, arguments: {
       ConstValue.kStatus: ConstValue.kEditThisGroup,
       ConstValue.kGroupInfoModel: groupInfoModel,

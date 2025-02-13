@@ -1,9 +1,9 @@
 import 'dart:async';
+import 'package:drosak_managment_app/model/group/group_info_model.dart';
 import 'package:flutter/material.dart';
 import '../../core/database/sqlflite/education_stage_operation.dart';
 import '../../core/database/sqlflite/groups_operation.dart';
 import '../../core/resources/const_value.dart';
-import '../../core/resources/route_manager.dart';
 import '../../model/education_stage/item_stage_model.dart';
 import '../../model/group/group_details.dart';
 import '../../model/group/appointment_model.dart';
@@ -13,6 +13,7 @@ class AddNewGroupScreenController {
   String? selectedDay;
   ItemStageModel? selectedEducationalStage;
   TimeOfDay? selectedTime;
+  GroupInfoModel? _groupInfoModel;
 
   TextEditingController controllerGroupDesc = TextEditingController();
   TextEditingController controllerGroupName = TextEditingController();
@@ -69,6 +70,9 @@ class AddNewGroupScreenController {
     addNewValueMs();
     addNewValueOfSelectedTime();
     changeStatusOfStreamTimeDay();
+    if (_groupInfoModel != null) {
+      fillDataInEditStatus();
+    }
   }
 
   void addNewValueMs() {
@@ -104,17 +108,35 @@ class AddNewGroupScreenController {
       var arguments = arg.settings.arguments;
       if (arguments is Map) {
         // now in status edit
-        print(arguments);
+        argumentsInEditStatus(arguments);
       } else {
         // now in status add
-      } 
-      //? check if was map or not
-      if(arguments is Map){
-        status = arguments[ConstValue.kStatus];
-      }else {
-        status = "not found now";
       }
     }
+  }
+
+  void argumentsInEditStatus(Map arguments) {
+    //? check if was map or not
+    if (arguments.containsKey(ConstValue.kStatus)) {
+      status = arguments[ConstValue.kStatus];
+    }
+    //? check if has kGroupInfoModel
+    if (arguments.containsKey(ConstValue.kGroupInfoModel)) {
+      if (arguments[ConstValue.kGroupInfoModel] is GroupInfoModel) {
+        _groupInfoModel = arguments[ConstValue.kGroupInfoModel];
+      }
+    }
+  }
+
+  void fillDataInEditStatus() {
+    //? fill name
+    controllerGroupName.text = _groupInfoModel!.groupDetails.name;
+    //? fill desc
+    controllerGroupDesc.text = _groupInfoModel!.groupDetails.desc;
+    //? fill listAppointmentGroupModel
+    listAppointmentGroupModel = _groupInfoModel!.listAppointment;
+    //? sand to input stream
+    inPutDataListTimeDayGroupModel.add(listAppointmentGroupModel);
   }
 
   onChangedSelectEducationStageName(ItemStageModel? p1) {
