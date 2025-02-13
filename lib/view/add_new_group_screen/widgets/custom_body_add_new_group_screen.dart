@@ -30,6 +30,7 @@ class CustomBodyAddNewGroupScreen extends StatelessWidget {
                   formStateGroupDetails: controller.formStateGroupDetails,
                 ),
                 CustomSelectEducationStageNameAddNewGroup(
+                  initialItem: controller.selectedEducationalStage,
                   outPutDataListItemStageModel:
                       controller.outPutDataListItemStageModel,
                   onChange: controller.onChangedSelectEducationStageName,
@@ -47,9 +48,9 @@ class CustomBodyAddNewGroupScreen extends StatelessWidget {
                     },
                     onPressedAddTimeAndDayToTable: () {
                       controller.onPressedAddTimeAndDayToTable(context);
-                    }, onPressedDeleteAppointment: 
-                      controller.onPressedDeleteAppointment
-                  ),
+                    },
+                    onPressedDeleteAppointment:
+                        controller.onPressedDeleteAppointment),
               ]),
         ),
       ),

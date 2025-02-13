@@ -10,9 +10,10 @@ class CustomSelectEducationStageNameAddNewGroup extends StatelessWidget {
   const CustomSelectEducationStageNameAddNewGroup(
       {super.key,
       required this.onChange,
-      required this.outPutDataListItemStageModel});
+      required this.outPutDataListItemStageModel,  this.initialItem});
   final Function(ItemStageModel?)? onChange;
   final Stream<List<ItemStageModel>> outPutDataListItemStageModel;
+  final ItemStageModel? initialItem;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,7 @@ class CustomSelectEducationStageNameAddNewGroup extends StatelessWidget {
                   hintText: ConstValue.kChooseEducationStage,
                   items: snapshot.data,
                   noResultFoundText: ConstValue.kNoFoundThisEducationStageName,
-                  //initialItem: 'a',
+                  initialItem: initialItem,
                   listItemBuilder: (context, item, isSelected, onItemSelect) =>
                       ListTile(
                     contentPadding: EdgeInsets.zero,
