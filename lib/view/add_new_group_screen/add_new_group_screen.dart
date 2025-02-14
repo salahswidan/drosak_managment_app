@@ -31,7 +31,7 @@ class _AddNewGroupScreenState extends State<AddNewGroupScreen> {
               : ConstValue.kEdit,
           title: _controller.status,
           onPressed: () {
-            _controller.saveAllData(context);
+            _controller.onPressedAtEditOrSave();
           }),
       body: CustomBodyAddNewGroupScreen(
         controller: _controller,

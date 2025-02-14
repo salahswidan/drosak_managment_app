@@ -61,12 +61,31 @@ class GroupsOperation extends MySqlFliteDatabase {
             '${MySqlFliteDatabase.groupColumnID}==${groupInfoModel.groupDetails.id}');
   }
 
-  Future<bool> editEducationStage(ItemStageModel itemStageModel) async {
+  Future<bool> editEducationStage(GroupInfoModel groupInfoModel) async {
+    bool done = false;
+    //? update appointment
+  done =await  _updateGroupTable(groupInfoModel.groupDetails);
+  //if(done == true)
+
+    //? update groupTable
+    return done;
+  }
+
+  Future<bool> _updateGroupTable(GroupDetails groupDetails) async {
     return await update(
-        tableName: MySqlFliteDatabase.educationalStageTableName,
-        values: itemStageModel.toJson(),
-        where: '${MySqlFliteDatabase.educationalStageID}=?',
-        whereArgs: ['${itemStageModel.id}']);
+        tableName: MySqlFliteDatabase.groupTableName,
+        values: groupDetails.toJson(),
+        where: '${MySqlFliteDatabase.groupColumnID}=?',
+        whereArgs: ['${groupDetails.id}']);
+  }
+
+  Future<bool> _updateAppointment(
+      AppointmentModel appointmentModel, int groupId) async {
+    return await update(
+        tableName: MySqlFliteDatabase.appointmentsTableName,
+        values: appointmentModel.toJson(groupId),
+        where: '${MySqlFliteDatabase.appointmentsColumnID}=?',
+        whereArgs: ['${appointmentModel.id}']);
   }
 
   Future<List<ItemStageModel>> getSearchWord(

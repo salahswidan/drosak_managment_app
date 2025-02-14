@@ -229,7 +229,7 @@ class AddNewGroupScreenController {
     changeStatusOfStreamTimeDay();
   }
 
-  void saveAllData(BuildContext context) async {
+  String checkAllDataValidated() {
     String requiredData = '';
     if (controllerGroupName.text.trim().isEmpty) {
       requiredData += ConstValue.kAddNameOfGroup;
@@ -240,6 +240,11 @@ class AddNewGroupScreenController {
     if (listAppointmentGroupModel.isEmpty) {
       requiredData += " , ${ConstValue.kAddSomeAppointment}";
     }
+    return requiredData;
+  }
+
+  void saveAllData(BuildContext context) async {
+    String requiredData = checkAllDataValidated();
     if (requiredData.isEmpty) {
       int groupId = await addDetailsOfGroups();
       if (groupId > 0) {
@@ -279,5 +284,39 @@ class AddNewGroupScreenController {
     Navigator.of(context).pop();
     // Navigator.of(context)
     //     .pushNamed(RoutesName.kMainScreen, arguments: ConstValue.kAddNewGroup);
+  }
+
+  void onPressedAtEditOrSave() async {
+    if (status == ConstValue.kEditThisGroup) {
+      bool updated = await editIntoGroupInfo();
+      if (updated == true) {
+        {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(ConstValue.kAddedGroupDetailsSucces)));
+          backToMainScreen(context);
+        }
+      }
+      //   Navigator.of(context).pop();
+    } else {
+      saveAllData(context);
+    }
+  }
+
+  Future<bool> editIntoGroupInfo() async {
+    String requiredData = checkAllDataValidated();
+    if (requiredData.isEmpty) {
+      GroupsOperation groupsOperation = GroupsOperation();
+      return groupsOperation.editEducationStage(GroupInfoModel(
+          groupDetails: GroupDetails(
+              id: _groupInfoModel!.groupDetails.id,
+              name: controllerGroupName.text,
+              desc: controllerGroupDesc.text,
+              educationStageID: selectedEducationalStage!.id),
+          listAppointment: listAppointmentGroupModel));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(requiredData)));
+      return false;
+    }
   }
 }
