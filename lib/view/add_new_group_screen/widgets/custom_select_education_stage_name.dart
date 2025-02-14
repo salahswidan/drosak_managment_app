@@ -1,6 +1,7 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:multiple_stream_builder/multiple_stream_builder.dart';
 import '../../../core/resources/colors_manager.dart';
 import '../../../core/resources/const_value.dart';
 import '../../../core/resources/font_manager.dart';
@@ -10,9 +11,11 @@ class CustomSelectEducationStageNameAddNewGroup extends StatelessWidget {
   const CustomSelectEducationStageNameAddNewGroup(
       {super.key,
       required this.onChange,
-      required this.outPutDataListItemStageModel,  this.initialItem});
+      required this.outPutDataListItemStageModel,
+      this.initialItem, required this.outPutDataInitiaItem});
   final Function(ItemStageModel?)? onChange;
   final Stream<List<ItemStageModel>> outPutDataListItemStageModel;
+  final Stream<ItemStageModel> outPutDataInitiaItem;
   final ItemStageModel? initialItem;
 
   @override
@@ -38,18 +41,18 @@ class CustomSelectEducationStageNameAddNewGroup extends StatelessWidget {
         SizedBox(
           height: 12.h,
         ),
-        StreamBuilder(
-          stream: outPutDataListItemStageModel,
-          builder: (context, snapshot) => snapshot.connectionState ==
+        StreamBuilder2<List<ItemStageModel>, ItemStageModel>(
+          streams: StreamTuple2(outPutDataListItemStageModel, outPutDataInitiaItem),
+          builder: (context, snapshots) => snapshots.snapshot1.connectionState ==
                   ConnectionState.waiting
               ? Center(
                   child: CircularProgressIndicator(),
                 )
               : CustomDropdown<ItemStageModel>.search(
                   hintText: ConstValue.kChooseEducationStage,
-                  items: snapshot.data,
+                  items: snapshots.snapshot1.data,
                   noResultFoundText: ConstValue.kNoFoundThisEducationStageName,
-                  initialItem: initialItem,
+                  initialItem:snapshots.snapshot2.data,
                   listItemBuilder: (context, item, isSelected, onItemSelect) =>
                       ListTile(
                     contentPadding: EdgeInsets.zero,

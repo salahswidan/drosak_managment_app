@@ -37,6 +37,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.0.16
   image_picker: ^1.1.2
+  multiple_stream_builder: ^3.0.2
   path_provider: ^2.1.5
   sqflite: ^2.4.1
 
