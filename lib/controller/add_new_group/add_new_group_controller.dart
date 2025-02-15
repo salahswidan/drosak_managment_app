@@ -142,7 +142,7 @@ class AddNewGroupScreenController {
     //? fill desc
     controllerGroupDesc.text = _groupInfoModel!.groupDetails.desc;
     //? fill listAppointmentGroupModel
-    listAppointmentGroupModel = _groupInfoModel!.listAppointment;
+    listAppointmentGroupModel += _groupInfoModel!.listAppointment;
     //? sand to input stream
     inPutDataListTimeDayGroupModel.add(listAppointmentGroupModel);
     //? fill stage name
@@ -227,6 +227,7 @@ class AddNewGroupScreenController {
   void onPressedDeleteAppointment(int index) {
     listAppointmentGroupModel.removeAt(index);
     changeStatusOfStreamTimeDay();
+    print(_groupInfoModel!.listAppointment);
   }
 
   String checkAllDataValidated() {
@@ -306,13 +307,15 @@ class AddNewGroupScreenController {
     String requiredData = checkAllDataValidated();
     if (requiredData.isEmpty) {
       GroupsOperation groupsOperation = GroupsOperation();
-      return groupsOperation.editEducationStage(GroupInfoModel(
-          groupDetails: GroupDetails(
-              id: _groupInfoModel!.groupDetails.id,
-              name: controllerGroupName.text,
-              desc: controllerGroupDesc.text,
-              educationStageID: selectedEducationalStage!.id),
-          listAppointment: listAppointmentGroupModel));
+      return groupsOperation.editEducationStage(
+          GroupInfoModel(
+              groupDetails: GroupDetails(
+                  id: _groupInfoModel!.groupDetails.id,
+                  name: controllerGroupName.text,
+                  desc: controllerGroupDesc.text,
+                  educationStageID: selectedEducationalStage!.id),
+              listAppointment: listAppointmentGroupModel),
+          _groupInfoModel!.listAppointment);
     } else {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(requiredData)));

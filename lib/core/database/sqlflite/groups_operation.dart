@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:drosak_managment_app/model/group/group_details.dart';
 import 'package:drosak_managment_app/model/group/appointment_model.dart';
 import 'package:drosak_managment_app/model/group/group_info_model.dart';
@@ -61,14 +63,46 @@ class GroupsOperation extends MySqlFliteDatabase {
             '${MySqlFliteDatabase.groupColumnID}==${groupInfoModel.groupDetails.id}');
   }
 
-  Future<bool> editEducationStage(GroupInfoModel groupInfoModel) async {
-    bool done = false;
-    //? update appointment
-  done =await  _updateGroupTable(groupInfoModel.groupDetails);
-  //if(done == true)
+  Future<bool> _deleteAppointment(AppointmentModel appointmentModel) async {
+    return await delete(
+        tableName: MySqlFliteDatabase.appointmentsTableName,
+        where:
+            '${MySqlFliteDatabase.appointmentsColumnID}==${appointmentModel.id}');
+  }
 
-    //? update groupTable
-    return done;
+  Future<bool> editEducationStage(GroupInfoModel groupInfoModel,
+      List<AppointmentModel> oldAppointmentModel) async {
+    bool updateGroup = false;
+    bool deleteAppointment = false;
+    bool insertAppointment = false;
+    //? update appointment
+    updateGroup = await _updateGroupTable(groupInfoModel.groupDetails);
+    if (updateGroup == true) {
+      //? delete all appointment
+      for (var item in oldAppointmentModel) {
+        GroupsOperation groupsOperation = GroupsOperation();
+        deleteAppointment = await groupsOperation._deleteAppointment(item);
+        if (deleteAppointment == false) {
+          break;
+        }
+      }
+      if (deleteAppointment == true) {
+        //? insert new appointment
+        for (var item in groupInfoModel.listAppointment) {
+          GroupsOperation groupsOperation = GroupsOperation();
+          insertAppointment = await groupsOperation.insertAppointmentDetails(
+              item, groupInfoModel.groupDetails.id);
+          if (insertAppointment == false) {
+            break;
+          }
+        }
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
   }
 
   Future<bool> _updateGroupTable(GroupDetails groupDetails) async {
