@@ -43,7 +43,7 @@ class _EducationStagesScreenState extends State<GroupsScreen> {
                   _controller.addNewGroups(context: context);
                 },
                 onPressedSearch: () {
-                  //   _controller.showCustomSearch(context);
+                  _controller.onPressedSearch();
                 }),
             CustomListViewItemGroups(
                 onRefresh: _controller.onRefresh,

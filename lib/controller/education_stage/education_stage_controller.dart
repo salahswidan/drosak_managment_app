@@ -9,8 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import '../../core/widget/search/custom_search_delgate_education_stage_screen.dart';
 import '../../view/education_stages/widget/custom_add_new_education_stage.dart';
-import '../../view/education_stages/widget/search/custom_search_delgate_education_stage_screen.dart';
+import '../../view/education_stages/widget/search/custom_list_search_education_stage_screen.dart';
 
 class EducationStageController {
   List<ItemStageModel> listItemStageModel = [];
@@ -30,13 +31,13 @@ class EducationStageController {
     init();
   }
   Future<void> onRefresh() async {
-         listItemStageModel.clear();
-                  inputDataListItemsStageModel
-                      .add(listItemStageModel);
-                  getAllItemList();
+    listItemStageModel.clear();
+    inputDataListItemsStageModel.add(listItemStageModel);
+    getAllItemList();
 
-                  await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(seconds: 1));
   }
+
   void initControllers() {
     controllerListItemsStageModel = StreamController();
     inputDataListItemsStageModel = controllerListItemsStageModel.sink;
@@ -64,7 +65,6 @@ class EducationStageController {
   }
 
   void getAllItemList() async {
-    
     EducationStageOperation educationStageOperation = EducationStageOperation();
     listItemStageModel = await educationStageOperation.getAllEducationData();
     inputDataListItemsStageModel.add(listItemStageModel);
@@ -277,11 +277,22 @@ class EducationStageController {
   void showCustomSearch(BuildContext context) {
     showSearch(
         context: context,
-        delegate: CustomSearchDelegatedEducationStage(
-          editFun: (itemStageModel) {
-            editItemStage(itemStageModel, context);
-          },
-          deleteFun: deleteItemStage,
-        )).then((value) => getAllItemList());
+        delegate: CustomSearchDelegated(myBuildResult: (String query) {
+          EducationStageOperation educationStageOperation =
+              EducationStageOperation();
+          return query == ''
+              ? SizedBox()
+              : CustomListSearchEducationStageScreen(
+                  getSearchItemsStage:
+                      educationStageOperation.getSearchWord(searchWord: query),
+                  deleteFun: (itemStageModel) {
+                    deleteItemStage(itemStageModel );
+                  },
+                  editFun: (itemStageModel) {
+                    editItemStage(itemStageModel, context);
+                  },
+                );
+        })).then((value) => getAllItemList());
   }
 }
+

@@ -6,11 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/database/sqlflite/education_stage_operation.dart';
 import '../../../../model/education_stage/item_stage_model.dart';
 
-class CustomSearchDelegatedEducationStage extends SearchDelegate<String> {
-  CustomSearchDelegatedEducationStage(
-      {required this.deleteFun, required this.editFun});
-  final void Function(ItemStageModel itemStageModel) deleteFun;
-  final void Function(ItemStageModel itemStageModel) editFun;
+class CustomSearchDelegated extends SearchDelegate<String> {
+  Widget Function(String query) myBuildResult;
+  CustomSearchDelegated({required this.myBuildResult});
 
   @override
   ThemeData appBarTheme(BuildContext context) {
@@ -56,15 +54,16 @@ class CustomSearchDelegatedEducationStage extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    EducationStageOperation educationStageOperation = EducationStageOperation();
-    return query == ''
-        ? SizedBox()
-        : CustomListSearchEducationStageScreen(
-            getSearchItemsStage:
-                educationStageOperation.getSearchWord(searchWord: query),
-            deleteFun: deleteFun,
-            editFun: editFun,
-          );
+   // EducationStageOperation educationStageOperation = EducationStageOperation();
+    // return query == ''
+    //     ? SizedBox()
+    //     : CustomListSearchEducationStageScreen(
+    //         getSearchItemsStage:
+    //             educationStageOperation.getSearchWord(searchWord: query),
+    //         deleteFun: deleteFun,
+    //         editFun: editFun,
+    //       );
+    return myBuildResult(query);
   }
 
   @override

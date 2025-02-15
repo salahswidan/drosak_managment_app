@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'package:drosak_managment_app/core/resources/const_value.dart';
+import 'package:drosak_managment_app/core/widget/search/custom_search_delgate_education_stage_screen.dart';
+import 'package:drosak_managment_app/model/education_stage/item_stage_model.dart';
 import 'package:drosak_managment_app/model/group/appointment_model.dart';
 import 'package:drosak_managment_app/model/group/group_details.dart';
 import 'package:drosak_managment_app/model/group/group_info_model.dart';
 import 'package:flutter/material.dart';
+import '../../core/database/sqlflite/education_stage_operation.dart';
 import '../../core/database/sqlflite/groups_operation.dart';
 import '../../core/resources/route_manager.dart';
+import '../../view/education_stages/widget/search/custom_list_search_education_stage_screen.dart';
 
 class GroupsScreenController {
   late StreamController<List<GroupInfoModel>> controllerListItemGroupModel;
@@ -92,5 +96,23 @@ class GroupsScreenController {
       ConstValue.kStatus: ConstValue.kEditThisGroup,
       ConstValue.kGroupInfoModel: groupInfoModel,
     }).then((value) => getAllData());
+  }
+
+  void onPressedSearch() {
+    showSearch(
+        context: context,
+        delegate: CustomSearchDelegated(
+            myBuildResult: (String query) {
+              EducationStageOperation educationStageOperation = EducationStageOperation();
+    return query == ''
+        ? SizedBox()
+        : CustomListSearchEducationStageScreen(
+            getSearchItemsStage:
+                educationStageOperation.getSearchWord(searchWord: query),
+            deleteFun: (itemStageModel){},
+            editFun: (itemStageModel){},
+          );
+              
+            },));
   }
 }
