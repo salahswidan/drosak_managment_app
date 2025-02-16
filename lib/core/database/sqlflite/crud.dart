@@ -19,4 +19,6 @@ abstract class Crud {
       required String columID});
   Future<List<Map<String, Object?>>> select(
       {required String tableName, String? where, List<Object?>? whereArgs});
+  Future<List<Map<String, Object?>>> selectUsingQuery(
+      {required String query});
 }

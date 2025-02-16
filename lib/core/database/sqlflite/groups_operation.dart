@@ -22,9 +22,10 @@ class GroupsOperation extends MySqlFliteDatabase {
 
   Future<List<GroupDetails>> getAllGroupsData() async {
     List<GroupDetails> listGroupDetails = [];
-    List<Map<String, Object?>> data = await select(
-      tableName: MySqlFliteDatabase.groupTableName,
-    );
+    List<Map<String, Object?>> data = await selectUsingQuery(
+        query:
+            'SELECT ${MySqlFliteDatabase.groupTableName}.* FROM ${MySqlFliteDatabase.groupTableName},${MySqlFliteDatabase.educationalStageTableName} WHERE ${MySqlFliteDatabase.educationalStageTableName}.${MySqlFliteDatabase.educationalStageStatus}  = 1 AND ${MySqlFliteDatabase.educationalStageTableName}.${MySqlFliteDatabase.educationalStageID}==${MySqlFliteDatabase.groupTableName}.${MySqlFliteDatabase.groupColumnIDEducation};');
+    print(data);
     listGroupDetails +=
         data.map((item) => GroupDetails.fromJson(item)).toList();
     return listGroupDetails;
