@@ -40,8 +40,8 @@ class MySqlFliteDatabase extends Crud {
   _onUpgrade(
       sqfliteDataBase.Database db, int oldVersion, int newVersion) async {
     await db.execute("DROP TABLE IF EXISTS $educationalStageTableName");
-      await db.execute("DROP TABLE IF EXISTS $groupTableName");
-      await db.execute("DROP TABLE IF EXISTS $appointmentsTableName");
+    await db.execute("DROP TABLE IF EXISTS $groupTableName");
+    await db.execute("DROP TABLE IF EXISTS $appointmentsTableName");
 
     await db.execute("CREATE TABLE IF NOT EXISTS $educationalStageTableName"
         " ( $educationalStageID INTEGER PRIMARY KEY AUTOINCREMENT ,"
@@ -100,13 +100,12 @@ class MySqlFliteDatabase extends Crud {
     return inserted > 0 ? true : false;
   }
 
-  
   Future<int> insertAndReturnedId(
       {required String tableName, required Map<String, Object?> values}) async {
     await _initDatabase();
     int inserted = await _db!.insert(tableName, values);
     await _db!.close();
-    return inserted ;
+    return inserted;
   }
 
   @override
@@ -131,11 +130,25 @@ class MySqlFliteDatabase extends Crud {
   }
 
   @override
-  Future<List<Map<String, Object?>>> search(
-      {required String tableName, required String searchWord}) async {
+  Future<List<Map<String, Object?>>> searchUsingLike(
+      {required String tableName,
+      required String searchWord,
+      required String columName}) async {
     await _initDatabase();
     List<Map<String, Object?>> data = await _db!.query(tableName,
-        where: '$educationalStageName LIKE ?', whereArgs: ['%$searchWord%']);
+        where: '$columName LIKE ?', whereArgs: ['%$searchWord%']);
+    await _db!.close();
+    return data;
+  }
+
+  @override
+  Future<List<Map<String, Object?>>> search(
+      {required String tableName,
+      required String searchedId,
+      required String columID}) async {
+    await _initDatabase();
+    List<Map<String, Object?>> data = await _db!
+        .query(tableName, where: '$columID == ?', whereArgs: [searchedId]);
     await _db!.close();
     return data;
   }

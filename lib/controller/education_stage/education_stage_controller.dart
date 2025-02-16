@@ -70,13 +70,12 @@ class EducationStageController {
     inputDataListItemsStageModel.add(listItemStageModel);
   }
 
-  void deleteItemStage(ItemStageModel itemStageModel) async {
+   void deleteItemStage(ItemStageModel itemStageModel) async {
     EducationStageOperation educationStageOperation = EducationStageOperation();
     bool update = await educationStageOperation.softDelete(itemStageModel);
     listItemStageModel
         .removeWhere((element) => element.id == itemStageModel.id);
   }
-
   void editItemStage(
       ItemStageModel itemStageModel, BuildContext context) async {
     controllerNameEducationalStage.text = itemStageModel.stageName;
@@ -286,7 +285,7 @@ class EducationStageController {
                   getSearchItemsStage:
                       educationStageOperation.getSearchWord(searchWord: query),
                   deleteFun: (itemStageModel) {
-                    deleteItemStage(itemStageModel );
+                    deleteItemStage(itemStageModel);
                   },
                   editFun: (itemStageModel) {
                     editItemStage(itemStageModel, context);
@@ -295,4 +294,3 @@ class EducationStageController {
         })).then((value) => getAllItemList());
   }
 }
-

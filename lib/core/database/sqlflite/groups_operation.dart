@@ -30,6 +30,31 @@ class GroupsOperation extends MySqlFliteDatabase {
     return listGroupDetails;
   }
 
+  Future<List<GroupDetails>> getSearchGroupsName(String groupName) async {
+    List<GroupDetails> listGroupDetails = [];
+    List<Map<String, Object?>> data = await searchUsingLike(
+      columName: MySqlFliteDatabase.groupColumnName,
+      tableName: MySqlFliteDatabase.groupTableName,
+      searchWord: groupName,
+    );
+    listGroupDetails +=
+        data.map((item) => GroupDetails.fromJson(item)).toList();
+    return listGroupDetails;
+  }
+
+  Future<List<AppointmentModel>> getSearchGroupsAppointment(
+      String groupId) async {
+    List<AppointmentModel> listAppointmentModel = [];
+    List<Map<String, Object?>> data = await search(
+      columID: MySqlFliteDatabase.appointmentsColumnIDGroup,
+      tableName: MySqlFliteDatabase.appointmentsTableName,
+      searchedId: groupId,
+    );
+    listAppointmentModel +=
+        data.map((item) => AppointmentModel.fromJson(item)).toList();
+    return listAppointmentModel;
+  }
+
   Future<List<AppointmentModel>> getAllAppointmentsData() async {
     List<AppointmentModel> listAppointment = [];
     List<Map<String, Object?>> data = await select(
@@ -122,18 +147,27 @@ class GroupsOperation extends MySqlFliteDatabase {
         whereArgs: ['${appointmentModel.id}']);
   }
 
-  Future<List<ItemStageModel>> getSearchWord(
-      {required String searchWord}) async {
-    List<ItemStageModel> listItemStageModel = [];
-    List<Map<String, Object?>> data = await select(
-        tableName: MySqlFliteDatabase.educationalStageTableName,
-        where:
-            '${MySqlFliteDatabase.educationalStageName} LIKE ? AND ${MySqlFliteDatabase.educationalStageStatus}== ?',
-        whereArgs: ['%$searchWord%', 1]);
+  Future<List<GroupInfoModel>> getSearchWord(
+      {required String groupName}) async {
+    List<GroupInfoModel> listGroupInfo = [];
+    List<GroupDetails> listGroupDetails = await getSearchGroupsName(groupName);
+    // print(listGroupDetails);
+    GroupsOperation groupsOperation = GroupsOperation();
+    List<AppointmentModel> listAppointmentsModel = [];
+    for (var groupDetails in listGroupDetails) {
+      GroupsOperation groupsOperation = GroupsOperation();
 
-    listItemStageModel +=
-        data.map((item) => ItemStageModel.fromJson(item)).toList();
-    //   print(listItemStageModel);
-    return listItemStageModel;
+      listAppointmentsModel += await groupsOperation
+          .getSearchGroupsAppointment(groupDetails.id.toString());
+    }
+    //? make filltering
+    for (var item in listGroupDetails) {
+      List<AppointmentModel> listAppointment = listAppointmentsModel
+          .where((element) => element.groupId == item.id)
+          .toList();
+      listGroupInfo.add(
+          GroupInfoModel(groupDetails: item, listAppointment: listAppointment));
+    }
+    return listGroupInfo;
   }
 }

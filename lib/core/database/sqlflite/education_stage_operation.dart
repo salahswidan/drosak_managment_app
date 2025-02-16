@@ -39,11 +39,13 @@ class EducationStageOperation extends MySqlFliteDatabase {
   Future<List<ItemStageModel>> getSearchWord(
       {required String searchWord}) async {
     List<ItemStageModel> listItemStageModel = [];
-    List<Map<String, Object?>> data = await select(
+    List<Map<String, Object?>> data = await searchUsingLike(
+        columName: MySqlFliteDatabase.educationalStageName,
         tableName: MySqlFliteDatabase.educationalStageTableName,
-        where:
-            '${MySqlFliteDatabase.educationalStageName} LIKE ? AND ${MySqlFliteDatabase.educationalStageStatus}== ?',
-        whereArgs: ['%$searchWord%', 1]);
+        searchWord: searchWord);
+    // where:
+    //     '${MySqlFliteDatabase.educationalStageName} LIKE ? AND ${MySqlFliteDatabase.educationalStageStatus}== ?',
+    // whereArgs: ['%$searchWord%', 1]);
 
     listItemStageModel +=
         data.map((item) => ItemStageModel.fromJson(item)).toList();

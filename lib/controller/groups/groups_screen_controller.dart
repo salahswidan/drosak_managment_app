@@ -5,6 +5,7 @@ import 'package:drosak_managment_app/model/education_stage/item_stage_model.dart
 import 'package:drosak_managment_app/model/group/appointment_model.dart';
 import 'package:drosak_managment_app/model/group/group_details.dart';
 import 'package:drosak_managment_app/model/group/group_info_model.dart';
+import 'package:drosak_managment_app/view/groups/widgets/custom_list_search_group_screen.dart';
 import 'package:flutter/material.dart';
 import '../../core/database/sqlflite/education_stage_operation.dart';
 import '../../core/database/sqlflite/groups_operation.dart';
@@ -102,17 +103,21 @@ class GroupsScreenController {
     showSearch(
         context: context,
         delegate: CustomSearchDelegated(
-            myBuildResult: (String query) {
-              EducationStageOperation educationStageOperation = EducationStageOperation();
-    return query == ''
-        ? SizedBox()
-        : CustomListSearchEducationStageScreen(
-            getSearchItemsStage:
-                educationStageOperation.getSearchWord(searchWord: query),
-            deleteFun: (itemStageModel){},
-            editFun: (itemStageModel){},
-          );
-              
-            },));
+          myBuildResult: (String query) {
+            GroupsOperation groupsOperation = GroupsOperation();
+            return query == ''
+                ? SizedBox()
+                : CustomListSearchGroupScreen(
+                    getSearchItemsgroup:
+                        groupsOperation.getSearchWord(groupName: query),
+                    deleteFun: deleteGroupInfo,
+                    editFun: (groupInfoModel) {
+                      editGroupInfo(
+                        groupInfoModel,
+                      );
+                    },
+                  );
+          },
+        ));
   }
 }
