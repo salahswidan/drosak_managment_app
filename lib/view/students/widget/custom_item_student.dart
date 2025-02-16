@@ -69,40 +69,10 @@ class CustomItemStudent extends StatelessWidget {
                             Center(
                               child: Row(
                                 children: [
-                                  PopupMenuButton(
-                                    itemBuilder: (context) => [
-                                      PopupMenuItem(
-                                        child: Text(
-                                          ConstValue.kDelete,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.sp,
-                                            fontFamily: FontName.geDinerOne,
-                                          ),
-                                        ),
-                                        onTap: () {
-                                          deleteFun(groupInfoModel);
-                                        },
-                                      ),
-                                      PopupMenuItem(
-                                        child: Text(
-                                          ConstValue.kEdit,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.sp,
-                                            fontFamily: FontName.geDinerOne,
-                                          ),
-                                        ),
-                                        onTap: () {
-                                          editFun(groupInfoModel);
-                                        },
-                                      ),
-                                    ],
-                                    child: const Icon(
-                                      Icons.more_vert,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                  CustomEditAndDeletePopMenuButton(
+                                      deleteFun: deleteFun,
+                                      groupInfoModel: groupInfoModel,
+                                      editFun: editFun),
                                   Expanded(
                                     child: Text(
                                       groupInfoModel.groupDetails.name,
@@ -135,10 +105,11 @@ class CustomItemStudent extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            Row(
+                            RichText(
+                                text: TextSpan(
                               children: [
-                                Text(
-                                  groupInfoModel.groupDetails.name,
+                                TextSpan(
+                                  text: groupInfoModel.groupDetails.name,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 13.sp,
@@ -146,8 +117,8 @@ class CustomItemStudent extends StatelessWidget {
                                     color: Colors.white,
                                   ),
                                 ),
-                                Text(
-                                  ' / ',
+                                TextSpan(
+                                  text: ' / ',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14.sp,
@@ -156,17 +127,18 @@ class CustomItemStudent extends StatelessWidget {
                                     decoration: TextDecoration.underline,
                                   ),
                                 ),
-                                Text(
-                                  groupInfoModel.groupDetails.name,
+                                TextSpan(
+                                  text: groupInfoModel.groupDetails.name,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 13.sp,
                                     fontFamily: FontName.geDinerOne,
                                     color: Colors.white,
                                   ),
-                                ),
+                                )
                               ],
-                            ),
+                            )),
+                           
                             SizedBox(
                               height: 12.h,
                             ),
@@ -295,6 +267,57 @@ class CustomItemStudent extends StatelessWidget {
                   ]),
             )),
       ],
+    );
+  }
+}
+
+class CustomEditAndDeletePopMenuButton extends StatelessWidget {
+  const CustomEditAndDeletePopMenuButton({
+    super.key,
+    required this.deleteFun,
+    required this.groupInfoModel,
+    required this.editFun,
+  });
+
+  final void Function(GroupInfoModel itemStageModel) deleteFun;
+  final GroupInfoModel groupInfoModel;
+  final void Function(GroupInfoModel itemStageModel) editFun;
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton(
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          child: Text(
+            ConstValue.kDelete,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
+              fontFamily: FontName.geDinerOne,
+            ),
+          ),
+          onTap: () {
+            deleteFun(groupInfoModel);
+          },
+        ),
+        PopupMenuItem(
+          child: Text(
+            ConstValue.kEdit,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
+              fontFamily: FontName.geDinerOne,
+            ),
+          ),
+          onTap: () {
+            editFun(groupInfoModel);
+          },
+        ),
+      ],
+      child: const Icon(
+        Icons.more_vert,
+        color: Colors.white,
+      ),
     );
   }
 }
