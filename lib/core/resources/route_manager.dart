@@ -1,4 +1,5 @@
 import 'package:drosak_managment_app/view/add_new_group_screen/add_new_group_screen.dart';
+import 'package:drosak_managment_app/view/add_new_student_screen/add_new_student_screen.dart';
 import 'package:drosak_managment_app/view/audience/screens/audience_screen.dart';
 import 'package:drosak_managment_app/view/education_stages/screens/education_stages_screen.dart';
 import 'package:drosak_managment_app/view/explore_app/screens/explore_app_screen.dart';
@@ -23,6 +24,8 @@ class RouteManager {
     RoutesName.kGroupsScreen: (context) => const GroupsScreen(),
     RoutesName.kStudentsScreen: (context) => const StudentsScreen(),
     RoutesName.kAddGroupScreen: (context) => const AddNewGroupScreen(),
+      RoutesName.kAddNewStudentsScreen: (context) => const AddNewStudentScreen(),
+
   };
 }
 
@@ -37,4 +40,5 @@ class RoutesName {
   static const String kGroupsScreen = '/kGroupsScreen';
   static const String kStudentsScreen = '/kStudentsScreen';
   static const String kAddGroupScreen = '/kAddGroupScreen';
+  static const String kAddNewStudentsScreen = '/kAddNewStudentsScreen';
 }

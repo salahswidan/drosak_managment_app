@@ -49,7 +49,7 @@ class _StudentsScreenState extends State<StudentsScreen> {
                 // outPutDataListItemsStageModel:
                 //     _controller.GroupsScreenController,
                 onPressedAdd: () {
-                  //   _controller.addNewGroups(context: context);
+                    _controller.addNewStudents(context: context);
                 },
                 onPressedSearch: () {
                   //  _controller.onPressedSearch();
