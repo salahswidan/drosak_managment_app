@@ -9,15 +9,20 @@ import '../../model/group/group_details.dart';
 import '../../model/group/appointment_model.dart';
 
 class AddNewStudentScreenController {
-  String status = ConstValue.kAddNewGroup;
+    late StreamController<String?> controllerPathImage;
+  late Sink<String?> inputPathImage;
+  late Stream<String?> outPutPathImage;
+  String status = ConstValue.kAddNewStudent;
+  
+  TextEditingController controllerGroupDesc = TextEditingController();
+  TextEditingController controllerGroupName = TextEditingController();
+  GlobalKey<FormState> formStateGroupDetails = GlobalKey<FormState>();
+  /////////
   String? selectedDay;
   ItemStageModel? selectedEducationalStage;
   TimeOfDay? selectedTime;
   GroupInfoModel? _groupInfoModel;
 
-  TextEditingController controllerGroupDesc = TextEditingController();
-  TextEditingController controllerGroupName = TextEditingController();
-  GlobalKey<FormState> formStateGroupDetails = GlobalKey<FormState>();
   late StreamController<List<ItemStageModel>> controllerListItemStageModel;
   late Sink<List<ItemStageModel>> inputDataListItemStageModel;
   late Stream<List<ItemStageModel>> outPutDataListItemStageModel;
@@ -50,14 +55,19 @@ class AddNewStudentScreenController {
   }
 
   Future<void> initControllers() async {
-    controllerListItemStageModel = StreamController();
-    inputDataListItemStageModel = controllerListItemStageModel.sink;
-    outPutDataListItemStageModel =
-        controllerListItemStageModel.stream.asBroadcastStream();
+    // init stram image student 
+    controllerPathImage = StreamController();
+    inputPathImage = controllerPathImage.sink;
+    outPutPathImage =
+        controllerPathImage.stream.asBroadcastStream();
 
     controllerMSValue = StreamController();
     inPutDataMSValue = controllerMSValue.sink;
     outPutDataMSValue = controllerMSValue.stream.asBroadcastStream();
+
+    controllerListItemStageModel = StreamController();
+    inputDataListItemStageModel = controllerListItemStageModel.sink;
+    outPutDataListItemStageModel = controllerListItemStageModel.stream.asBroadcastStream();
 
     controllerSelectedTime = StreamController();
     inPutDataSelectedTime = controllerSelectedTime.sink;

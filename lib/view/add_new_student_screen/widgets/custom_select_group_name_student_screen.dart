@@ -7,8 +7,8 @@ import '../../../core/resources/const_value.dart';
 import '../../../core/resources/font_manager.dart';
 import '../../../model/education_stage/item_stage_model.dart';
 
-class CustomSelectEducationStageNameAddNewGroup extends StatelessWidget {
-  const CustomSelectEducationStageNameAddNewGroup(
+class CustomSelectGroupNameAddNewGroupScreen extends StatelessWidget {
+  const CustomSelectGroupNameAddNewGroupScreen(
       {super.key,
       required this.onChange,
       required this.outPutDataListItemStageModel,
@@ -23,25 +23,6 @@ class CustomSelectEducationStageNameAddNewGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Divider(
-            thickness: 1,
-          ),
-        ),
-        Align(
-          alignment: AlignmentDirectional.centerStart,
-          child: Text(
-            ConstValue.kChooseEducationStage,
-            style: TextStyle(
-                fontFamily: FontName.geDinerOne,
-                fontWeight: FontWeight.bold,
-                color: Colors.white),
-          ),
-        ),
-        SizedBox(
-          height: 12.h,
-        ),
         StreamBuilder2<List<ItemStageModel>, ItemStageModel>(
           streams:
               StreamTuple2(outPutDataListItemStageModel, outPutDataInitiaItem),
@@ -52,9 +33,9 @@ class CustomSelectEducationStageNameAddNewGroup extends StatelessWidget {
                   child: SizedBox(),
                 )
               : CustomDropdown<ItemStageModel>.search(
-                  hintText: ConstValue.kChooseEducationStage,
+                  hintText: ConstValue.kChooseGroup,
                   items: snapshots.snapshot1.data,
-                  noResultFoundText: ConstValue.kNoFoundThisEducationStageName,
+                  noResultFoundText: ConstValue.kNoFoundThisGroupName,
                   initialItem: snapshots.snapshot2.data,
                   listItemBuilder: (context, item, isSelected, onItemSelect) =>
                       ListTile(

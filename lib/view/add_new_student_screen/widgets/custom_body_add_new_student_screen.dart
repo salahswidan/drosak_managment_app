@@ -4,8 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../controller/add_new_group/add_new_group_controller.dart';
 import '../../../controller/add_new_students/add_new_students_controller.dart';
 import '../../../core/resources/const_value.dart';
-import 'custom_add_time_and_day_of_add_new_student_screen.dart';
-import 'custom_group_details_add_new_student_screen.dart';
+import 'custom_show_time_and_day_of_this_group_add_new_student_screen.dart';
+import 'custom_select_group_name_student_screen.dart';
+import 'custom_student_details_add_new_student_screen.dart';
 import 'custom_select_education_stage_name.dart';
 
 class CustomBodyAddNewStudentScreen extends StatelessWidget {
@@ -26,10 +27,12 @@ class CustomBodyAddNewStudentScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomGroupDetailsAddNewStudentScreen(
+                CustomStudentDetailsAddNewStudentScreen(
                   controllerGroupDesc: controller.controllerGroupDesc,
-                  controllerGroupName: controller.controllerGroupName,
-                  formStateGroupDetails: controller.formStateGroupDetails,
+                  controllerStudentName: controller.controllerGroupName,
+                  formStateStudentDetails: controller.formStateGroupDetails,
+                  outPutPathImage: controller.outPutPathImage,
+                  onPressedDeleteImage: () {},
                 ),
                 CustomSelectEducationStageNameAddNewGroup(
                   outPutDataInitiaItem: controller.outPutDataInitiaItem,
@@ -38,7 +41,14 @@ class CustomBodyAddNewStudentScreen extends StatelessWidget {
                       controller.outPutDataListItemStageModel,
                   onChange: controller.onChangedSelectEducationStageName,
                 ),
-                CustomAddTimeAndDayOfAddNewStudentScreen(
+                CustomSelectGroupNameAddNewGroupScreen(
+                  outPutDataInitiaItem: controller.outPutDataInitiaItem,
+                  initialItem: controller.selectedEducationalStage,
+                  outPutDataListItemStageModel:
+                      controller.outPutDataListItemStageModel,
+                  onChange: controller.onChangedSelectEducationStageName,
+                ),
+                CustomShowTimeAndDayOfThisGroupAddNewStudentScreen(
                     outPutDataMSValue: controller.outPutDataMSValue,
                     onChangedMSValue: controller.onChangedMSValue,
                     listDay: ConstListValues.listDays,
