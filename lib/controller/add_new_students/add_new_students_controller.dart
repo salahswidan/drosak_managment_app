@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../core/database/sqlflite/education_stage_operation.dart';
 import '../../core/resources/const_value.dart';
-import '../../core/resources/font_manager.dart';
 import '../../core/widget/dialog/show_custom_dialog_choose_image_opations.dart';
 import '../../model/education_stage/item_stage_model.dart';
 import '../../model/group/appointment_model.dart';
@@ -13,6 +14,7 @@ class AddNewStudentScreenController {
   late Sink<String?> inputPathImage;
   late Stream<String?> outPutPathImage;
   String status = ConstValue.kAddNewStudent;
+  String? pathImage;
 
   TextEditingController controllerStudentNote = TextEditingController();
   TextEditingController controllerStudentName = TextEditingController();
@@ -65,7 +67,12 @@ class AddNewStudentScreenController {
   }
 
   void initAllData() async {
+    await putImageIntoStream();
     await getAllItemStageModelList();
+  }
+
+  Future<void> putImageIntoStream() async {
+    inputPathImage.add(pathImage);
   }
 
   Future<void> getAllItemStageModelList() async {
@@ -131,13 +138,36 @@ class AddNewStudentScreenController {
     showCustomDialogChooseImage(
       context: context,
       onPressedPickImageByGallery: () {
-        //     pickImage(ImageSource.gallery);
-        // Navigator.pop(context);
+        pickImage(ImageSource.gallery);
+        Navigator.pop(context);
       },
       onPressedPickImageByCamera: () {
-        //     pickImage(ImageSource.camera);
-        // Navigator.pop(context);
+        pickImage(ImageSource.camera);
+        Navigator.pop(context);
       },
     );
+  }
+
+  void onPressedDeleteImage() {
+    pathImage = null;
+    putImageIntoStream();
+  }
+
+  void pickImage(ImageSource imageSource) async {
+    final ImagePicker picker = ImagePicker();
+    var image = await picker.pickImage(source: imageSource);
+    if (image != null) {
+      pathImage = image.path;
+      saveImagesOfMyApp(image);
+    }
+    await putImageIntoStream();
+  }
+
+  void saveImagesOfMyApp(XFile image) async {
+    Directory directory = await getApplicationDocumentsDirectory();
+    var directoryPath = directory.path;
+    var finalPath = "$directoryPath/${image.name}";
+    File fileImage = await File(image.path).copy(finalPath);
+    pathImage = fileImage.path;
   }
 }

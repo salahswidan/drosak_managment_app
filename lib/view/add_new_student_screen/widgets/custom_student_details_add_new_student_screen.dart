@@ -84,16 +84,19 @@ class CustomStudentDetailsAddNewStudentScreen extends StatelessWidget {
                       ? Column(
                           children: [
                             Stack(children: [
-                              Image.file(
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Text(
-                                    "not found",
-                                    style: TextStyle(color: Colors.red),
-                                  );
-                                },
-                                File(snapshot.data!),
-                                width: double.infinity,
-                                fit: BoxFit.cover,
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Image.file(
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return const Text(
+                                      "not found",
+                                      style: TextStyle(color: Colors.red),
+                                    );
+                                  },
+                                  File(snapshot.data!),
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                               IconButton(
                                 onPressed: onPressedDeleteImage,

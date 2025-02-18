@@ -25,7 +25,7 @@ void showCustomDialogChooseImage({
                 children: [
                   InkWell(
                     onTap: () {
-                      onPressedPickImageByGallery;
+                      onPressedPickImageByGallery();
                     },
                     child: const Padding(
                       padding:
@@ -51,7 +51,7 @@ void showCustomDialogChooseImage({
                   const Divider(),
                   InkWell(
                     onTap: () {
-                      onPressedPickImageByCamera;
+                      onPressedPickImageByCamera();
                     },
                     child: const Padding(
                       padding:

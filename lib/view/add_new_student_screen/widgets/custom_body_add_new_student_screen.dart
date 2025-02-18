@@ -33,7 +33,7 @@ class CustomBodyAddNewStudentScreen extends StatelessWidget {
                   controllerStudentName: controller.controllerStudentName,
                   formStateStudentDetails: controller.formStateStudentDetails,
                   outPutPathImage: controller.outPutPathImage,
-                  onPressedDeleteImage: () {},
+                  onPressedDeleteImage: controller.onPressedDeleteImage,
                 ),
                 CustomSelectEducationStageNameAddNewGroup(
                   outPutDataInitiaItem: controller.outPutDataInitiaItem,
