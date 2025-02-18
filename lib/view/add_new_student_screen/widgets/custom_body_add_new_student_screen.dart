@@ -28,6 +28,7 @@ class CustomBodyAddNewStudentScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomStudentDetailsAddNewStudentScreen(
+                  onPressedPickImage: controller.onPressedPickImage,
                   controllerGroupDesc: controller.controllerStudentNote,
                   controllerStudentName: controller.controllerStudentName,
                   formStateStudentDetails: controller.formStateStudentDetails,

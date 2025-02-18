@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../core/database/sqlflite/education_stage_operation.dart';
 import '../../core/resources/const_value.dart';
+import '../../core/resources/font_manager.dart';
+import '../../core/widget/dialog/show_custom_dialog_choose_image_opations.dart';
 import '../../model/education_stage/item_stage_model.dart';
 import '../../model/group/appointment_model.dart';
 
@@ -21,8 +24,6 @@ class AddNewStudentScreenController {
   late Sink<List<ItemStageModel>> inputDataListItemStageModel;
   late Stream<List<ItemStageModel>> outPutDataListItemStageModel;
   List<ItemStageModel> listItemStageModel = [];
-
- 
 
   late StreamController<List<AppointmentModel>> controllerListTimeDayGroupModel;
   late Sink<List<AppointmentModel>> inPutDataListTimeDayGroupModel;
@@ -48,13 +49,10 @@ class AddNewStudentScreenController {
     inputPathImage = controllerPathImage.sink;
     outPutPathImage = controllerPathImage.stream.asBroadcastStream();
 
-    
-
     controllerListItemStageModel = StreamController();
     inputDataListItemStageModel = controllerListItemStageModel.sink;
     outPutDataListItemStageModel =
         controllerListItemStageModel.stream.asBroadcastStream();
-
 
     controllerListTimeDayGroupModel = StreamController();
     inPutDataListTimeDayGroupModel = controllerListTimeDayGroupModel.sink;
@@ -75,6 +73,7 @@ class AddNewStudentScreenController {
     listItemStageModel = await educationStageOperation.getAllEducationData();
     inputDataListItemStageModel.add(listItemStageModel);
   }
+
   var outPutSelectedMSStream;
 
   void getArgumentFromLastScreen(BuildContext context) {
@@ -100,7 +99,7 @@ class AddNewStudentScreenController {
   Future<void> disposeControllers() async {
     controllerListItemStageModel.close();
     inputDataListItemStageModel.close();
- 
+
     inPutDataListTimeDayGroupModel.close();
     controllerListTimeDayGroupModel.close();
   }
@@ -126,5 +125,19 @@ class AddNewStudentScreenController {
     } else {
       //! save data
     }
+  }
+
+  void onPressedPickImage() {
+    showCustomDialogChooseImage(
+      context: context,
+      onPressedPickImageByGallery: () {
+        //     pickImage(ImageSource.gallery);
+        // Navigator.pop(context);
+      },
+      onPressedPickImageByCamera: () {
+        //     pickImage(ImageSource.camera);
+        // Navigator.pop(context);
+      },
+    );
   }
 }

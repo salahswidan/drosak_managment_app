@@ -16,12 +16,14 @@ class CustomStudentDetailsAddNewStudentScreen extends StatelessWidget {
       required this.controllerStudentName,
       required this.controllerGroupDesc,
       required this.outPutPathImage,
+      required this.onPressedPickImage,
       required this.onPressedDeleteImage});
   final GlobalKey<FormState> formStateStudentDetails;
   final TextEditingController controllerStudentName;
   final TextEditingController controllerGroupDesc;
   final Stream<String?> outPutPathImage;
   final VoidCallback onPressedDeleteImage;
+  final VoidCallback onPressedPickImage;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +59,7 @@ class CustomStudentDetailsAddNewStudentScreen extends StatelessWidget {
               width: 6.w,
             ),
             IconButton.filled(
-                onPressed: () {},
+                onPressed: onPressedPickImage,
                 style: ElevatedButton.styleFrom(
                     backgroundColor: ColorsManager.kPrimaryColor),
                 icon: SvgPicture.asset(AssetsValuesManager.kPlaceholderSvg))

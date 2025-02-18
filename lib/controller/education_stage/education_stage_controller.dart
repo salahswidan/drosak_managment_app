@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import '../../core/widget/dialog/show_custom_dialog_choose_image_opations.dart';
 import '../../core/widget/search/custom_search_delgate_education_stage_screen.dart';
 import '../../view/education_stages/widget/custom_add_new_education_stage.dart';
 import '../../view/education_stages/widget/search/custom_list_search_education_stage_screen.dart';
@@ -70,12 +71,13 @@ class EducationStageController {
     inputDataListItemsStageModel.add(listItemStageModel);
   }
 
-   void deleteItemStage(ItemStageModel itemStageModel) async {
+  void deleteItemStage(ItemStageModel itemStageModel) async {
     EducationStageOperation educationStageOperation = EducationStageOperation();
     bool update = await educationStageOperation.softDelete(itemStageModel);
     listItemStageModel
         .removeWhere((element) => element.id == itemStageModel.id);
   }
+
   void editItemStage(
       ItemStageModel itemStageModel, BuildContext context) async {
     controllerNameEducationalStage.text = itemStageModel.stageName;
@@ -96,7 +98,19 @@ class EducationStageController {
                 inputPathImage.add(pathImage);
               },
               onPressedPickImage: () {
-                showCustomDialogChooseImage(context);
+                () {
+                  showCustomDialogChooseImage(
+                    context: context,
+                    onPressedPickImageByGallery: () {
+                      pickImage(ImageSource.gallery);
+                      Navigator.pop(context);
+                    },
+                    onPressedPickImageByCamera: () {
+                      pickImage(ImageSource.camera);
+                      Navigator.pop(context);
+                    },
+                  );
+                };
               },
               onPressedAdd: () async {
                 if (formKey.currentState!.validate() == true) {
@@ -166,7 +180,17 @@ class EducationStageController {
               inputPathImage.add(pathImage);
             },
             onPressedPickImage: () {
-              showCustomDialogChooseImage(context);
+              showCustomDialogChooseImage(
+                context: context,
+                onPressedPickImageByGallery: () {
+                  pickImage(ImageSource.gallery);
+                  Navigator.pop(context);
+                },
+                onPressedPickImageByCamera: () {
+                  pickImage(ImageSource.camera);
+                  Navigator.pop(context);
+                },
+              );
             },
             onPressedAdd: () async {
               if (formKey.currentState!.validate() == true) {
@@ -209,68 +233,6 @@ class EducationStageController {
       itemStageModel,
     );
     return updated;
-  }
-
-  void showCustomDialogChooseImage(BuildContext context) {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) => AlertDialog(
-              title:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                IconButton.filled(
-                  iconSize: 50,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorsManager.kPrimaryColor,
-                  ),
-                  onPressed: () {
-                    pickImage(ImageSource.gallery);
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.image),
-                ),
-                SizedBox(
-                  width: 30.w,
-                ),
-                IconButton.filled(
-                  iconSize: 50,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorsManager.kPrimaryColor,
-                  ),
-                  onPressed: () {
-                    pickImage(ImageSource.camera);
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.camera_alt),
-                ),
-              ]),
-              icon: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton.filled(
-                    iconSize: 10,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.close,
-                      size: 20.0,
-                      color: Colors.white,
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                    ),
-                  ),
-                  const Text(
-                    ConstValue.kChooseFrom,
-                    style: TextStyle(
-                        fontFamily: FontName.geDinerOne,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 15),
-                  ),
-                ],
-              ),
-            ));
   }
 
   void showCustomSearch(BuildContext context) {
