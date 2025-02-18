@@ -1,9 +1,7 @@
 import 'dart:io';
-
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import '../../../core/resources/assets_values_manager.dart';
 import '../../../core/resources/colors_manager.dart';
 import '../../../core/resources/const_value.dart';
 import '../../../core/resources/font_manager.dart';
@@ -30,7 +28,7 @@ class CustomStudentDetailsAddNewStudentScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           ConstValue.kDetailsStudent,
           style:
               TextStyle(color: Colors.white, fontFamily: FontName.geDinerOne),
@@ -55,14 +53,14 @@ class CustomStudentDetailsAddNewStudentScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              width: 6.w,
-            ),
-            IconButton.filled(
-                onPressed: onPressedPickImage,
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorsManager.kPrimaryColor),
-                icon: SvgPicture.asset(AssetsValuesManager.kPlaceholderSvg))
+            // SizedBox(
+            //   width: 6.w,
+            // ),
+            // IconButton.filled(
+            //     onPressed: onPressedPickImage,
+            //     style: ElevatedButton.styleFrom(
+            //         backgroundColor: ColorsManager.kPrimaryColor),
+            //     icon: SvgPicture.asset(AssetsValuesManager.kPlaceholderSvg))
           ],
         ),
         SizedBox(
@@ -73,6 +71,9 @@ class CustomStudentDetailsAddNewStudentScreen extends StatelessWidget {
           hintText: ConstValue.kNote,
           controller: controllerGroupDesc,
         ),
+        SizedBox(
+          height: 12.h,
+        ),
         StreamBuilder(
             stream: outPutPathImage,
             builder: (context, snapshot) {
@@ -81,38 +82,80 @@ class CustomStudentDetailsAddNewStudentScreen extends StatelessWidget {
                       child: SizedBox(),
                     )
                   : snapshot.data != null && snapshot.data!.trim != ''
-                      ? Column(
-                          children: [
-                            Stack(children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Image.file(
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return const Text(
-                                      "not found",
-                                      style: TextStyle(color: Colors.red),
-                                    );
-                                  },
-                                  File(snapshot.data!),
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
+                      ? Stack(children: [
+                          DottedBorder(
+                            dashPattern: [10, 5],
+                            radius: const Radius.circular(12),
+                            color: ColorsManager.kPrimaryColor,
+                            borderType: BorderType.RRect,
+                            strokeWidth: 1,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.file(
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Text(
+                                    "not found",
+                                    style: TextStyle(
+                                        color: ColorsManager.kPrimaryColor),
+                                  );
+                                },
+                                File(snapshot.data!),
+                                width: double.infinity,
+                                fit: BoxFit.cover,
                               ),
-                              IconButton(
-                                onPressed: onPressedDeleteImage,
-                                icon: Icon(
-                                  Icons.delete,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.red),
-                              ),
-                            ]),
-                            SizedBox(
-                              height: 24.h,
                             ),
-                          ],
-                        )
-                      : SizedBox();
+                          ),
+                          IconButton(
+                            onPressed: onPressedDeleteImage,
+                            icon: const Icon(
+                              Icons.delete,
+                            ),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red),
+                          ),
+                        ])
+                      : InkWell(
+                          onTap: () {
+                            onPressedPickImage();
+                          },
+                          child: Container(
+                            color: ColorsManager.kPrimaryColor.withOpacity(0.3),
+                            width: double.infinity,
+                            height: 200.h,
+                            child: DottedBorder(
+                                dashPattern: [10, 5],
+                                radius: const Radius.circular(12),
+                                color: ColorsManager.kPrimaryColor,
+                                borderType: BorderType.RRect,
+                                strokeWidth: 1,
+                                child: const SizedBox(
+                                  width: double.infinity,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.upload_file_outlined,
+                                        size: 30,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        ConstValue.kChooseFile,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: FontName.geDinerOne),
+                                      )
+                                    ],
+                                  ),
+                                )),
+                          ),
+                        );
             }),
       ],
     );
