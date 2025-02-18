@@ -28,9 +28,9 @@ class CustomBodyAddNewStudentScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomStudentDetailsAddNewStudentScreen(
-                  controllerGroupDesc: controller.controllerGroupDesc,
-                  controllerStudentName: controller.controllerGroupName,
-                  formStateStudentDetails: controller.formStateGroupDetails,
+                  controllerGroupDesc: controller.controllerStudentNote,
+                  controllerStudentName: controller.controllerStudentName,
+                  formStateStudentDetails: controller.formStateStudentDetails,
                   outPutPathImage: controller.outPutPathImage,
                   onPressedDeleteImage: () {},
                 ),
@@ -41,29 +41,29 @@ class CustomBodyAddNewStudentScreen extends StatelessWidget {
                       controller.outPutDataListItemStageModel,
                   onChange: controller.onChangedSelectEducationStageName,
                 ),
-                CustomSelectGroupNameAddNewGroupScreen(
-                  outPutDataInitiaItem: controller.outPutDataInitiaItem,
-                  initialItem: controller.selectedEducationalStage,
-                  outPutDataListItemStageModel:
-                      controller.outPutDataListItemStageModel,
-                  onChange: controller.onChangedSelectEducationStageName,
-                ),
-                CustomShowTimeAndDayOfThisGroupAddNewStudentScreen(
-                    outPutDataMSValue: controller.outPutDataMSValue,
-                    onChangedMSValue: controller.onChangedMSValue,
-                    listDay: ConstListValues.listDays,
-                    outPuttime: controller.outPutDataSelectedTime,
-                    outPutlistTimeDayGroupModel:
-                        controller.outPutDataListTimeDayGroupModel,
-                    onChangedSelectDay: controller.onChangedSelectDay,
-                    onPressedSelectTime: () {
-                      controller.onPressedSelectTime(context);
-                    },
-                    onPressedAddTimeAndDayToTable: () {
-                      controller.onPressedAddTimeAndDayToTable(context);
-                    },
-                    onPressedDeleteAppointment:
-                        controller.onPressedDeleteAppointment),
+                // CustomSelectGroupNameAddNewGroupScreen(
+                //   outPutDataInitiaItem: controller.outPutDataInitiaItem,
+                //   initialItem: controller.selectedEducationalStage,
+                //   outPutDataListItemStageModel:
+                //       controller.outPutDataListItemStageModel,
+                //   onChange: controller.onChangedSelectEducationStageName,
+                // ),
+                // CustomShowTimeAndDayOfThisGroupAddNewStudentScreen(
+                //     outPutDataMSValue: controller.outPutDataMSValue,
+                //     onChangedMSValue: controller.onChangedMSValue,
+                //     listDay: ConstListValues.listDays,
+                //     outPuttime: controller.outPutDataSelectedTime,
+                //     outPutlistTimeDayGroupModel:
+                //         controller.outPutDataListTimeDayGroupModel,
+                //     onChangedSelectDay: controller.onChangedSelectDay,
+                //     onPressedSelectTime: () {
+                //       controller.onPressedSelectTime(context);
+                //     },
+                //     onPressedAddTimeAndDayToTable: () {
+                //       controller.onPressedAddTimeAndDayToTable(context);
+                //     },
+                //     onPressedDeleteAppointment:
+                //         controller.onPressedDeleteAppointment),
               ]),
         ),
       ),
