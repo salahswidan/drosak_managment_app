@@ -171,4 +171,11 @@ class GroupsOperation extends MySqlFliteDatabase {
     }
     return listGroupInfo;
   }
+
+  Future<void> getGroupInnerJoinEducationStage({required int educationID}) async {
+    var a = await selectUsingQuery(
+        query:
+            "SELECT ${MySqlFliteDatabase.groupTableName}.* FROM ${MySqlFliteDatabase.groupTableName} INNER JOIN ${MySqlFliteDatabase.educationalStageTableName} ON ${MySqlFliteDatabase.groupTableName}.${MySqlFliteDatabase.groupColumnIDEducation} =${MySqlFliteDatabase.educationalStageTableName}.${MySqlFliteDatabase.educationalStageID} AND ${MySqlFliteDatabase.groupTableName}.${MySqlFliteDatabase.groupColumnIDEducation} = ${educationID}");
+    print(a);
+  }
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:drosak_managment_app/core/database/sqlflite/groups_operation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -97,6 +98,13 @@ class AddNewStudentScreenController {
 
   onChangedSelectEducationStageName(ItemStageModel? p1) {
     selectedEducationalStage = p1;
+    if (selectedEducationalStage != null) getGroupsByEducationStageName();
+  }
+
+  void getGroupsByEducationStageName() {
+    GroupsOperation groupsOperation = GroupsOperation();
+    groupsOperation.getGroupInnerJoinEducationStage(
+        educationID: selectedEducationalStage!.id);
   }
 
   void _closeKeyboard() {

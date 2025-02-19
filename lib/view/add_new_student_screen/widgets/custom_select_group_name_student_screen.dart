@@ -30,7 +30,7 @@ class CustomSelectGroupNameAddNewGroupScreen extends StatelessWidget {
                       .snapshot1.connectionState ==
                   ConnectionState.waiting
               ? Center(
-                  child: SizedBox(),
+                  child: CircularProgressIndicator(),
                 )
               : CustomDropdown<ItemStageModel>.search(
                   hintText: ConstValue.kChooseGroup,

@@ -62,7 +62,9 @@ class MySqlFliteDatabase extends Crud {
         " ( $groupColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $groupColumnName TEXT , "
         "  $groupColumnNote  TEXT , "
-        "  $groupColumnIDEducation  INTEGER)");
+        "  $groupColumnIDEducation  INTEGER ,"
+        " CONSTRAINT group_and_education_stage FOREIGN KEY ($groupColumnIDEducation) REFERENCES $groupTableName ($groupColumnIDEducation) ON DELETE CASCADE ON UPDATE CASCADE "
+        ")" );
     await db.execute("CREATE TABLE IF NOT EXISTS $appointmentsTableName"
         " ( $appointmentsColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $appointmentsColumnDay TEXT , "
