@@ -46,22 +46,9 @@ class CustomBodyAddNewStudentScreen extends StatelessWidget {
                       controller.outPutDataListItemGroupDetails,
                   onChange: controller.onChangedSelectGroupName,
                 ),
-                // CustomShowTimeAndDayOfThisGroupAddNewStudentScreen(
-                //     outPutDataMSValue: controller.outPutDataMSValue,
-                //     onChangedMSValue: controller.onChangedMSValue,
-                //     listDay: ConstListValues.listDays,
-                //     outPuttime: controller.outPutDataSelectedTime,
-                //     outPutlistTimeDayGroupModel:
-                //         controller.outPutDataListTimeDayGroupModel,
-                //     onChangedSelectDay: controller.onChangedSelectDay,
-                //     onPressedSelectTime: () {
-                //       controller.onPressedSelectTime(context);
-                //     },
-                //     onPressedAddTimeAndDayToTable: () {
-                //       controller.onPressedAddTimeAndDayToTable(context);
-                //     },
-                //     onPressedDeleteAppointment:
-                //         controller.onPressedDeleteAppointment),
+                CustomShowTimeAndDayOfThisGroupAddNewStudentScreen(
+                  outPutlistTimeDayGroupModel: controller.outPutDataAppointment,
+                ),
               ]),
         ),
       ),

@@ -34,9 +34,9 @@ class AddNewStudentScreenController {
   late Sink<List<GroupDetails>> inputDataListItemGroupDetails;
   late Stream<List<GroupDetails>> outPutDataListItemGroupDetails;
 
-  late StreamController<List<AppointmentModel>> controllerListTimeDayGroupModel;
-  late Sink<List<AppointmentModel>> inPutDataListTimeDayGroupModel;
-  late Stream<List<AppointmentModel>> outPutDataListTimeDayGroupModel;
+  late StreamController<List<AppointmentModel>> controllerListAppointment;
+  late Sink<List<AppointmentModel>> inPutDataAppointment;
+  late Stream<List<AppointmentModel>> outPutDataAppointment;
 
   late StreamController<ItemStageModel> controllerInitiaItem;
   late Sink<ItemStageModel> inPutDataInitiaItem;
@@ -68,10 +68,10 @@ class AddNewStudentScreenController {
     outPutDataListItemStageModel =
         controllerListItemStageModel.stream.asBroadcastStream();
 
-    controllerListTimeDayGroupModel = StreamController();
-    inPutDataListTimeDayGroupModel = controllerListTimeDayGroupModel.sink;
-    outPutDataListTimeDayGroupModel =
-        controllerListTimeDayGroupModel.stream.asBroadcastStream();
+    controllerListAppointment = StreamController();
+    inPutDataAppointment = controllerListAppointment.sink;
+    outPutDataAppointment =
+        controllerListAppointment.stream.asBroadcastStream();
 
     controllerInitiaItem = StreamController();
     inPutDataInitiaItem = controllerInitiaItem.sink;
@@ -111,10 +111,10 @@ class AddNewStudentScreenController {
     selectedEducationalStage = p1;
     if (selectedEducationalStage != null) getGroupsByEducationStageName();
   }
+
   onChangedSelectGroupName(GroupDetails? p1) {
     selectedGroupDetails = p1;
-    // if (selectedGroupDetails != null)
-     //getGroupsByEducationStageName();
+    if (selectedGroupDetails != null) getAppintmentGroupByGroupName();
   }
 
   Future<void> getGroupsByEducationStageName() async {
@@ -122,7 +122,20 @@ class AddNewStudentScreenController {
     List<GroupDetails> listGroup =
         await groupsOperation.getGroupInnerJoinEducationStage(
             educationID: selectedEducationalStage!.id);
+
+    inPutDataAppointment.add([]);
+    selectedGroupDetails = null;
+
     inputDataListItemGroupDetails.add(listGroup);
+  }
+
+  Future<void> getAppintmentGroupByGroupName() async {
+    GroupsOperation groupsOperation = GroupsOperation();
+    List<AppointmentModel> listAppointment =
+        await groupsOperation.getAppointmentsGroupInnerJoinGroupsTable(
+            groupId: selectedGroupDetails!.id);
+
+    inPutDataAppointment.add(listAppointment);
   }
 
   void _closeKeyboard() {
@@ -136,8 +149,8 @@ class AddNewStudentScreenController {
     controllerListItemGroupDetails.close();
     inputDataListItemGroupDetails.close();
 
-    inPutDataListTimeDayGroupModel.close();
-    controllerListTimeDayGroupModel.close();
+    inPutDataAppointment.close();
+    controllerListAppointment.close();
   }
 
   void backToMainScreen(BuildContext context) {

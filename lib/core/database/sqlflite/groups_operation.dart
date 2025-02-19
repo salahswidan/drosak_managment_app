@@ -172,7 +172,7 @@ class GroupsOperation extends MySqlFliteDatabase {
     return listGroupInfo;
   }
 
-  Future< List<GroupDetails>> getGroupInnerJoinEducationStage(
+  Future<List<GroupDetails>> getGroupInnerJoinEducationStage(
       {required int educationID}) async {
     List<GroupDetails> listGroupsDetails = [];
     List<Map<String, Object?>> data = await selectUsingQuery(
@@ -182,5 +182,15 @@ class GroupsOperation extends MySqlFliteDatabase {
         data.map((item) => GroupDetails.fromJson(item)).toList();
 
     return listGroupsDetails;
+  }
+  Future<List<AppointmentModel>> getAppointmentsGroupInnerJoinGroupsTable(
+      {required int groupId}) async {
+    List<AppointmentModel> listAppointmentModel = [];
+    List<Map<String, Object?>> data = await selectUsingQuery(
+        query:
+            "SELECT ${MySqlFliteDatabase.appointmentsTableName}.* FROM ${MySqlFliteDatabase.appointmentsTableName} INNER JOIN ${MySqlFliteDatabase.groupTableName} ON ${MySqlFliteDatabase.groupTableName}.${MySqlFliteDatabase.groupColumnID}=${MySqlFliteDatabase.appointmentsTableName}.${MySqlFliteDatabase.appointmentsColumnIDGroup} AND  ${MySqlFliteDatabase.appointmentsTableName}.${MySqlFliteDatabase.appointmentsColumnIDGroup}=$groupId");
+    listAppointmentModel +=
+        data.map((item) => AppointmentModel.fromJson(item)).toList();
+    return listAppointmentModel;
   }
 }

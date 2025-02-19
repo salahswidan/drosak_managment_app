@@ -7,26 +7,11 @@ import '../../../model/group/appointment_model.dart';
 
 class CustomShowTimeAndDayOfThisGroupAddNewStudentScreen
     extends StatelessWidget {
-  CustomShowTimeAndDayOfThisGroupAddNewStudentScreen(
-      {super.key,
-      required this.listDay,
-      required this.outPuttime,
-      this.onChangedSelectDay,
-      required this.onPressedSelectTime,
-      required this.onPressedAddTimeAndDayToTable,
-      required this.outPutlistTimeDayGroupModel,
-      required this.onChangedMSValue,
-      required this.outPutDataMSValue,
-      required this.onPressedDeleteAppointment});
-  final List<String> listDay;
-  final Stream<String?> outPuttime;
-  final Function(String?)? onChangedSelectDay;
-  final VoidCallback onPressedSelectTime;
-  final VoidCallback onPressedAddTimeAndDayToTable;
+  CustomShowTimeAndDayOfThisGroupAddNewStudentScreen({
+    super.key,
+    required this.outPutlistTimeDayGroupModel,
+  });
   final Stream<List<AppointmentModel>> outPutlistTimeDayGroupModel;
-  final ValueChanged<String?> onChangedMSValue;
-  final Stream<String> outPutDataMSValue;
-  final void Function(int index) onPressedDeleteAppointment;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +23,7 @@ class CustomShowTimeAndDayOfThisGroupAddNewStudentScreen
         streamOfCountOfAppoinment(
             outPutlistTimeDayGroupModel: outPutlistTimeDayGroupModel),
         StreamOfTable(
-          onPressedDeleteAppointment: onPressedDeleteAppointment,
+          //  onPressedDeleteAppointment: onPressedDeleteAppointment,
           outPutlistTimeDayGroupModel: outPutlistTimeDayGroupModel,
         ),
         SizedBox(
@@ -65,9 +50,7 @@ class streamOfCountOfAppoinment extends StatelessWidget {
       stream: outPutlistTimeDayGroupModel,
       builder: (context, snapshot) =>
           snapshot.connectionState == ConnectionState.waiting
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
+              ? SizedBox()
               : snapshot.data == null || snapshot.data!.isEmpty
                   ? const SizedBox()
                   : Padding(
@@ -115,12 +98,13 @@ class StreamEmptyOrNot extends StatelessWidget {
 }
 
 class StreamOfTable extends StatelessWidget {
-  const StreamOfTable(
-      {super.key,
-      required this.outPutlistTimeDayGroupModel,
-      required this.onPressedDeleteAppointment});
+  const StreamOfTable({
+    super.key,
+    required this.outPutlistTimeDayGroupModel,
+    // required this.onPressedDeleteAppointment
+  });
   final Stream<List<AppointmentModel>> outPutlistTimeDayGroupModel;
-  final void Function(int index) onPressedDeleteAppointment;
+  // final void Function(int index) onPressedDeleteAppointment;
 
   @override
   Widget build(BuildContext context) {
