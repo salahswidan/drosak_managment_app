@@ -9,6 +9,7 @@ import '../../core/resources/const_value.dart';
 import '../../core/widget/dialog/show_custom_dialog_choose_image_opations.dart';
 import '../../model/education_stage/item_stage_model.dart';
 import '../../model/group/appointment_model.dart';
+import '../../model/group/group_details.dart';
 
 class AddNewStudentScreenController {
   late StreamController<String?> controllerPathImage;
@@ -22,11 +23,16 @@ class AddNewStudentScreenController {
   GlobalKey<FormState> formStateStudentDetails = GlobalKey<FormState>();
   /////////
   ItemStageModel? selectedEducationalStage;
+  GroupDetails? selectedGroupDetails;
 
   late StreamController<List<ItemStageModel>> controllerListItemStageModel;
   late Sink<List<ItemStageModel>> inputDataListItemStageModel;
   late Stream<List<ItemStageModel>> outPutDataListItemStageModel;
   List<ItemStageModel> listItemStageModel = [];
+
+  late StreamController<List<GroupDetails>> controllerListItemGroupDetails;
+  late Sink<List<GroupDetails>> inputDataListItemGroupDetails;
+  late Stream<List<GroupDetails>> outPutDataListItemGroupDetails;
 
   late StreamController<List<AppointmentModel>> controllerListTimeDayGroupModel;
   late Sink<List<AppointmentModel>> inPutDataListTimeDayGroupModel;
@@ -51,6 +57,11 @@ class AddNewStudentScreenController {
     controllerPathImage = StreamController();
     inputPathImage = controllerPathImage.sink;
     outPutPathImage = controllerPathImage.stream.asBroadcastStream();
+    // init stram List Group Details
+    controllerListItemGroupDetails = StreamController();
+    inputDataListItemGroupDetails = controllerListItemGroupDetails.sink;
+    outPutDataListItemGroupDetails =
+        controllerListItemGroupDetails.stream.asBroadcastStream();
 
     controllerListItemStageModel = StreamController();
     inputDataListItemStageModel = controllerListItemStageModel.sink;
@@ -100,11 +111,18 @@ class AddNewStudentScreenController {
     selectedEducationalStage = p1;
     if (selectedEducationalStage != null) getGroupsByEducationStageName();
   }
+  onChangedSelectGroupName(GroupDetails? p1) {
+    selectedGroupDetails = p1;
+    // if (selectedGroupDetails != null)
+     //getGroupsByEducationStageName();
+  }
 
-  void getGroupsByEducationStageName() {
+  Future<void> getGroupsByEducationStageName() async {
     GroupsOperation groupsOperation = GroupsOperation();
-    groupsOperation.getGroupInnerJoinEducationStage(
-        educationID: selectedEducationalStage!.id);
+    List<GroupDetails> listGroup =
+        await groupsOperation.getGroupInnerJoinEducationStage(
+            educationID: selectedEducationalStage!.id);
+    inputDataListItemGroupDetails.add(listGroup);
   }
 
   void _closeKeyboard() {
@@ -114,6 +132,9 @@ class AddNewStudentScreenController {
   Future<void> disposeControllers() async {
     controllerListItemStageModel.close();
     inputDataListItemStageModel.close();
+
+    controllerListItemGroupDetails.close();
+    inputDataListItemGroupDetails.close();
 
     inPutDataListTimeDayGroupModel.close();
     controllerListTimeDayGroupModel.close();

@@ -40,11 +40,11 @@ class CustomBodyAddNewStudentScreen extends StatelessWidget {
                   onChange: controller.onChangedSelectEducationStageName,
                 ),
                 CustomSelectGroupNameAddNewGroupScreen(
-                  outPutDataInitiaItem: controller.outPutDataInitiaItem,
-                  initialItem: controller.selectedEducationalStage,
-                  outPutDataListItemStageModel:
-                      controller.outPutDataListItemStageModel,
-                  onChange: controller.onChangedSelectEducationStageName,
+                  // outPutDataInitiaItem: controller.outPutDataInitiaItem,
+                  initialItem: controller.selectedGroupDetails,
+                  outPutDataListItemGroupsDetails:
+                      controller.outPutDataListItemGroupDetails,
+                  onChange: controller.onChangedSelectGroupName,
                 ),
                 // CustomShowTimeAndDayOfThisGroupAddNewStudentScreen(
                 //     outPutDataMSValue: controller.outPutDataMSValue,
