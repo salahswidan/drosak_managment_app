@@ -38,9 +38,13 @@ class AddNewStudentScreenController {
   late Sink<List<AppointmentModel>> inPutDataAppointment;
   late Stream<List<AppointmentModel>> outPutDataAppointment;
 
-  late StreamController<ItemStageModel> controllerInitiaItem;
-  late Sink<ItemStageModel> inPutDataInitiaItem;
-  late Stream<ItemStageModel> outPutDataInitiaItem;
+  late StreamController<ItemStageModel> _controllerInitiaItemSelectedStage;
+  late Sink<ItemStageModel> _inPutDataInitiaItemSelectedStage;
+  late Stream<ItemStageModel> outPutDataInitiaItemSelectedStage;
+
+  late StreamController<GroupDetails?> _controllerInitiaItemSelectedGroup;
+  late Sink<GroupDetails?> _inPutDataInitiaItemSelectedGroup;
+  late Stream<GroupDetails?> outPutDataInitiaItemSelectedGroup;
 
   BuildContext context;
   AddNewStudentScreenController(this.context) {
@@ -67,15 +71,21 @@ class AddNewStudentScreenController {
     inputDataListItemStageModel = controllerListItemStageModel.sink;
     outPutDataListItemStageModel =
         controllerListItemStageModel.stream.asBroadcastStream();
+    //  init stram of initial selected group stage
+    _controllerInitiaItemSelectedGroup = StreamController();
+    _inPutDataInitiaItemSelectedGroup = _controllerInitiaItemSelectedGroup.sink;
+    outPutDataInitiaItemSelectedGroup =
+        _controllerInitiaItemSelectedGroup.stream.asBroadcastStream();
 
     controllerListAppointment = StreamController();
     inPutDataAppointment = controllerListAppointment.sink;
     outPutDataAppointment =
         controllerListAppointment.stream.asBroadcastStream();
 
-    controllerInitiaItem = StreamController();
-    inPutDataInitiaItem = controllerInitiaItem.sink;
-    outPutDataInitiaItem = controllerInitiaItem.stream.asBroadcastStream();
+    _controllerInitiaItemSelectedStage = StreamController();
+    _inPutDataInitiaItemSelectedStage = _controllerInitiaItemSelectedStage.sink;
+    outPutDataInitiaItemSelectedStage =
+        _controllerInitiaItemSelectedStage.stream.asBroadcastStream();
   }
 
   void initAllData() async {
@@ -125,8 +135,12 @@ class AddNewStudentScreenController {
 
     inPutDataAppointment.add([]);
     selectedGroupDetails = null;
-
+    _inPutDataInitiaItemSelectedGroup.add(selectedGroupDetails);
     inputDataListItemGroupDetails.add(listGroup);
+    if (listGroup.isNotEmpty) {
+      selectedGroupDetails = listGroup[0];
+      _inPutDataInitiaItemSelectedGroup.add(selectedGroupDetails);
+    }
   }
 
   Future<void> getAppintmentGroupByGroupName() async {
@@ -134,6 +148,7 @@ class AddNewStudentScreenController {
     List<AppointmentModel> listAppointment =
         await groupsOperation.getAppointmentsGroupInnerJoinGroupsTable(
             groupId: selectedGroupDetails!.id);
+    _inPutDataInitiaItemSelectedGroup.add(selectedGroupDetails);
 
     inPutDataAppointment.add(listAppointment);
   }
@@ -151,6 +166,9 @@ class AddNewStudentScreenController {
 
     inPutDataAppointment.close();
     controllerListAppointment.close();
+
+    _controllerInitiaItemSelectedGroup.close();
+    _inPutDataInitiaItemSelectedGroup.close();
   }
 
   void backToMainScreen(BuildContext context) {

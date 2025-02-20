@@ -17,9 +17,6 @@ class CustomShowTimeAndDayOfThisGroupAddNewStudentScreen
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          height: 12.h,
-        ),
         streamOfCountOfAppoinment(
             outPutlistTimeDayGroupModel: outPutlistTimeDayGroupModel),
         StreamOfTable(
@@ -78,7 +75,7 @@ class StreamEmptyOrNot extends StatelessWidget {
       stream: outPutlistTimeDayGroupModel,
       builder: (context, snapshot) => snapshot.data == null
           ? const Text(
-              ConstValue.kNoTimeAndDayBecauseYouDontChooseGroup,
+              ConstValue.kChooseAntherStageEducation,
               style: TextStyle(
                   color: Colors.white,
                   fontFamily: FontName.geDinerOne,
@@ -86,7 +83,7 @@ class StreamEmptyOrNot extends StatelessWidget {
             )
           : snapshot.data!.isEmpty
               ? const Text(
-                  ConstValue.kNoTimeAndDayBecauseYouDontChooseGroup,
+                  ConstValue.kChooseAntherStageEducation,
                   style: TextStyle(
                       color: Colors.white,
                       fontFamily: FontName.geDinerOne,
