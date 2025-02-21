@@ -4,8 +4,8 @@ import '../../../core/resources/const_value.dart';
 import '../../../core/resources/font_manager.dart';
 import '../../../core/widget/input_field/custom_text_form_field.dart';
 
-class CustomGroupDetailsAddNewGroupScreen extends StatelessWidget {
-  const CustomGroupDetailsAddNewGroupScreen(
+class CustomGroupDetailsAddNewStudentScreen extends StatelessWidget {
+  const CustomGroupDetailsAddNewStudentScreen(
       {super.key,
       required this.formStateGroupDetails,
       required this.controllerGroupName,
@@ -44,14 +44,7 @@ class CustomGroupDetailsAddNewGroupScreen extends StatelessWidget {
                 ),
               ),
             ),
-            // SizedBox(
-            //   width: 6.w,
-            // ),
-            // IconButton.filled(
-            //     onPressed: () {},
-            //     style: ElevatedButton.styleFrom(
-            //         backgroundColor: ColorsManager.kPrimaryColor),
-            //     icon: SvgPicture.asset(AssetsValuesManager.kPlaceholderSvg))
+           
           ],
         ),
         SizedBox(

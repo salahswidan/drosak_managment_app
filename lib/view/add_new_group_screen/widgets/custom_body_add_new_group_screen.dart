@@ -24,7 +24,7 @@ class CustomBodyAddNewGroupScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomGroupDetailsAddNewGroupScreen(
+                CustomGroupDetailsAddNewStudentScreen(
                   controllerGroupDesc: controller.controllerGroupDesc,
                   controllerGroupName: controller.controllerGroupName,
                   formStateGroupDetails: controller.formStateGroupDetails,

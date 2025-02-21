@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:drosak_managment_app/core/database/sqlflite/student_operation.dart';
 import 'package:drosak_managment_app/model/group/appointment_model.dart';
 import 'package:flutter/material.dart';
 import '../../core/resources/const_value.dart';
@@ -19,37 +20,12 @@ class StudentController {
     await getAllData();
   }
 
-  void initAllData() {
-    inputDataListItemStudentModel.add([
-      GroupInfoModel(
-          groupDetails: GroupDetails(
-              name: "Group 1", desc: "Description 1", educationStageID: 1),
-          listAppointment: [
-            AppointmentModel(time: "time", day: "day", ms: "ms")
-          ]),
-      GroupInfoModel(
-          groupDetails: GroupDetails(
-              name: "Group 1", desc: "Description 1", educationStageID: 1),
-          listAppointment: [
-            AppointmentModel(time: "time", day: "day", ms: "ms")
-          ]),
-      GroupInfoModel(
-          groupDetails: GroupDetails(
-              name: "Group 1", desc: "Description 1", educationStageID: 1),
-          listAppointment: [
-            AppointmentModel(time: "time", day: "day", ms: "ms")
-          ]),
-      GroupInfoModel(
-          groupDetails: GroupDetails(
-              name: "Group 1", desc: "Description 1", educationStageID: 1),
-          listAppointment: [
-            AppointmentModel(time: "time", day: "day", ms: "ms")
-          ]),
-    ]);
-  }
+  void initAllData() {}
 
   Future<void> getAllData() async {
-    // GroupsOperation groupsOperation = GroupsOperation();
+    StudentOperation studentOperation = StudentOperation();
+    var a = await studentOperation.getStudentsInfo();
+    print(a);
     // listGroupInfo = await groupsOperation.getAllGroupsInfo();
     initAllData();
   }
@@ -65,11 +41,11 @@ class StudentController {
     controllerListItemStudentModel.close();
     inputDataListItemStudentModel.close();
   }
-   void addNewStudents({required BuildContext context}) {
+
+  void addNewStudents({required BuildContext context}) {
     Navigator.of(context)
         .pushNamed(RoutesName.kAddNewStudentsScreen,
             arguments: ConstValue.kAddNewStudent)
         .then((value) => getAllData());
   }
-
 }

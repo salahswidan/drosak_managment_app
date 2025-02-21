@@ -53,14 +53,6 @@ class CustomStudentDetailsAddNewStudentScreen extends StatelessWidget {
                 ),
               ),
             ),
-            // SizedBox(
-            //   width: 6.w,
-            // ),
-            // IconButton.filled(
-            //     onPressed: onPressedPickImage,
-            //     style: ElevatedButton.styleFrom(
-            //         backgroundColor: ColorsManager.kPrimaryColor),
-            //     icon: SvgPicture.asset(AssetsValuesManager.kPlaceholderSvg))
           ],
         ),
         SizedBox(
@@ -101,7 +93,8 @@ class CustomStudentDetailsAddNewStudentScreen extends StatelessWidget {
                                 },
                                 File(snapshot.data!),
                                 width: double.infinity,
-                                fit: BoxFit.cover,
+                                height: 200.h,
+                                fit: BoxFit.contain,
                               ),
                             ),
                           ),

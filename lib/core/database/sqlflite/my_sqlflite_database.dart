@@ -28,15 +28,16 @@ class MySqlFliteDatabase extends Crud {
   static const String studentsTableName = 'students';
   static const String studentsColumnID = 'id';
   static const String studentsColumnName = 'name';
-  static const String studentsColumnImage = 'image';
   static const String studentsColumnNote = 'note';
-  static const String studentsColumnIDGroup = 'idGroups';
+  static const String studentsColumnImage = 'image';
+  static const String studentsColumnIDGroup = 'groups_id';
+  static const String studentsColumnCreatedAt = 'created_at';
 
   Future<sqfliteDataBase.Database> _initDatabase() async {
     String databasesPath = await sqfliteDataBase.getDatabasesPath();
     String drosakDatabaseName = "drosak.db";
     String realDatabasePath = join(databasesPath, drosakDatabaseName);
-    int versionDataBase = 7;
+    int versionDataBase =1;
     _db ??= await sqfliteDataBase.openDatabase(realDatabasePath,
         onOpen: (db) async {
       await db.execute("PRAGMA foreign_keys = ON");
@@ -51,6 +52,42 @@ class MySqlFliteDatabase extends Crud {
     await db.execute("DROP TABLE IF EXISTS $appointmentsTableName");
     await db.execute("DROP TABLE IF EXISTS $studentsTableName");
 
+       await db.execute("CREATE TABLE IF NOT EXISTS $educationalStageTableName"
+            " ( $educationalStageID INTEGER PRIMARY KEY AUTOINCREMENT ,"
+            "  $educationalStageName TEXT , "
+            "  $educationalStageDesc TEXT , "
+            "  $educationalStageStatus INTEGER DEFAULT 1 , "
+            "  $educationalStageCreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP , "
+            "  $educationalStageImage  TEXT )");
+        await db.execute("CREATE TABLE IF NOT EXISTS $groupTableName"
+            " ( $groupColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
+            "  $groupColumnName TEXT , "
+            "  $groupColumnNote TEXT , "
+            "  $groupColumnIDEducation  INTEGER, "
+            "  CONSTRAINT group_and_education_stage FOREIGN KEY ($groupColumnIDEducation) REFERENCES $educationalStageTableName($educationalStageID) ON DELETE CASCADE ON UPDATE CASCADE"
+            ")");
+        await db.execute("CREATE TABLE IF NOT EXISTS  $appointmentsTableName"
+            " ( $appointmentsColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
+            "  $appointmentsColumnDay TEXT , "
+            "  $appointmentsColumnTime TEXT , "
+            "  $appointmentsColumnMS TEXT, "
+            "  $appointmentsColumnIDGroup  INTEGER ,"
+            "  CONSTRAINT group_and_appointment FOREIGN KEY ($appointmentsColumnIDGroup) REFERENCES $groupTableName($groupColumnID) ON DELETE CASCADE ON UPDATE CASCADE"
+            ")");
+        //?======================== create student table =========
+        await db.execute("CREATE TABLE IF NOT EXISTS  $studentsTableName"
+            " ( $studentsColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
+            "  $studentsColumnName TEXT , "
+            "  $studentsColumnImage TEXT , "
+            "  $studentsColumnNote TEXT, "
+            "  $educationalStageCreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP , "
+            "  $studentsColumnIDGroup  INTEGER ,"
+            "  CONSTRAINT group_and_students FOREIGN KEY ($studentsColumnIDGroup) REFERENCES $groupTableName($groupColumnID) ON DELETE CASCADE ON UPDATE CASCADE"
+            ")");
+  }
+
+  _onCreate(sqfliteDataBase.Database db, int version) async {
+    //! ---------------------------Create Educational Stage Table---------------------------------------
     await db.execute("CREATE TABLE IF NOT EXISTS $educationalStageTableName"
         " ( $educationalStageID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $educationalStageName TEXT , "
@@ -63,43 +100,8 @@ class MySqlFliteDatabase extends Crud {
         "  $groupColumnName TEXT , "
         "  $groupColumnNote  TEXT , "
         "  $groupColumnIDEducation  INTEGER ,"
-        " CONSTRAINT group_and_education_stage FOREIGN KEY ($groupColumnIDEducation) REFERENCES $groupTableName ($groupColumnIDEducation) ON DELETE CASCADE ON UPDATE CASCADE "
-        ")" );
-    await db.execute("CREATE TABLE IF NOT EXISTS $appointmentsTableName"
-        " ( $appointmentsColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
-        "  $appointmentsColumnDay TEXT , "
-        "  $appointmentsColumnTime TEXT , "
-        "  $appointmentsColumnMS TEXT , "
-        "  $appointmentsColumnIDGroup  INTEGER , "
-        " CONSTRAINT group_and_appointment FOREIGN KEY ($appointmentsColumnIDGroup) REFERENCES $groupTableName ($groupColumnID) ON DELETE CASCADE ON UPDATE CASCADE "
+        " CONSTRAINT group_and_education_stage FOREIGN KEY ($groupColumnIDEducation) REFERENCES $educationalStageTableName ($educationalStageID) ON DELETE CASCADE ON UPDATE CASCADE "
         ")");
-        //! ---------------------------Create Students Table---------------------------------------
-    await db.execute("CREATE TABLE IF NOT EXISTS $studentsTableName"
-        " ( $studentsColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
-        "  $studentsColumnName TEXT , "
-        "  $studentsColumnImage TEXT , "
-        "  $studentsColumnNote TEXT , "
-        "  $studentsColumnIDGroup  INTEGER , "
-        " CONSTRAINT group_and_students FOREIGN KEY ($studentsColumnIDGroup) REFERENCES $groupTableName ($groupColumnID) ON DELETE CASCADE ON UPDATE CASCADE "
-        ")");
-  }
-
-  _onCreate(sqfliteDataBase.Database db, int version) async {
-    //! ---------------------------Create Educational Stage Table---------------------------------------
-    await db.execute("CREATE TABLE IF NOT EXISTS $educationalStageTableName"
-        " ( $educationalStageID INTEGER PRIMARY KEY AUTOINCREMENT ,"
-        "  $educationalStageName TEXT , "
-        "  $educationalStageDesc TEXT , "
-        "  $educationalStageStatus INTEGER DEFAULT 1 , "
-        "  $educationalStageCreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP , "
-        "  $educationalStageImage  TEXT )");
-    //! ---------------------------Create Groups Table---------------------------------------
-    await db.execute("CREATE TABLE IF NOT EXISTS $groupTableName"
-        " ( $groupColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
-        "  $groupColumnName TEXT , "
-        "  $groupColumnNote  TEXT , "
-        "  $groupColumnIDEducation  INTEGER)");
-    //! ---------------------------Create appointments Table---------------------------------------
     await db.execute("CREATE TABLE IF NOT EXISTS $appointmentsTableName"
         " ( $appointmentsColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $appointmentsColumnDay TEXT , "
@@ -115,6 +117,7 @@ class MySqlFliteDatabase extends Crud {
         "  $studentsColumnImage TEXT , "
         "  $studentsColumnNote TEXT , "
         "  $studentsColumnIDGroup  INTEGER , "
+        "  $studentsColumnCreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP , "
         " CONSTRAINT group_and_students FOREIGN KEY ($studentsColumnIDGroup) REFERENCES $groupTableName ($groupColumnID) ON DELETE CASCADE ON UPDATE CASCADE "
         ")");
   }
@@ -158,12 +161,11 @@ class MySqlFliteDatabase extends Crud {
   }
 
   @override
-  Future<List<Map<String, Object?>>> selectUsingQuery(
-      {required String query,
-     }) async {
+  Future<List<Map<String, Object?>>> selectUsingQuery({
+    required String query,
+  }) async {
     await _initDatabase();
-    List<Map<String, Object?>> data = await _db!.rawQuery(query
-      );
+    List<Map<String, Object?>> data = await _db!.rawQuery(query);
     await _db!.close();
     return data;
   }

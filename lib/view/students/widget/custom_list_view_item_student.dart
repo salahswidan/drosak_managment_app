@@ -27,9 +27,7 @@ class CustomListViewItemStudent extends StatelessWidget {
             onRefresh();
           },
           child: snapshot.connectionState == ConnectionState.waiting
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
+              ? SizedBox()
               :
               //  RefreshIndicator(
               //     onRefresh: () async {

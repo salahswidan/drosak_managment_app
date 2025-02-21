@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:drosak_managment_app/core/database/sqlflite/groups_operation.dart';
+import 'package:drosak_managment_app/core/database/sqlflite/student_operation.dart';
+import 'package:drosak_managment_app/core/resources/font_manager.dart';
+import 'package:drosak_managment_app/model/student/student_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -189,7 +192,8 @@ class AddNewStudentScreenController {
       //   }
       // }
       //   Navigator.of(context).pop();
-    } else {
+    } else if (status == ConstValue.kAddNewStudent) {
+      await saveAll();
       //! save data
     }
   }
@@ -229,5 +233,71 @@ class AddNewStudentScreenController {
     var finalPath = "$directoryPath/${image.name}";
     File fileImage = await File(image.path).copy(finalPath);
     pathImage = fileImage.path;
+  }
+
+  Future<void> saveAll() async {
+    String requiredData = "";
+    if (controllerStudentName.text.trim().isEmpty) {
+      requiredData += ", ${ConstValue.kEnterNameStudent}";
+    }
+    if (pathImage == null) {
+      requiredData += ", ${ConstValue.kSelectImageStudent}";
+    }
+    if (selectedEducationalStage == null) {
+      requiredData += ", ${ConstValue.kSelectEducationStage}";
+    }
+    if (selectedGroupDetails == null) {
+      requiredData += ", ${ConstValue.kSelectGroups}";
+    }
+    if (requiredData.trim().isEmpty) {
+      // now insert to data base
+      await insertNewStudent();
+      print("now insert");
+    } else {
+      //? show alert
+      showAlertForRequiredData(requiredData);
+    }
+  }
+
+  void showAlertForRequiredData(String requiredData) {
+    if (requiredData.trim().startsWith(",")) {
+      requiredData.replaceFirst(",", "");
+    }
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+      requiredData,
+      style: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+          fontFamily: FontName.geDinerOne),
+    )));
+  }
+
+  Future<void> insertNewStudent() async {
+    StudentOperation studentOperation = StudentOperation();
+    int studentId = await studentOperation.insertNewStudent(StudentModel(
+        id: 0,
+        name: controllerStudentName.text.trim(),
+        image: pathImage!,
+        idGroup: selectedGroupDetails!.id,
+        note: controllerStudentNote.text.trim(),
+        createdAt: 'createdAt'));
+    //   print(studentId);
+    if (studentId > 0) {
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            ConstValue.kAddedNewStudentSucces,
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                fontFamily: FontName.geDinerOne),
+          ),
+        ),
+      );
+    }
   }
 }
