@@ -191,15 +191,7 @@ class AddNewStudentScreenController {
   void onPressedAtEditOrSave() async {
     if (status == ConstValue.kEditThisStudent) {
       //! in case edit
-      // bool updated = await editIntoGroupInfo();
-      // if (updated == true) {
-      //   {
-      //     ScaffoldMessenger.of(context).showSnackBar(
-      //         SnackBar(content: Text(ConstValue.kAddedGroupDetailsSucces)));
-      //     backToMainScreen(context);
-      //   }
-      // }
-      //   Navigator.of(context).pop();
+      await editAll();
     } else if (status == ConstValue.kAddNewStudent) {
       await saveAll();
       //! save data
@@ -244,7 +236,21 @@ class AddNewStudentScreenController {
   }
 
   Future<void> saveAll() async {
+    String requiredData = checkRequiredData();
+
+    if (requiredData.trim().isEmpty) {
+      // now insert to data base
+      await insertNewStudent();
+      print("now insert");
+    } else {
+      //? show alert
+      showAlertForRequiredData(requiredData);
+    }
+  }
+
+  String checkRequiredData() {
     String requiredData = "";
+
     if (controllerStudentName.text.trim().isEmpty) {
       requiredData += ", ${ConstValue.kEnterNameStudent}";
     }
@@ -257,14 +263,7 @@ class AddNewStudentScreenController {
     if (selectedGroupDetails == null) {
       requiredData += ", ${ConstValue.kSelectGroups}";
     }
-    if (requiredData.trim().isEmpty) {
-      // now insert to data base
-      await insertNewStudent();
-      print("now insert");
-    } else {
-      //? show alert
-      showAlertForRequiredData(requiredData);
-    }
+    return requiredData;
   }
 
   void showAlertForRequiredData(String requiredData) {
@@ -313,6 +312,7 @@ class AddNewStudentScreenController {
     controllerStudentName.text = studentModel!.name;
     controllerStudentNote.text = studentModel!.note;
     pathImage = studentModel!.image;
+    inputPathImage.add(pathImage);
     //? fill select education
     selectedEducationalStage = listItemStageModel
         .where((element) => element.id == studentModel!.idEducationStage)
@@ -320,5 +320,43 @@ class AddNewStudentScreenController {
     _controllerInitiaItemSelectedStage.add(selectedEducationalStage!);
     //? fill select group
     onChangedSelectEducationStageName(selectedEducationalStage);
+  }
+
+  Future<void> editAll() async {
+    String requiredData = checkRequiredData();
+
+    if (requiredData.trim().isEmpty) {
+      // now edit to data base
+      await editIntoStudentInfo();
+    } else {
+      //? show alert
+      showAlertForRequiredData(requiredData);
+    }
+  }
+
+  Future<void> editIntoStudentInfo() async {
+    StudentOperation studentOperation = StudentOperation();
+    bool updated = await studentOperation.editStudentData(StudentModel(
+      id: studentModel!.id,
+      name: controllerStudentName.text.trim(),
+      image: pathImage!,
+      idGroup: selectedGroupDetails!.id,
+      note: controllerStudentNote.text.trim(),
+    ));
+    if (updated == true) {
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            ConstValue.kUpdateThisStudentSucces,
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                fontFamily: FontName.geDinerOne),
+          ),
+        ),
+      );
+    }
   }
 }

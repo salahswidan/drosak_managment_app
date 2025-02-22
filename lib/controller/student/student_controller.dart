@@ -66,15 +66,12 @@ class StudentController {
   }
 
   void onTapEdit(StudentModel studentModel) {
-     Navigator.of(context).pushNamed(RoutesName.kAddNewStudentsScreen, arguments: {
+    Navigator.of(context)
+        .pushNamed(RoutesName.kAddNewStudentsScreen, arguments: {
       ConstValue.kStatus: ConstValue.kEditThisStudent,
       ConstValue.kStudentModel: studentModel,
     }).then((value) {
-      // getAllData();
-      // if (isSearchNow == true) {
-      //   Navigator.of(context).pop();
-      //   isSearchNow = false;
-      // }
+      onTapRefresh();
     });
   }
 }

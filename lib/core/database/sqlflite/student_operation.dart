@@ -58,4 +58,9 @@ class StudentOperation extends MySqlFliteDatabase {
      where:
             '${MySqlFliteDatabase.studentsColumnID}==$studentID');
   }
+
+ Future<bool>  editStudentData(StudentModel studentModel) {
+    return update(tableName: MySqlFliteDatabase.studentsTableName, values: studentModel.toJson(),  where:
+            '${MySqlFliteDatabase.studentsColumnID}==${studentModel.id}');
+  }
 }
