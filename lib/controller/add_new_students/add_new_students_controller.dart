@@ -175,6 +175,11 @@ class AddNewStudentScreenController {
     controllerListItemGroupDetails.close();
     inputDataListItemGroupDetails.close();
 
+    
+
+    controllerListItemStageModel.close();
+    inputDataListItemStageModel.close();
+
     inPutDataAppointment.close();
     controllerListAppointment.close();
 
