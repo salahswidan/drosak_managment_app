@@ -3,6 +3,7 @@ import 'package:drosak_managment_app/view/students/widget/custom_item_student.da
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../model/education_stage/item_stage_model.dart';
+import '../../../model/student/student_model.dart';
 import '../../groups/widgets/custom_item_group.dart';
 
 class CustomListViewItemStudent extends StatelessWidget {
@@ -12,9 +13,9 @@ class CustomListViewItemStudent extends StatelessWidget {
       required this.deleteFun,
       required this.editFun,
       required this.onRefresh});
-  final Stream<List<GroupInfoModel>> outPutDataListItemsStudentModel;
-  final void Function(GroupInfoModel groupInfoModel) deleteFun;
-  final void Function(GroupInfoModel groupInfoModel) editFun;
+  final Stream<List<StudentModel>> outPutDataListItemsStudentModel;
+  final void Function(StudentModel studentModel) deleteFun;
+  final void Function(StudentModel studentModel) editFun;
   final void Function() onRefresh;
 
   @override
@@ -42,7 +43,7 @@ class CustomListViewItemStudent extends StatelessWidget {
                               height: 24.h,
                             )
                           : CustomItemStudent(
-                              groupInfoModel: snapshot.data![index],
+                              studentModel: snapshot.data![index],
                               deleteFun: deleteFun,
                               editFun: editFun,
                             ),

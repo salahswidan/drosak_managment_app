@@ -2,6 +2,7 @@ import 'package:drosak_managment_app/controller/student/student_controller.dart'
 import 'package:drosak_managment_app/model/group/appointment_model.dart';
 import 'package:drosak_managment_app/model/group/group_details.dart';
 import 'package:drosak_managment_app/model/group/group_info_model.dart';
+import 'package:drosak_managment_app/model/student/student_model.dart';
 import 'package:drosak_managment_app/view/students/widget/custom_list_view_item_student.dart';
 import 'package:flutter/material.dart';
 import '../../../controller/groups/groups_screen_controller.dart';
@@ -56,7 +57,7 @@ class _StudentsScreenState extends State<StudentsScreen> {
                 }),
                 CustomListViewItemStudent(outPutDataListItemsStudentModel: _controller.outPutDataListItemStudentModel,
                 
-                    deleteFun: (GroupInfoModel groupInfoModel) {  }, editFun: (GroupInfoModel groupInfoModel) {  }, onRefresh: () {  },),
+                    deleteFun: _controller.onTapDelete, editFun: (StudentModel groupInfoModel) {  }, onRefresh: _controller.onTapRefresh,),
             // CustomItemStudent(
             //   groupInfoModel: GroupInfoModel(
             //       groupDetails: GroupDetails(

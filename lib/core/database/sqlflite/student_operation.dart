@@ -29,7 +29,6 @@ class StudentOperation extends MySqlFliteDatabase {
         mapOfAppointment[groupId] = listAppointment;
       }
     }
-    print(mapOfAppointment);
     listStudentModel += data
         .map(
           (item) => StudentModel.fromJson(
@@ -53,5 +52,10 @@ class StudentOperation extends MySqlFliteDatabase {
         data.map((item) => AppointmentModel.fromJson(item)).toList();
 
     return listAppointmentModel;
+  }
+  Future<bool> deleteStudent(int studentID)async{
+  return  delete(tableName: MySqlFliteDatabase.studentsTableName,
+     where:
+            '${MySqlFliteDatabase.studentsColumnID}==$studentID');
   }
 }

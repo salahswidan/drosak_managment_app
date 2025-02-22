@@ -1,24 +1,23 @@
 import 'dart:io';
-
 import 'package:drosak_managment_app/core/resources/colors_manager.dart';
 import 'package:drosak_managment_app/core/resources/const_value.dart';
 import 'package:drosak_managment_app/core/resources/font_manager.dart';
+import 'package:drosak_managment_app/model/student/student_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/resources/assets_values_manager.dart';
-import '../../../model/group/group_info_model.dart';
 
 class CustomItemStudent extends StatelessWidget {
   const CustomItemStudent({
     super.key,
     required this.deleteFun,
     required this.editFun,
-    required this.groupInfoModel,
+    required this.studentModel,
   });
-  final GroupInfoModel groupInfoModel;
-  final void Function(GroupInfoModel itemStageModel) deleteFun;
-  final void Function(GroupInfoModel itemStageModel) editFun;
+  final StudentModel studentModel;
+  final void Function(StudentModel itemStageModel) deleteFun;
+  final void Function(StudentModel itemStageModel) editFun;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -30,7 +29,7 @@ class CustomItemStudent extends StatelessWidget {
             child: CircleAvatar(
               backgroundColor: ColorsManager.kPrimaryColor,
               child: Text(
-                groupInfoModel.groupDetails.id.toString(),
+                studentModel.id.toString(),
                 //  itemStageModel.id.toString(),
                 style: TextStyle(
                     fontSize: 14.sp,
@@ -71,11 +70,11 @@ class CustomItemStudent extends StatelessWidget {
                                 children: [
                                   CustomEditAndDeletePopMenuButton(
                                       deleteFun: deleteFun,
-                                      groupInfoModel: groupInfoModel,
+                                      studentModel: studentModel,
                                       editFun: editFun),
                                   Expanded(
                                     child: Text(
-                                      groupInfoModel.groupDetails.name,
+                                      studentModel.name,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16.sp,
@@ -97,7 +96,7 @@ class CustomItemStudent extends StatelessWidget {
                                         width: 50.w,
                                         height: 50.h,
                                       ),
-                                      File('itemStageModel.image'),
+                                      File(studentModel.image),
                                       width: 64.w,
                                       height: 64.h,
                                     ),
@@ -109,7 +108,7 @@ class CustomItemStudent extends StatelessWidget {
                                 text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: groupInfoModel.groupDetails.name,
+                                  text: studentModel.educationStageName,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 13.sp,
@@ -128,7 +127,7 @@ class CustomItemStudent extends StatelessWidget {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: groupInfoModel.groupDetails.name,
+                                  text: studentModel.groupName,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 13.sp,
@@ -138,7 +137,6 @@ class CustomItemStudent extends StatelessWidget {
                                 )
                               ],
                             )),
-                           
                             SizedBox(
                               height: 12.h,
                             ),
@@ -190,7 +188,9 @@ class CustomItemStudent extends StatelessWidget {
                                       )),
                                 ),
                                 for (int i = 0;
-                                    i < groupInfoModel.listAppointment.length;
+                                    i <
+                                        studentModel
+                                            .listAppointmentModel!.length;
                                     i++)
                                   TableRow(
                                     children: [
@@ -199,8 +199,8 @@ class CustomItemStudent extends StatelessWidget {
                                             horizontal: 4, vertical: 10),
                                         child: Center(
                                           child: Text(
-                                            groupInfoModel
-                                                .listAppointment[i].day,
+                                            studentModel
+                                                .listAppointmentModel![i].day,
                                             style: const TextStyle(
                                                 color: Colors.white,
                                                 fontFamily:
@@ -213,8 +213,8 @@ class CustomItemStudent extends StatelessWidget {
                                             horizontal: 4, vertical: 10),
                                         child: Center(
                                           child: Text(
-                                            groupInfoModel
-                                                .listAppointment[i].time,
+                                            studentModel
+                                                .listAppointmentModel![i].time,
                                             style: const TextStyle(
                                                 color: Colors.white,
                                                 fontFamily:
@@ -227,8 +227,8 @@ class CustomItemStudent extends StatelessWidget {
                                             horizontal: 4, vertical: 10),
                                         child: Center(
                                           child: Text(
-                                            groupInfoModel
-                                                .listAppointment[i].ms,
+                                            studentModel
+                                                .listAppointmentModel![i].ms,
                                             style: const TextStyle(
                                                 color: Colors.white,
                                                 fontFamily:
@@ -250,7 +250,7 @@ class CustomItemStudent extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    groupInfoModel.groupDetails.desc,
+                                    studentModel.note,
                                     style: TextStyle(
                                         fontSize: 10.sp,
                                         fontFamily: FontName.geDinerOne,
@@ -275,13 +275,13 @@ class CustomEditAndDeletePopMenuButton extends StatelessWidget {
   const CustomEditAndDeletePopMenuButton({
     super.key,
     required this.deleteFun,
-    required this.groupInfoModel,
+    required this.studentModel,
     required this.editFun,
   });
 
-  final void Function(GroupInfoModel itemStageModel) deleteFun;
-  final GroupInfoModel groupInfoModel;
-  final void Function(GroupInfoModel itemStageModel) editFun;
+  final void Function(StudentModel itemStageModel) deleteFun;
+  final StudentModel studentModel;
+  final void Function(StudentModel itemStageModel) editFun;
 
   @override
   Widget build(BuildContext context) {
@@ -297,7 +297,7 @@ class CustomEditAndDeletePopMenuButton extends StatelessWidget {
             ),
           ),
           onTap: () {
-            deleteFun(groupInfoModel);
+            deleteFun(studentModel);
           },
         ),
         PopupMenuItem(
@@ -310,7 +310,7 @@ class CustomEditAndDeletePopMenuButton extends StatelessWidget {
             ),
           ),
           onTap: () {
-            editFun(groupInfoModel);
+            editFun(studentModel);
           },
         ),
       ],
