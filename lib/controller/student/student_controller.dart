@@ -6,14 +6,19 @@ import 'package:drosak_managment_app/model/student/student_model.dart';
 import 'package:flutter/material.dart';
 import '../../core/resources/const_value.dart';
 import '../../core/resources/route_manager.dart';
+import '../../core/widget/search/custom_search_delgate_education_stage_screen.dart';
 import '../../model/group/group_details.dart';
 import '../../model/group/group_info_model.dart';
+import '../../view/groups/widgets/custom_list_search_group_screen.dart';
+import '../../view/students/widget/custom_list_search_group_screen.dart';
 
 class StudentController {
   late StreamController<List<StudentModel>> controllerListItemStudentModel;
   late Sink<List<StudentModel>> inputDataListItemStudentModel;
   late Stream<List<StudentModel>> outPutDataListItemStudentModel;
   BuildContext context;
+
+  bool isSearchNow = false;
   StudentController(this.context) {
     start();
   }
@@ -53,6 +58,9 @@ class StudentController {
     StudentOperation studentOperation = StudentOperation();
     bool deleted = await studentOperation.deleteStudent(studentModel.id!);
     if (deleted == true) {
+      if (isSearchNow == true) {
+        Navigator.of(context).pop();
+      }
       ScaffoldMessenger.of(context).hideCurrentSnackBar;
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(ConstValue.kDeletedStudentSucces)));
@@ -71,7 +79,37 @@ class StudentController {
       ConstValue.kStatus: ConstValue.kEditThisStudent,
       ConstValue.kStudentModel: studentModel,
     }).then((value) {
+      if (isSearchNow == true) {
+        Navigator.of(context).pop();
+      }
       onTapRefresh();
+    });
+  }
+
+  void onPressedSearch() {
+    isSearchNow = true;
+    showSearch(
+        context: context,
+        delegate: CustomSearchDelegated(
+          myBuildResult: (String query) {
+            StudentOperation studentOperation = StudentOperation();
+            return query == ''
+                ? SizedBox()
+                : CustomListSearchStudentScreen(
+                    getSearchItemsStudent:
+                        studentOperation.getStudentsInfo(studentName: query),
+                    editFun: (groupInfoModel) {
+                      onTapEdit(
+                        groupInfoModel,
+                      );
+                    },
+                    deleteFun: (StudentModel groupInfoModel) {
+                      onTapDelete(groupInfoModel);
+                    },
+                  );
+          },
+        )).then((value) {
+      return isSearchNow = false;
     });
   }
 }

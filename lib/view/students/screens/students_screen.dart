@@ -50,14 +50,18 @@ class _StudentsScreenState extends State<StudentsScreen> {
                 // outPutDataListItemsStageModel:
                 //     _controller.GroupsScreenController,
                 onPressedAdd: () {
-                    _controller.addNewStudents(context: context);
+                  _controller.addNewStudents(context: context);
                 },
                 onPressedSearch: () {
-                  //  _controller.onPressedSearch();
+                  _controller.onPressedSearch();
                 }),
-                CustomListViewItemStudent(outPutDataListItemsStudentModel: _controller.outPutDataListItemStudentModel,
-                
-                    deleteFun: _controller.onTapDelete, editFun: _controller.onTapEdit, onRefresh: _controller.onTapRefresh,),
+            CustomListViewItemStudent(
+              outPutDataListItemsStudentModel:
+                  _controller.outPutDataListItemStudentModel,
+              deleteFun: _controller.onTapDelete,
+              editFun: _controller.onTapEdit,
+              onRefresh: _controller.onTapRefresh,
+            ),
             // CustomItemStudent(
             //   groupInfoModel: GroupInfoModel(
             //       groupDetails: GroupDetails(

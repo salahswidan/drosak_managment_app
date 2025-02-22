@@ -10,11 +10,22 @@ class StudentOperation extends MySqlFliteDatabase {
         values: studentModel.toJson());
   }
 
-  Future<List<StudentModel>> getStudentsInfo() async {
+  Future<List<StudentModel>> getStudentsInfo({String? studentName}) async {
     List<StudentModel> listStudentModel = [];
-    List<Map<String, Object?>> data = await selectUsingQuery(
-        query:
-            "SELECT ${MySqlFliteDatabase.studentsTableName}.*,${MySqlFliteDatabase.groupTableName}.${MySqlFliteDatabase.groupColumnName}  as 'group_name',${MySqlFliteDatabase.educationalStageTableName}.${MySqlFliteDatabase.educationalStageName} as 'education_stage_name',${MySqlFliteDatabase.educationalStageTableName}.${MySqlFliteDatabase.educationalStageID} as 'education_stage_Id' FROM ${MySqlFliteDatabase.studentsTableName} INNER JOIN ${MySqlFliteDatabase.groupTableName} ON ${MySqlFliteDatabase.groupTableName}.${MySqlFliteDatabase.groupColumnID}=${MySqlFliteDatabase.studentsTableName}.${MySqlFliteDatabase.studentsColumnIDGroup} INNER JOIN ${MySqlFliteDatabase.educationalStageTableName} ON ${MySqlFliteDatabase.groupTableName}.${MySqlFliteDatabase.groupColumnIDEducation}=${MySqlFliteDatabase.educationalStageTableName}.${MySqlFliteDatabase.educationalStageID}");
+    String query = "SELECT ${MySqlFliteDatabase.studentsTableName}.*,"
+        "${MySqlFliteDatabase.groupTableName}.${MySqlFliteDatabase.groupColumnName}  as 'group_name',"
+        "${MySqlFliteDatabase.educationalStageTableName}.${MySqlFliteDatabase.educationalStageName} as 'education_stage_name', "
+        "${MySqlFliteDatabase.educationalStageTableName}.${MySqlFliteDatabase.educationalStageID} as 'education_stage_Id' "
+        "FROM ${MySqlFliteDatabase.studentsTableName} INNER JOIN ${MySqlFliteDatabase.groupTableName} "
+        "ON ${MySqlFliteDatabase.groupTableName}.${MySqlFliteDatabase.groupColumnID}=${MySqlFliteDatabase.studentsTableName}.${MySqlFliteDatabase.studentsColumnIDGroup} "
+        "INNER JOIN ${MySqlFliteDatabase.educationalStageTableName} ON ${MySqlFliteDatabase.groupTableName}.${MySqlFliteDatabase.groupColumnIDEducation}=${MySqlFliteDatabase.educationalStageTableName}.${MySqlFliteDatabase.educationalStageID} ";
+    if (studentName != null) {
+      //?now in search model
+      query +=
+          " AND ${MySqlFliteDatabase.studentsTableName}.${MySqlFliteDatabase.studentsColumnName} LIke '%$studentName%'";
+    }
+    List<Map<String, Object?>> data = await selectUsingQuery(query: query);
+    print(data);
     Map<String, List<AppointmentModel>> mapOfAppointment = {};
     for (int i = 0; i < data.length; i++) {
       String groupId = data[i]['groups_id'].toString();
@@ -53,14 +64,17 @@ class StudentOperation extends MySqlFliteDatabase {
 
     return listAppointmentModel;
   }
-  Future<bool> deleteStudent(int studentID)async{
-  return  delete(tableName: MySqlFliteDatabase.studentsTableName,
-     where:
-            '${MySqlFliteDatabase.studentsColumnID}==$studentID');
+
+  Future<bool> deleteStudent(int studentID) async {
+    return delete(
+        tableName: MySqlFliteDatabase.studentsTableName,
+        where: '${MySqlFliteDatabase.studentsColumnID}==$studentID');
   }
 
- Future<bool>  editStudentData(StudentModel studentModel) {
-    return update(tableName: MySqlFliteDatabase.studentsTableName, values: studentModel.toJson(),  where:
-            '${MySqlFliteDatabase.studentsColumnID}==${studentModel.id}');
+  Future<bool> editStudentData(StudentModel studentModel) {
+    return update(
+        tableName: MySqlFliteDatabase.studentsTableName,
+        values: studentModel.toJson(),
+        where: '${MySqlFliteDatabase.studentsColumnID}==${studentModel.id}');
   }
 }
