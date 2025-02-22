@@ -57,7 +57,7 @@ class _StudentsScreenState extends State<StudentsScreen> {
                 }),
                 CustomListViewItemStudent(outPutDataListItemsStudentModel: _controller.outPutDataListItemStudentModel,
                 
-                    deleteFun: _controller.onTapDelete, editFun: (StudentModel groupInfoModel) {  }, onRefresh: _controller.onTapRefresh,),
+                    deleteFun: _controller.onTapDelete, editFun: _controller.onTapEdit, onRefresh: _controller.onTapRefresh,),
             // CustomItemStudent(
             //   groupInfoModel: GroupInfoModel(
             //       groupDetails: GroupDetails(

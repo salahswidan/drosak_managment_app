@@ -20,6 +20,7 @@ class AddNewStudentScreenController {
   late Stream<String?> outPutPathImage;
   String status = ConstValue.kAddNewStudent;
   String? pathImage;
+  StudentModel? studentModel;
 
   TextEditingController controllerStudentNote = TextEditingController();
   TextEditingController controllerStudentName = TextEditingController();
@@ -94,6 +95,10 @@ class AddNewStudentScreenController {
   void initAllData() async {
     await putImageIntoStream();
     await getAllItemStageModelList();
+    //? check in edit
+    if (studentModel != null) {
+      fillDataStudentModel();
+    }
   }
 
   Future<void> putImageIntoStream() async {
@@ -114,8 +119,11 @@ class AddNewStudentScreenController {
       var arguments = arg.settings.arguments;
       if (arguments is Map) {
         // now in status edit
+        status = arguments[ConstValue.kStatus].toString();
+        studentModel = arguments[ConstValue.kStudentModel];
       } else {
         // now in status add
+        status = arguments.toString();
       }
     }
   }
@@ -299,5 +307,18 @@ class AddNewStudentScreenController {
         ),
       );
     }
+  }
+
+  void fillDataStudentModel() {
+    controllerStudentName.text = studentModel!.name;
+    controllerStudentNote.text = studentModel!.note;
+    pathImage = studentModel!.image;
+    //? fill select education
+    selectedEducationalStage = listItemStageModel
+        .where((element) => element.id == studentModel!.idEducationStage)
+        .toList()[0];
+    _controllerInitiaItemSelectedStage.add(selectedEducationalStage!);
+    //? fill select group
+    onChangedSelectEducationStageName(selectedEducationalStage);
   }
 }
