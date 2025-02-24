@@ -10,7 +10,7 @@ class StudentOperation extends MySqlFliteDatabase {
         values: studentModel.toJson());
   }
 
-  Future<List<StudentModel>> getStudentsInfo({String? studentName}) async {
+  Future<List<StudentModel>> getStudentsInfo({String? studentName , int? groupID}) async {
     List<StudentModel> listStudentModel = [];
     String query = "SELECT ${MySqlFliteDatabase.studentsTableName}.*,"
         "${MySqlFliteDatabase.groupTableName}.${MySqlFliteDatabase.groupColumnName}  as 'group_name',"
@@ -23,6 +23,10 @@ class StudentOperation extends MySqlFliteDatabase {
       //?now in search model
       query +=
           " AND ${MySqlFliteDatabase.studentsTableName}.${MySqlFliteDatabase.studentsColumnName} LIke '%$studentName%'";
+    }else if(groupID != null){
+       //?now in get student by group id
+      query +=
+          " AND ${MySqlFliteDatabase.studentsTableName}.${MySqlFliteDatabase.studentsColumnIDGroup} = $groupID ";
     }
     List<Map<String, Object?>> data = await selectUsingQuery(query: query);
     print(data);

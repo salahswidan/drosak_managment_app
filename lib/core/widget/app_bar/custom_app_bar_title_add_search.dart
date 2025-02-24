@@ -12,10 +12,10 @@ class CustomAppBarTitleAddSearch extends StatelessWidget {
     required this.onPressedSearch,
     // this.outPutDataListItemsStageModel,
     required this.title,
-     this.streamCount,
+    this.streamCount,
   });
-  final VoidCallback onPressedAdd;
-  final VoidCallback onPressedSearch;
+  final VoidCallback? onPressedAdd;
+  final VoidCallback? onPressedSearch;
   //! here
   // final Stream<List<ItemStageModel>>? outPutDataListItemsStageModel;
   final Stream<List>? streamCount;
@@ -35,25 +35,26 @@ class CustomAppBarTitleAddSearch extends StatelessWidget {
           SizedBox(height: 12.h),
           Row(
             children: [
-          streamCount == null ? Text(
-                  title,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15.sp,
-                      fontFamily: FontName.geDinerOne,
-                      fontWeight: FontWeight.bold),
-                ): 
-             StreamBuilder<List>(
-                stream: streamCount,
-                builder: (context, snapshot) => Text(
-                  '${title}    (${snapshot.data == null ? "0" : snapshot.data!.length})',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15.sp,
-                      fontFamily: FontName.geDinerOne,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
+              streamCount == null
+                  ? Text(
+                      title,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15.sp,
+                          fontFamily: FontName.geDinerOne,
+                          fontWeight: FontWeight.bold),
+                    )
+                  : StreamBuilder<List>(
+                      stream: streamCount,
+                      builder: (context, snapshot) => Text(
+                        '${title}    (${snapshot.data == null ? "0" : snapshot.data!.length})',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15.sp,
+                            fontFamily: FontName.geDinerOne,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
               // StreamBuilder<List>(
               //   stream: streamCount,
               //   builder: (context, snapshot) => Text(
@@ -74,14 +75,15 @@ class CustomAppBarTitleAddSearch extends StatelessWidget {
                 ),
                 onPressed: onPressedAdd,
               ),
-              IconButton(
-                icon: const Icon(
-                  Icons.search,
-                  size: 30,
-                  color: Colors.white,
+              if (onPressedSearch != null)
+                IconButton(
+                  icon: const Icon(
+                    Icons.search,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                  onPressed: onPressedSearch,
                 ),
-                onPressed: onPressedSearch,
-              ),
             ],
           ),
         ],

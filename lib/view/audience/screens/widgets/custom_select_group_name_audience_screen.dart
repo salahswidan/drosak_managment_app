@@ -85,7 +85,7 @@ class CustomSelectGroupNameAudienceScreen extends StatelessWidget {
             },
           ),
           SizedBox(
-            height: 16.h,
+            height: 6.h,
           ),
         ],
       ),

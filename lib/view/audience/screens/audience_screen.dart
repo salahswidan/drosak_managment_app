@@ -1,3 +1,4 @@
+import 'package:drosak_managment_app/model/audience/audience_model.dart';
 import 'package:drosak_managment_app/model/student/student_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,15 +41,12 @@ class _AudienceScreenState extends State<AudienceScreen> {
         body: Column(
           children: [
             CustomAppBarTitleAddSearch(
-                title: ConstValue.kTheAudience,
-                // outPutDataListItemsStageModel:
-                //     _controller.GroupsScreenController,
-                onPressedAdd: () {
-                  //   _controller.addNewStudents(context: context);
-                },
-                onPressedSearch: () {
-                  //      _controller.onPressedSearch();
-                }),
+              title: ConstValue.kTheAudience,
+              // outPutDataListItemsStageModel:
+              //     _controller.GroupsScreenController,
+              onPressedAdd: _controller.onPressedAdd,
+              onPressedSearch: null,
+            ),
             CustomSelectEducationStageNameAudienceScreen(
               onChange: _controller.onChangedSelectEducationStageName,
               outPutDataInitiaItem:
@@ -63,7 +61,10 @@ class _AudienceScreenState extends State<AudienceScreen> {
               outPutDataListItemGroupsDetails:
                   _controller.outPutDataListItemGroupDetails,
             ),
-            CustomGridViewAudienceScreen(),
+            CustomGridViewAudienceScreen(
+              outPutDataInitiaIAudienceModel:
+                  _controller.outPutDataInitiaIAudienceModel,
+            ),
           ],
         ),
       ),
@@ -74,26 +75,28 @@ class _AudienceScreenState extends State<AudienceScreen> {
 class CustomGridViewAudienceScreen extends StatelessWidget {
   const CustomGridViewAudienceScreen({
     super.key,
+    required this.outPutDataInitiaIAudienceModel,
   });
+  final Stream<List<AudienceModel>> outPutDataInitiaIAudienceModel;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisExtent: 130.h,
-              mainAxisSpacing: 30.h),
-          itemBuilder: (context, index) => CustomItemAudience(
-                deleteFun: (itemStageModel) {},
-                editFun: (itemStageModel) {},
-                studentModel: StudentModel(
-                    id: 1,
-                    name: "Salah Said Salah Swidan",
-                    image: "image",
-                    idGroup: 1,
-                    note: 'note'),
-              )),
+      child: StreamBuilder<List<AudienceModel>>(
+          stream: outPutDataInitiaIAudienceModel,
+          builder: (context, snapshot) => snapshot.data == null
+              ? SizedBox()
+              : GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisExtent: 160.h,
+                      mainAxisSpacing: 30.h),
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) => CustomItemAudience(
+                        deleteFun: (itemStageModel) {},
+                        editFun: (itemStageModel) {},
+                        audienceModel: snapshot.data![index],
+                      ))),
     );
   }
 }

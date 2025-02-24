@@ -1,9 +1,6 @@
-import 'dart:math';
-
 import 'package:drosak_managment_app/model/group/group_details.dart';
 import 'package:drosak_managment_app/model/group/appointment_model.dart';
 import 'package:drosak_managment_app/model/group/group_info_model.dart';
-import '../../../model/education_stage/item_stage_model.dart';
 import 'my_sqlflite_database.dart';
 
 class GroupsOperation extends MySqlFliteDatabase {

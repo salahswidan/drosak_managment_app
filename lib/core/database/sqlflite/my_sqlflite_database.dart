@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:drosak_managment_app/core/database/sqlflite/crud.dart';
 import 'package:sqflite/sqflite.dart' as sqfliteDataBase;
 import 'package:path/path.dart';
@@ -32,17 +33,28 @@ class MySqlFliteDatabase extends Crud {
   static const String studentsColumnImage = 'image';
   static const String studentsColumnIDGroup = 'groups_id';
   static const String studentsColumnCreatedAt = 'created_at';
+//!-----------------------------audience Table-------------------------------------!
+  static const String audienceTableName = 'audience';
+  static const String audienceColumnID = 'id';
+  static const String audienceColumnStatus = 'status';
+  static const String audienceColumnIDStudent = 'student_id';
+  static const String audienceColumnDetail = 'detail';
+  static const String audienceColumnCreatedAt = 'created_at';
 
   Future<sqfliteDataBase.Database> _initDatabase() async {
     String databasesPath = await sqfliteDataBase.getDatabasesPath();
     String drosakDatabaseName = "drosak.db";
     String realDatabasePath = join(databasesPath, drosakDatabaseName);
-    int versionDataBase =1;
+    int versionDataBase =3;
     _db ??= await sqfliteDataBase.openDatabase(realDatabasePath,
-        onOpen: (db) async {
-      await db.execute("PRAGMA foreign_keys = ON");
-    }, onCreate: _onCreate, onUpgrade: _onUpgrade, version: versionDataBase);
+        onOpen: _onOpen, onCreate: _onCreate,
+     onUpgrade: _onUpgrade,
+      version: versionDataBase);
     return _db!;
+  }
+
+  FutureOr<void> _onOpen(db) async {
+    await db.execute("PRAGMA foreign_keys = ON");
   }
 
   _onUpgrade(
@@ -51,6 +63,7 @@ class MySqlFliteDatabase extends Crud {
     await db.execute("DROP TABLE IF EXISTS $groupTableName");
     await db.execute("DROP TABLE IF EXISTS $appointmentsTableName");
     await db.execute("DROP TABLE IF EXISTS $studentsTableName");
+    await db.execute("DROP TABLE IF EXISTS $audienceTableName");
 
        await db.execute("CREATE TABLE IF NOT EXISTS $educationalStageTableName"
             " ( $educationalStageID INTEGER PRIMARY KEY AUTOINCREMENT ,"
@@ -84,6 +97,15 @@ class MySqlFliteDatabase extends Crud {
             "  $studentsColumnIDGroup  INTEGER ,"
             "  CONSTRAINT group_and_students FOREIGN KEY ($studentsColumnIDGroup) REFERENCES $groupTableName($groupColumnID) ON DELETE CASCADE ON UPDATE CASCADE"
             ")");
+        //?======================== create audience table =========
+        await db.execute("CREATE TABLE IF NOT EXISTS  $audienceTableName"
+            " ( $audienceColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
+            "  $audienceColumnStatus TEXT , "
+            "  $audienceColumnIDStudent INT , "
+            "  $audienceColumnDetail TEXT, "
+            "  $audienceColumnCreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP , "
+            "  CONSTRAINT student_and_audience FOREIGN KEY ($audienceColumnIDStudent) REFERENCES $studentsTableName($studentsColumnID) ON DELETE CASCADE ON UPDATE CASCADE"
+            ")");
   }
 
   _onCreate(sqfliteDataBase.Database db, int version) async {
@@ -95,6 +117,7 @@ class MySqlFliteDatabase extends Crud {
         "  $educationalStageStatus INTEGER DEFAULT 1  , "
         "  $educationalStageCreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP , "
         "  $educationalStageImage  TEXT )");
+        //!
     await db.execute("CREATE TABLE IF NOT EXISTS $groupTableName"
         " ( $groupColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $groupColumnName TEXT , "
@@ -102,6 +125,7 @@ class MySqlFliteDatabase extends Crud {
         "  $groupColumnIDEducation  INTEGER ,"
         " CONSTRAINT group_and_education_stage FOREIGN KEY ($groupColumnIDEducation) REFERENCES $educationalStageTableName ($educationalStageID) ON DELETE CASCADE ON UPDATE CASCADE "
         ")");
+        //!
     await db.execute("CREATE TABLE IF NOT EXISTS $appointmentsTableName"
         " ( $appointmentsColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
         "  $appointmentsColumnDay TEXT , "
@@ -120,6 +144,16 @@ class MySqlFliteDatabase extends Crud {
         "  $studentsColumnCreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP , "
         " CONSTRAINT group_and_students FOREIGN KEY ($studentsColumnIDGroup) REFERENCES $groupTableName ($groupColumnID) ON DELETE CASCADE ON UPDATE CASCADE "
         ")");
+    //!
+      await db.execute("CREATE TABLE IF NOT EXISTS  $audienceTableName"
+            " ( $audienceColumnID INTEGER PRIMARY KEY AUTOINCREMENT ,"
+            "  $audienceColumnStatus TEXT , "
+            "  $audienceColumnIDStudent INT , "
+            "  $audienceColumnDetail TEXT, "
+            "  $audienceColumnCreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP , "
+            "  CONSTRAINT student_and_audience FOREIGN KEY ($audienceColumnIDStudent) REFERENCES $studentsTableName($studentsColumnID) ON DELETE CASCADE ON UPDATE CASCADE"
+            ")");
+      
   }
 
   @override

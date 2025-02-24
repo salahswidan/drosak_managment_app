@@ -1,8 +1,7 @@
 import 'dart:io';
 import 'package:drosak_managment_app/core/resources/colors_manager.dart';
-import 'package:drosak_managment_app/core/resources/const_value.dart';
 import 'package:drosak_managment_app/core/resources/font_manager.dart';
-import 'package:drosak_managment_app/model/student/student_model.dart';
+import 'package:drosak_managment_app/model/audience/audience_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,11 +12,11 @@ class CustomItemAudience extends StatelessWidget {
     super.key,
     required this.deleteFun,
     required this.editFun,
-    required this.studentModel,
+    required this.audienceModel,
   });
-  final StudentModel studentModel;
-  final void Function(StudentModel itemStageModel) deleteFun;
-  final void Function(StudentModel itemStageModel) editFun;
+  final AudienceModel audienceModel;
+  final void Function(AudienceModel audienceModel) deleteFun;
+  final void Function(AudienceModel audienceModel) editFun;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -31,7 +30,7 @@ class CustomItemAudience extends StatelessWidget {
               child: CircleAvatar(
                 backgroundColor: ColorsManager.kPrimaryColor,
                 child: Text(
-                  studentModel.id.toString(),
+                  audienceModel.id.toString(),
                   //  itemStageModel.id.toString(),
                   style: TextStyle(
                       fontSize: 14.sp,
@@ -71,7 +70,7 @@ class CustomItemAudience extends StatelessWidget {
                             width: 50.w,
                             height: 50.h,
                           ),
-                          File(studentModel.image),
+                          File(audienceModel.studentImage!),
                           width: 64.w,
                           height: 64.h,
                         ),
@@ -80,7 +79,18 @@ class CustomItemAudience extends StatelessWidget {
                         height: 10.h,
                       ),
                       Text(
-                        studentModel.name,
+                        audienceModel.studentName!,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.sp,
+                          fontFamily: FontName.geDinerOne,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        audienceModel.selectedTimeData,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

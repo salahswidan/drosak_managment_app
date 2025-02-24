@@ -1,12 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:drosak_managment_app/core/database/sqlflite/education_stage_operation.dart';
-import 'package:drosak_managment_app/core/resources/colors_manager.dart';
-import 'package:drosak_managment_app/core/resources/const_value.dart';
-import 'package:drosak_managment_app/core/resources/font_manager.dart';
 import 'package:drosak_managment_app/model/education_stage/item_stage_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../core/widget/dialog/show_custom_dialog_choose_image_opations.dart';
